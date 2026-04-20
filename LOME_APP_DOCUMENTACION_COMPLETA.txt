@@ -1,0 +1,1485 @@
+================================================================================
+  LŌME - DOCUMENTACIÓN COMPLETA DEL PROYECTO
+  Generado: 20 de abril de 2026
+================================================================================
+
+================================================================================
+1. DESCRIPCIÓN GENERAL
+================================================================================
+
+LŌME es una plataforma SaaS para restaurantes construida con Flutter.
+La app tiene tres roles principales:
+  - OWNER/MANAGER: Gestión completa del restaurante (mesas, pedidos, carta, 
+    empleados, inventario, analytics, cocina, etc.)
+  - CUSTOMER: Marketplace para pedir comida, buscar restaurantes, favoritos,
+    seguimiento de pedidos, etc.
+  - SUPER_ADMIN: Panel de administración de la plataforma (restaurantes,
+    incidencias, moderación, suscripciones, auditoría, monitorización)
+
+Backend: Supabase (PostgreSQL + Auth + Realtime + RLS)
+Subida de imágenes: Cloudinary
+Crash reporting: Sentry
+Push notifications: Firebase Cloud Messaging (FCM)
+Estado: Riverpod (flutter_riverpod)
+Routing: GoRouter con StatefulShellRoute
+Idiomas: Español (principal) + Inglés (l10n con .arb)
+
+================================================================================
+2. ESTRUCTURA DEL PROYECTO
+================================================================================
+
+lome_app/
+├── .env                          # Variables de entorno (NO subir a git)
+├── .env.example                  # Plantilla de variables de entorno
+├── pubspec.yaml                  # Dependencias Flutter
+├── analysis_options.yaml         # Configuración del linter
+├── lib/
+│   ├── main.dart                 # Entry point
+│   ├── bootstrap.dart            # Inicialización de servicios
+│   ├── app.dart                  # Widget raíz (MaterialApp.router)
+│   ├── l10n/                     # Localización
+│   │   ├── app_en.arb            # Traducciones inglés (~1215 líneas)
+│   │   ├── app_es.arb            # Traducciones español (~1300 líneas)
+│   │   ├── app_localizations.dart
+│   │   ├── app_localizations_en.dart
+│   │   └── app_localizations_es.dart
+│   ├── core/                     # 37 archivos
+│   │   ├── auth/                 # Permisos y guards
+│   │   │   ├── app_permission.dart
+│   │   │   ├── permission_guard.dart
+│   │   │   ├── permission_provider.dart
+│   │   │   └── permissions.dart
+│   │   ├── config/
+│   │   │   ├── env.dart          # Lectura de .env y --dart-define
+│   │   │   └── supabase_config.dart
+│   │   ├── constants/
+│   │   │   └── app_constants.dart
+│   │   ├── errors/
+│   │   │   ├── exceptions.dart
+│   │   │   └── failures.dart
+│   │   ├── network/
+│   │   │   └── network_info.dart
+│   │   ├── router/
+│   │   │   ├── app_router.dart   # GoRouter con 3 shells
+│   │   │   └── route_names.dart  # RouteNames + RoutePaths
+│   │   ├── services/
+│   │   │   ├── audit_service.dart
+│   │   │   ├── cloudinary_service.dart  # Versión estática
+│   │   │   ├── monitoring_service.dart
+│   │   │   ├── push_notification_service.dart
+│   │   │   └── storage_service.dart
+│   │   ├── theme/
+│   │   │   ├── app_colors.dart   # Colores de marca
+│   │   │   ├── app_shadows.dart
+│   │   │   ├── app_theme.dart    # ThemeData light/dark
+│   │   │   └── app_typography.dart
+│   │   ├── utils/
+│   │   │   ├── extensions/
+│   │   │   │   ├── context_extensions.dart
+│   │   │   │   ├── date_extensions.dart
+│   │   │   │   └── string_extensions.dart
+│   │   │   ├── helpers/
+│   │   │   │   └── currency_helper.dart
+│   │   │   └── validators/
+│   │   │       └── form_validators.dart
+│   │   └── widgets/              # Widgets reutilizables (prefijo lome_)
+│   │       ├── animated_counter.dart
+│   │       ├── lome_animated_background.dart
+│   │       ├── lome_app_bar.dart
+│   │       ├── lome_button.dart
+│   │       ├── lome_card.dart
+│   │       ├── lome_empty_state.dart
+│   │       ├── lome_loading.dart
+│   │       ├── lome_section_header.dart
+│   │       ├── lome_status_chip.dart
+│   │       ├── lome_text_field.dart
+│   │       └── tactile_wrapper.dart
+│   ├── shared/                   # 5 archivos
+│   │   ├── providers/
+│   │   │   ├── push_notification_provider.dart
+│   │   │   ├── session_provider.dart
+│   │   │   └── supabase_provider.dart
+│   │   └── services/
+│   │       ├── cloudinary_service.dart  # Versión con instancia
+│   │       └── session_manager.dart
+│   └── features/                 # 161 archivos
+│       ├── admin/                # Panel super_admin
+│       │   ├── analytics/
+│       │   ├── audit/
+│       │   ├── dashboard/
+│       │   ├── data/repositories/
+│       │   ├── domain/
+│       │   ├── incidents/
+│       │   ├── moderation/
+│       │   ├── monitoring/
+│       │   ├── presentation/     # AdminShell
+│       │   ├── restaurants/
+│       │   └── subscriptions/
+│       ├── auth/                 # Autenticación
+│       │   ├── data/
+│       │   │   ├── datasources/auth_remote_datasource.dart
+│       │   │   ├── models/user_model.dart
+│       │   │   └── repositories/auth_repository_impl.dart
+│       │   ├── domain/
+│       │   │   ├── entities/user_entity.dart
+│       │   │   ├── repositories/auth_repository.dart
+│       │   │   └── usecases/auth_usecases.dart
+│       │   └── presentation/
+│       │       ├── pages/ (login, register, forgot_password, etc.)
+│       │       ├── providers/auth_provider.dart
+│       │       ├── services/deep_link_handler.dart
+│       │       └── widgets/cooking_decorations.dart
+│       ├── marketplace/          # App del cliente
+│       │   ├── cart/
+│       │   ├── checkout/
+│       │   ├── data/repositories/
+│       │   ├── domain/
+│       │   ├── favorites/
+│       │   ├── home/
+│       │   ├── menu/
+│       │   ├── order_tracking/
+│       │   ├── orders/
+│       │   ├── presentation/     # MarketplaceShell
+│       │   ├── profile/
+│       │   ├── promotions/
+│       │   ├── recommendations/
+│       │   ├── reviews/
+│       │   └── search/
+│       ├── profile/              # Perfil de usuario
+│       │   ├── data/repositories/
+│       │   ├── domain/
+│       │   └── presentation/
+│       └── restaurant/           # App del restaurante
+│           ├── activity_logs/
+│           ├── analytics/
+│           ├── dashboard/
+│           ├── data/repositories/
+│           │   ├── restaurant_config_repository_impl.dart
+│           │   └── restaurant_support_repository_impl.dart
+│           ├── domain/repositories/
+│           ├── employees/
+│           │   ├── data/ (datasources, models, repositories)
+│           │   ├── domain/ (entities, repositories, usecases)
+│           │   └── presentation/ (pages, providers)
+│           ├── hours/
+│           ├── inventory/
+│           ├── kitchen/
+│           ├── menu/
+│           │   ├── domain/entities/
+│           │   │   ├── canvas_element.dart   # Modelo del editor Canva
+│           │   │   ├── menu_design_entity.dart
+│           │   │   ├── menu_item_entity.dart
+│           │   │   └── menu_item_option_entity.dart
+│           │   └── presentation/
+│           │       ├── pages/
+│           │       │   ├── digital_menu_page.dart
+│           │       │   ├── menu_design_editor_page.dart  # Editor visual
+│           │       │   ├── menu_management_page.dart
+│           │       │   └── menu_qr_page.dart
+│           │       ├── providers/
+│           │       │   ├── canvas_provider.dart  # Estado del editor
+│           │       │   └── menu_provider.dart
+│           │       └── widgets/
+│           │           ├── canvas_element_widget.dart  # Renderizado + animaciones
+│           │           ├── design_canvas.dart
+│           │           ├── editor_toolbar.dart
+│           │           ├── menu_template.dart   # 5 plantillas prediseñadas
+│           │           ├── property_panel.dart   # Panel de propiedades
+│           │           └── template_gallery.dart
+│           ├── notifications/
+│           ├── onboarding/
+│           ├── orders/
+│           │   ├── data/ (models, repositories, services)
+│           │   ├── domain/ (entities, repositories)
+│           │   └── presentation/ (pages, providers)
+│           ├── presentation/     # RestaurantShell
+│           ├── reservations/
+│           ├── roles/
+│           ├── settings/
+│           │   └── presentation/
+│           │       ├── pages/
+│           │       │   ├── notification_settings_page.dart
+│           │       │   ├── restaurant_settings_page.dart
+│           │       │   └── settings_page.dart
+│           │       └── providers/
+│           │           └── restaurant_settings_provider.dart
+│           └── tables/
+│               ├── data/ (models, repositories)
+│               ├── domain/ (entities, repositories)
+│               └── presentation/ (pages, providers, widgets)
+├── supabase/
+│   └── migrations/               # 20 migraciones SQL
+├── assets/
+│   ├── animations/               # Archivos Lottie/Rive
+│   ├── icons/
+│   └── images/
+├── android/
+├── ios/
+├── web/
+├── linux/
+├── macos/
+└── windows/
+
+TOTAL: 203 archivos Dart (37 core + 5 shared + 161 features)
+
+================================================================================
+3. DEPENDENCIAS (pubspec.yaml)
+================================================================================
+
+DEPENDENCIAS PRINCIPALES:
+  flutter_riverpod: ^2.6.1        # State management
+  riverpod_annotation: ^2.6.1     # Anotaciones para code gen
+  go_router: ^14.8.1              # Routing declarativo
+  supabase_flutter: ^2.8.4        # Backend (auth, DB, realtime)
+  freezed_annotation: ^3.0.0      # Inmutabilidad / data classes
+  json_annotation: ^4.9.0         # Serialización JSON
+  dartz: ^0.10.1                  # Programación funcional (Either)
+  flutter_animate: ^4.5.2         # Animaciones declarativas
+  rive: ^0.13.20                  # Animaciones Rive
+  lottie: ^3.3.1                  # Animaciones Lottie
+  flutter_svg: ^2.0.17            # SVG
+  cached_network_image: ^3.4.1    # Caché de imágenes
+  shimmer: ^3.0.0                 # Shimmer loading
+  google_fonts: ^6.2.1            # Tipografías
+  intl: ^0.20.2                   # Internacionalización
+  equatable: ^2.0.7               # Comparación de objetos
+  uuid: ^4.5.1                    # UUIDs
+  connectivity_plus: ^6.1.4       # Estado de red
+  image_picker: ^1.1.2            # Selector de imágenes
+  phosphor_flutter: ^2.1.0        # Iconos Phosphor
+  shared_preferences: ^2.5.3      # Almacenamiento local
+  flutter_secure_storage: ^9.2.4  # Almacenamiento seguro
+  sentry_flutter: ^9.0.0          # Crash reporting
+  firebase_core: ^3.13.0          # Firebase base
+  firebase_messaging: ^15.2.0     # Push notifications
+  flutter_local_notifications: ^18.0.0
+  url_launcher: ^6.3.1            # Abrir URLs
+  logger: ^2.5.0                  # Logging
+  http: ^1.3.0                    # HTTP requests (Cloudinary)
+  pdf: ^3.11.1                    # Generación PDF
+  printing: ^5.13.3               # Impresión/previsualización
+  qr_flutter: ^4.1.0              # Generación QR
+  flutter_dotenv: ^6.0.0          # Variables de entorno
+
+DEV DEPENDENCIES:
+  build_runner: ^2.4.14           # Code generation
+  freezed: ^3.0.0                 # Generador freezed
+  json_serializable: ^6.9.4       # Generador JSON
+  riverpod_generator: ^2.6.4      # Generador Riverpod
+  custom_lint: ^0.7.5             # Lints personalizados
+  riverpod_lint: ^2.6.4           # Lints Riverpod
+
+================================================================================
+4. VARIABLES DE ENTORNO (.env)
+================================================================================
+
+Archivo: .env (en la raíz de lome_app/)
+Plantilla: .env.example
+
+Variables necesarias:
+  SUPABASE_URL=https://aksgiupicxsidwgxskqk.supabase.co
+  SUPABASE_ANON_KEY=<tu_anon_key_de_supabase>
+  CLOUDINARY_CLOUD_NAME=<tu_cloud_name>
+  CLOUDINARY_UPLOAD_PRESET=<tu_upload_preset>
+  SENTRY_DSN=<tu_sentry_dsn_o_vacio>
+  APP_ENV=development
+  APP_VERSION=1.0.0
+
+IMPORTANTE: 
+- El .env debe estar incluido en assets del pubspec.yaml
+- En producción se pueden usar --dart-define en vez de .env
+- La clase Env (core/config/env.dart) prioriza --dart-define sobre .env
+- SUPABASE_URL y SUPABASE_ANON_KEY son obligatorias en producción
+
+================================================================================
+5. CONFIGURACIÓN ANDROID
+================================================================================
+
+Archivo: android/app/build.gradle.kts
+  - namespace: com.lome.lome_app
+  - applicationId: com.lome.lome_app
+  - Java 17 (source + target compatibility)
+  - Core Library Desugaring habilitado (requerido por flutter_local_notifications)
+  - Dependencia: coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+
+Archivo: android/build.gradle.kts
+  - Fuerza Java 17 en todos los subprojects
+  - Build directory redirigido a ../../build
+
+Archivo: android/settings.gradle.kts
+  - AGP: 8.11.1
+  - Kotlin: 2.2.20
+
+Archivo: android/gradle.properties
+  - JVM args: -Xmx8G -XX:MaxMetaspaceSize=4G
+  - android.useAndroidX=true
+  - org.gradle.java.home=C:\Program Files\Android\Android Studio\jbr
+
+NOTA: Al cambiar de PC, ajustar org.gradle.java.home al path local del JDK.
+
+================================================================================
+6. CONFIGURACIÓN iOS
+================================================================================
+
+Archivo: ios/Runner/Info.plist
+  - CFBundleDisplayName: Lome App
+  - CFBundleURLSchemes: io.supabase.lome (deep links Supabase)
+  - UIBackgroundModes: remote-notification (push)
+  - NSPhotoLibraryUsageDescription: Acceso a galería para logo/menú
+  - NSCameraUsageDescription: Acceso a cámara para fotos de logo/menú
+
+================================================================================
+7. ARQUITECTURA DE LA APP
+================================================================================
+
+PATRÓN: Clean Architecture adaptada
+  - domain/entities/     → Modelos de datos puros
+  - domain/repositories/  → Contratos abstractos
+  - domain/usecases/      → Casos de uso (auth)
+  - data/repositories/    → Implementaciones con Supabase
+  - data/datasources/     → Fuentes de datos remotas
+  - data/models/          → Modelos con serialización JSON
+  - presentation/pages/   → Widgets de página
+  - presentation/providers/ → Providers Riverpod
+  - presentation/widgets/ → Widgets de UI específicos
+
+STATE MANAGEMENT: Riverpod
+  - StateNotifierProvider.autoDispose → Para estados complejos con carga
+  - StreamProvider → Auth state, realtime
+  - FutureProvider → Datos async
+  - StateProvider → Estado simple (activeTenantId)
+  - Provider → Inyección de dependencias (repositories, use cases)
+
+ROUTING: GoRouter con 3 StatefulShellRoute
+  1. RestaurantShell: 5 tabs (Mesas, Pedidos, Cocina, Carta, Inventario)
+  2. MarketplaceShell: 4 tabs (Inicio, Buscar, Carrito, Perfil)
+  3. AdminShell: 8 tabs (Dashboard, Restaurantes, Analytics, Incidencias,
+     Moderación, Suscripciones, Auditoría, Monitorización)
+  
+  Redirect automático según rol:
+    - isPlatformAdmin → /admin
+    - hasTenants → /restaurant/tables (o onboarding si no completado)
+    - sin tenants → /marketplace
+
+AUTENTICACIÓN:
+  - Supabase Auth con PKCE flow
+  - Deep link scheme: io.supabase.lome
+  - authStateProvider (StreamProvider) → escucha cambios de sesión
+  - SessionManager → monitorea validez de sesión, refresh automático
+  - DeepLinkHandler → captura PASSWORD_RECOVERY events
+
+MULTI-TENANT:
+  - activeTenantIdProvider (StateProvider<String?>) → tenant activo
+  - Al hacer login, se setea al primer membership del usuario
+  - RLS en Supabase usa has_role_in_tenant() para verificar acceso
+
+ERROR HANDLING:
+  - dartz Either<Failure, Success> para operaciones de dominio
+  - Failures tipados (ServerFailure, NetworkFailure, etc.)
+  - Sentry para crash reporting en producción
+  - MonitoringService → error_logs, api_usage_logs, performance_metrics
+  - FlutterError.onError + PlatformDispatcher.instance.onError
+
+================================================================================
+8. TEMA Y DISEÑO
+================================================================================
+
+COLORES DE MARCA:
+  - Primary: #15803D (verde oscuro)
+  - Primary Light: #A3E635 (verde lima)
+  - Primary Dark: #064E3B (verde muy oscuro)
+  - Primary Soft: #ECFDF5 (verde suave)
+  - Accent: #FDCB6E (dorado)
+  - Accent Dark: #F59E0B (ámbar)
+
+SEMÁNTICOS:
+  - Success: #22C55E
+  - Warning: #FBBF24
+  - Error: #EF4444
+  - Info: #3B82F6
+
+NEUTRALES (escala completa):
+  - grey50: #F9FAFB → grey900: #111827
+
+DARK MODE:
+  - restaurantDarkBg: #071A12
+  - restaurantDarkSurface: #0F2318
+  - restaurantDarkCard: #163328
+
+WIDGETS COMPARTIDOS (core/widgets/):
+  - LomeAppBar, LomeButton, LomeCard, LomeTextField
+  - LomeLoading, LomeEmptyState, LomeStatusChip
+  - LomeSectionHeader, AnimatedCounter
+  - LomeAnimatedBackground, TactileWrapper
+
+================================================================================
+9. RUTAS DE LA APP (route_names.dart)
+================================================================================
+
+AUTH:
+  /                    → splash
+  /welcome             → welcome
+  /login               → login
+  /register            → register
+  /forgot-password     → forgot-password
+  /email-verification  → email-verification
+  /reset-password      → reset-password
+  /edit-profile        → edit-profile
+
+RESTAURANT:
+  /restaurant/onboarding       → onboarding
+  /restaurant/tables           → tab mesas (shell)
+  /restaurant/orders           → tab pedidos (shell)
+  /restaurant/kitchen          → tab cocina (shell)
+  /restaurant/menu             → tab carta (shell)
+  /restaurant/inventory        → tab inventario (shell)
+  /restaurant/dashboard        → dashboard
+  /restaurant/employees        → empleados
+  /restaurant/employees/invite → invitar empleado
+  /restaurant/employees/template → plantilla invitación
+  /restaurant/analytics        → analíticas
+  /restaurant/settings         → ajustes
+  /restaurant/settings/restaurant → config restaurante
+  /restaurant/settings/roles   → roles personalizados
+  /restaurant/settings/hours   → horarios
+  /restaurant/activity-logs    → logs actividad
+  /restaurant/tables/editor    → editor mapa mesas
+  /restaurant/tables/order     → pedido por mesa
+  /restaurant/tables/history   → historial mesa
+  /restaurant/tables/stats     → estadísticas mesas
+  /restaurant/orders/history   → historial pedidos
+  /restaurant/menu/design      → editor visual carta
+  /restaurant/menu/qr          → QR del menú
+
+MARKETPLACE:
+  /marketplace                → inicio
+  /marketplace/search         → búsqueda
+  /marketplace/restaurant/:id → detalle restaurante
+  /marketplace/cart           → carrito
+  /marketplace/checkout       → checkout
+  /marketplace/profile        → perfil
+  /marketplace/orders         → mis pedidos
+  /marketplace/favorites      → favoritos
+  /marketplace/order/:orderId → tracking pedido
+
+ADMIN:
+  /admin                 → dashboard
+  /admin/restaurants     → restaurantes
+  /admin/restaurants/:id → detalle restaurante
+  /admin/analytics       → analíticas
+  /admin/incidents       → incidencias
+  /admin/incidents/:id   → detalle incidencia
+  /admin/moderation      → moderación
+  /admin/subscriptions   → suscripciones
+  /admin/audit           → auditoría
+  /admin/monitoring      → monitorización
+
+PÚBLICO (sin auth):
+  /menu/:id              → carta digital del restaurante
+
+================================================================================
+10. BASE DE DATOS SUPABASE (20 migraciones)
+================================================================================
+
+Proyecto Supabase: aksgiupicxsidwgxskqk
+
+--- Migración 00001: ESQUEMA INICIAL ---
+Extensiones: uuid-ossp, pgcrypto, unaccent
+Enums: user_role, tenant_status, table_status, order_type, order_status,
+       payment_status, order_item_status, inventory_movement_type,
+       incident_priority, incident_status
+Funciones helper: handle_updated_at(), get_current_tenant_id(),
+                  is_super_admin(), has_role_in_tenant()
+Tablas (18): profiles, tenants, tenant_memberships, restaurant_tables,
+             table_sessions, menu_categories, menu_items, menu_item_options,
+             orders, order_items, inventory_items, inventory_movements,
+             customer_addresses, reviews, favorites, incidents, audit_logs,
+             notifications
+RLS completo con políticas por rol
+Triggers: handle_new_user(), update_tenant_rating(),
+          handle_inventory_movement(), update_tenant_orders_count(),
+          update_table_status_on_session()
+RPCs: nearby_restaurants(), search_restaurants(), get_restaurant_stats(),
+      get_admin_stats()
+Realtime: orders, order_items, restaurant_tables, table_sessions, notifications
+
+--- Migración 00002: ELIMINACIÓN DE CUENTA ---
+Función GDPR: anonymize_user_account(p_user_id)
+  - Anonimiza perfil, desactiva membresías, elimina direcciones
+  - Mantiene integridad referencial en pedidos/sesiones
+
+--- Migración 00003: ROLES, LOGS, HORARIOS, ESTADO ---
+1. custom_roles + custom_role_assignments (permisos JSON)
+2. activity_logs append-only + log_activity() helper
+3. restaurant_hours (múltiples franjas/día) + is_restaurant_open()
+4. Enum restaurant_operational_status + campo en tenants
+
+--- Migración 00004: FORMAS DE MESA ---
+Enum table_shape (round, square, rectangle)
+Campos shape, width, height en restaurant_tables
+Nuevos estados: waiting_food, waiting_payment
+
+--- Migración 00005: RESERVAS + TRIGGERS PEDIDO ---
+Tabla reservations con RLS + realtime
+Trigger update_table_status_on_order() (pedido → estado mesa)
+RPC activate_upcoming_reservations()
+
+--- Migración 00006: ASIGNACIONES + HISTORIAL + STATS ---
+Tabla table_assignments (camarero → mesa)
+RPCs: get_table_history(), get_table_occupancy_stats()
+
+--- Migración 00007: NOTIFICACIONES PEDIDOS ---
+Triggers: notify_waiter_order_ready(), notify_order_cancelled()
+RPCs: get_order_metrics(), get_top_dishes(), get_orders_by_hour()
+
+--- Migración 00008: PAGOS ---
+Enum payment_method_type (card, online, cash)
+Tabla payments con RLS + realtime
+
+--- Migración 00009: PROMOCIONES + RECOMENDACIONES ---
+Enum promotion_type (percentage, fixed, time_limited)
+Tabla promotions (código, usos, monto mínimo, fechas)
+RPC get_recommended_restaurants() (scoring por historial)
+
+--- Migración 00010: PANEL ADMIN RPCs ---
+RPCs super_admin:
+  get_admin_platform_metrics()
+  get_admin_restaurant_stats(p_tenant_id)
+  get_top_restaurants_by_revenue()
+
+--- Migración 00011: SUSCRIPCIONES + FACTURAS ---
+Tabla subscriptions (planes: free/basic/pro/enterprise)
+Tabla invoices (facturas con período, estado, vencimiento)
+RPC get_admin_subscription_stats() (MRR, distribución planes)
+
+--- Migración 00012: AUDITORÍA + MONITORIZACIÓN ---
+audit_trigger_fn() genérica → audit_logs
+Triggers auditoría en 14 tablas
+Tablas: error_logs, api_usage_logs, performance_metrics
+RPCs: log_error(), log_api_usage(), get_monitoring_dashboard(),
+      get_error_logs(), get_audit_logs(), get_audit_summary(),
+      purge_old_logs()
+
+--- Migración 00013: SISTEMA DISEÑO MENÚ ---
+Tabla menu_designs (colores, tipografía, layout, animaciones, secciones JSONB)
+RPC get_or_create_menu_design()
+Layouts: classic, modern, elegant, etc.
+Animaciones: fade, slide, scale, etc.
+
+--- Migración 00014: HARDENING RLS ---
+Correcciones de seguridad masivas (~600 líneas):
+  - SET search_path = public en 24 funciones
+  - verify_tenant_access() helper
+  - auto_assign_tenant_owner() trigger
+  - Fix políticas en promotions, notifications, audit_logs,
+    table_sessions, menu_designs
+  - Políticas super_admin faltantes en 8 tablas
+  - Hardening de 11 RPCs
+
+--- Migración 00015: INVITACIONES ---
+Tabla invitations (email, role, status, expires_at)
+Unique index en (tenant_id, email) WHERE pending
+RLS: managers crean/cancelan, invitados ven/aceptan/rechazan
+
+--- Migración 00016: PLANTILLAS INVITACIÓN ---
+Tabla invitation_templates (estilos, colores, textos personalizables)
+RPC get_or_create_invitation_template()
+Variables: {restaurant}, {inviter}, {role}, {email}, {expire_date}
+
+--- Migración 00017: BUGFIXES ---
+Correcciones: invitations.invited_by DROP NOT NULL,
+search_path en funciones de 00007/00010,
+verify_tenant_access() en RPCs métricas,
+Reescritura de get_recommended_restaurants()
+
+--- Migración 00018: FIX REGISTRO ---
+Política profiles_insert_own
+Fix handle_new_user(): incluye phone + ON CONFLICT DO UPDATE
+
+--- Migración 00019: FIX OWNERS HUÉRFANOS ---
+Race condition fix en registro:
+  - handle_new_user() reescrita: crea profile + tenant + membership
+    atómicamente en el trigger (server-side)
+  - Script de datos: crea tenants para owners huérfanos existentes
+
+--- Migración 00020: TOKENS DISPOSITIVO + PUSH ---
+Tabla device_tokens (token FCM, platform, preferences JSONB)
+RLS: cada usuario gestiona sus propios tokens
+Instrucciones para webhook → Edge Function send-push-notification
+
+================================================================================
+11. EDITOR VISUAL DE CARTA (CANVA-LIKE)
+================================================================================
+
+El editor visual permite diseñar cartas de menú tipo Canva:
+
+COMPONENTES:
+  - canvas_element.dart: Modelo de datos del elemento
+    * Tipos: text, menuBlock, shape, divider, image
+    * Propiedades: posición, tamaño, rotación, color, tipografía
+    * Animaciones: fadeIn, slideUp/Down/Left/Right, scaleIn, pulse,
+      shake, bounce, flip (con duración, delay, loop)
+  
+  - canvas_provider.dart: Estado del canvas
+    * Undo/redo (30 pasos)
+    * Operaciones: add, remove, duplicate, update, move, resize,
+      select, bringToFront, sendToBack, applyTemplate
+    * loadFromJson / toJson para persistencia
+  
+  - design_canvas.dart: Canvas interactivo
+    * Fondo cuadrícula
+    * Drag & drop elementos
+    * Selección con handles de redimensionado
+  
+  - canvas_element_widget.dart: Renderizado de elementos
+    * Texto con estilos Google Fonts
+    * Bloques de menú con nombre, descripción, precio
+    * Formas (rectángulo, círculo, triángulo, línea, estrella)
+    * Imágenes con CachedNetworkImage
+    * Sistema de animaciones con flutter_animate
+  
+  - property_panel.dart: Panel lateral de propiedades
+    * Controles específicos por tipo de elemento
+    * Sección de animaciones (tipo, duración, delay, loop)
+  
+  - editor_toolbar.dart: Barra de herramientas
+    * Botones: añadir texto, forma, bloque menú, imagen
+    * Undo/redo, grid toggle
+    * Exportar PDF, guardar
+  
+  - menu_template.dart: 5 plantillas prediseñadas
+    * Clásica, Moderna, Elegante, Minimalista, Rústica
+    * Cada una con colores y tipografías específicas
+  
+  - template_gallery.dart: Galería de plantillas
+    * Vista previa con cuadrícula
+    * Callback onTemplateApplied
+
+CANVAS:
+  - Tamaño virtual A4: 595x842 puntos PDF
+  - Coordenadas relativas para responsive
+  - Exportación a PDF real con la librería pdf
+
+================================================================================
+12. SISTEMA DE PERMISOS
+================================================================================
+
+ROLES DEL SISTEMA:
+  - super_admin: Administrador de la plataforma
+  - owner: Dueño del restaurante
+  - manager: Gerente del restaurante
+  - waiter: Camarero
+  - chef: Cocinero
+  - cashier: Cajero
+
+PERMISOS (app_permission.dart):
+  Definidos como enum/mapa, verificados en PermissionGuard widget
+  
+RLS EN SUPABASE:
+  - has_role_in_tenant(p_tenant_id, p_roles[]) → verifica membresía activa
+  - is_super_admin() → verifica rol en metadata
+  - verify_tenant_access() → helper de autorización en RPCs
+  - Cada tabla tiene políticas SELECT/INSERT/UPDATE/DELETE por rol
+  
+CUSTOM ROLES:
+  - Tabla custom_roles con permisos JSON personalizables
+  - Asignaciones en custom_role_assignments
+  - Gestionados desde /restaurant/settings/roles
+
+================================================================================
+13. SERVICIOS EXTERNOS
+================================================================================
+
+SUPABASE:
+  - Proyecto: aksgiupicxsidwgxskqk.supabase.co
+  - Auth: Email/password con PKCE
+  - DB: PostgreSQL con RLS
+  - Realtime: Canales para orders, tables, kitchen, notifications
+  - Edge Functions: send-push-notification (webhook)
+
+CLOUDINARY:
+  - Subida de imágenes (logos, menú, avatares)
+  - Upload preset sin firma (unsigned)
+  - Dos servicios: core/services/cloudinary_service.dart (estático)
+                   shared/services/cloudinary_service.dart (instancia)
+
+FIREBASE:
+  - FCM para push notifications
+  - Requiere flutterfire configure para generar firebase_options.dart
+  - Tabla device_tokens en Supabase para gestionar tokens
+
+SENTRY:
+  - Crash reporting en producción
+  - SentryNavigatorObserver en GoRouter
+  - tracesSampleRate: 0.2 (prod) / 1.0 (dev)
+
+================================================================================
+14. LOCALIZACIÓN (l10n)
+================================================================================
+
+Idiomas soportados: Español (es_ES) + Inglés (en)
+Locale por defecto: es_ES
+
+Archivos:
+  - lib/l10n/app_es.arb (~1300 líneas, español)
+  - lib/l10n/app_en.arb (~1215 líneas, inglés)
+
+Generación automática: flutter generate: true en pubspec.yaml
+  → Genera: app_localizations.dart, app_localizations_es.dart,
+            app_localizations_en.dart
+
+Uso: AppLocalizations.of(context).keyName
+  o: final l10n = AppLocalizations.of(context);
+
+NOTA: Los strings del editor visual de carta (~75) están hardcodeados
+en español y no están en los .arb todavía.
+
+================================================================================
+15. COMANDOS ÚTILES
+================================================================================
+
+# Instalar dependencias
+flutter pub get
+
+# Generar código (freezed, json_serializable, riverpod)
+dart run build_runner build --delete-conflicting-outputs
+
+# Analizar código
+flutter analyze
+
+# Ejecutar en debug
+flutter run
+
+# Ejecutar en release
+flutter run --release
+
+# Build APK
+flutter build apk --release
+
+# Build iOS
+flutter build ios --release
+
+# Generar localizaciones (automático con flutter generate: true)
+flutter gen-l10n
+
+# Configurar Firebase (push notifications)
+flutterfire configure
+
+# Ejecutar tests
+flutter test
+
+================================================================================
+16. CONFIGURACIÓN AL CAMBIAR DE PC
+================================================================================
+
+PASOS OBLIGATORIOS:
+
+1. Clonar/copiar el proyecto completo
+
+2. Instalar herramientas:
+   - Flutter SDK (^3.11.1)
+   - Android Studio con SDK
+   - Xcode (solo macOS)
+   - VS Code con extensiones Flutter/Dart
+
+3. Crear archivo .env en lome_app/:
+   Copiar .env.example y rellenar los valores:
+   SUPABASE_URL=https://aksgiupicxsidwgxskqk.supabase.co
+   SUPABASE_ANON_KEY=<copiar de Supabase Dashboard → Settings → API>
+   CLOUDINARY_CLOUD_NAME=<tu cloud name>
+   CLOUDINARY_UPLOAD_PRESET=<tu upload preset>
+   SENTRY_DSN=<opcional>
+   APP_ENV=development
+   APP_VERSION=1.0.0
+
+4. Ajustar android/gradle.properties:
+   org.gradle.java.home=<path al JDK 17 de tu PC>
+   Ejemplo Windows: C:\Program Files\Android\Android Studio\jbr
+   Ejemplo Mac: /Applications/Android Studio.app/Contents/jbr/Contents/Home
+
+5. Ejecutar:
+   cd lome_app
+   flutter pub get
+   dart run build_runner build --delete-conflicting-outputs
+
+6. Configurar Firebase (si quieres push):
+   flutterfire configure
+   (Esto genera firebase_options.dart)
+
+7. Verificar:
+   flutter analyze
+   flutter run
+
+POSIBLES PROBLEMAS:
+- Si falta .env → la app crashea al arrancar (dotenv.load falla)
+- Si Gradle no encuentra JDK → ajustar org.gradle.java.home
+- Si el emulador no resuelve DNS de Supabase → problema de red del emulador
+- Si flutter_local_notifications da error de desugaring → ya está configurado
+  en build.gradle.kts con isCoreLibraryDesugaringEnabled = true
+- Si image_picker no funciona en iOS → ya están los permisos en Info.plist
+
+================================================================================
+17. ESTADO ACTUAL DEL DESARROLLO (Abril 2026)
+================================================================================
+
+COMPLETADO:
+  ✅ Sistema de autenticación completo (login, registro, recuperación contraseña)
+  ✅ Verificación de email
+  ✅ Deep links para Supabase Auth
+  ✅ Gestión de sesiones con refresh automático
+  ✅ Panel restaurante con 5 tabs (mesas, pedidos, cocina, carta, inventario)
+  ✅ Dashboard del restaurante con métricas
+  ✅ Editor visual de carta tipo Canva con exportación PDF
+  ✅ 5 plantillas de carta prediseñadas
+  ✅ Sistema de animaciones en el editor (10 tipos)
+  ✅ Generación QR del menú digital
+  ✅ Menú digital público (/menu/:id)
+  ✅ Gestión de mesas con editor visual de mapa
+  ✅ Historial y estadísticas de mesas
+  ✅ Pedidos en tiempo real con Supabase Realtime
+  ✅ Cocina display (pantalla para cocina)
+  ✅ Gestión de inventario
+  ✅ Sistema de empleados con invitaciones por email
+  ✅ Plantillas de invitación personalizables
+  ✅ Roles personalizados con permisos JSON
+  ✅ Horarios del restaurante (múltiples franjas)
+  ✅ Logs de actividad
+  ✅ Marketplace completo (búsqueda, favoritos, carrito, checkout)
+  ✅ Tracking de pedidos del cliente
+  ✅ Sistema de reviews
+  ✅ Promociones y recomendaciones
+  ✅ Panel admin con dashboard, restaurantes, analytics
+  ✅ Sistema de incidencias y moderación
+  ✅ Suscripciones e invoices
+  ✅ Auditoría completa (14 tablas con triggers)
+  ✅ Monitorización (error_logs, api_usage, performance_metrics)
+  ✅ Push notifications (FCM + device_tokens)
+  ✅ Settings del restaurante con subida de logo
+  ✅ Reservas
+  ✅ Sistema de pagos
+  ✅ Eliminación de cuenta GDPR
+  ✅ Hardening de seguridad RLS
+  ✅ Tema dark mode completo
+  ✅ Localización ES/EN
+
+BUGS CORREGIDOS RECIENTEMENTE:
+  - Settings del restaurante se quedaba cargando infinitamente
+    → Añadido mounted checks + timeout 15s
+  - Logo upload crasheaba desde galería
+    → Try-catch + permisos iOS
+  - Selección de plantillas no funcionaba
+    → Callback onTemplateApplied
+  - Build Android fallaba por desugaring
+    → isCoreLibraryDesugaringEnabled en build.gradle.kts
+
+================================================================================
+18. CREDENCIALES Y ACCESOS (RELLENAR MANUALMENTE)
+================================================================================
+
+⚠️  NO incluir credenciales en documentos públicos o repos git.
+
+Supabase Dashboard: https://supabase.com/dashboard
+  - Proyecto: aksgiupicxsidwgxskqk
+  - URL: https://aksgiupicxsidwgxskqk.supabase.co
+  - Anon Key: <obtener de Dashboard → Settings → API → anon public>
+  - Service Key: <solo para administración, NUNCA en la app>
+
+Cloudinary Dashboard: https://cloudinary.com/console
+  - Cloud Name: <tu cloud name>
+  - Upload Preset: <crear en Settings → Upload → Upload presets>
+
+Sentry: https://sentry.io
+  - DSN: <tu DSN o dejar vacío para desactivar>
+
+Firebase Console: https://console.firebase.google.com
+  - Necesario para push notifications
+  - Ejecutar: flutterfire configure
+
+================================================================================
+19. SECUENCIA DE ARRANQUE DE LA APP
+================================================================================
+
+ORDEN DE EJECUCIÓN:
+
+1. main.dart
+   - WidgetsFlutterBinding.ensureInitialized()
+   - Llama a bootstrap()
+   - Llama a setupErrorHandling()
+   - Inicializa Sentry si hay DSN
+   - Arranca ProviderScope(child: LomeApp())
+
+2. bootstrap.dart
+   - Carga .env con flutter_dotenv
+   - Valida variables obligatorias con Env.validate()
+   - Fija orientación vertical
+   - Configura estilo de system UI
+   - Inicializa Supabase.initialize(...)
+   - Inicializa SharedPreferences
+   - Intenta inicializar Firebase
+   - Devuelve prefs ya preparadas
+
+3. app.dart
+   - Construye MaterialApp.router
+   - Lee appRouterProvider
+   - Registra WidgetsBindingObserver
+   - En el primer frame:
+     * Inicializa deepLinkHandlerProvider
+     * Inicializa sessionManagerProvider
+     * Inicializa PushNotificationService
+
+4. app_router.dart
+   - GoRouter evalúa redirect según authStateProvider
+   - Si el usuario no está autenticado, lo manda a welcome/login
+   - Si es super_admin, lo manda a /admin
+   - Si tiene tenant, lo manda a /restaurant/tables
+   - Si no tiene tenant, lo manda a /marketplace
+
+PUNTOS DE FALLO MÁS PROBABLES EN EL ARRANQUE:
+  - .env no existe o no está listado en assets
+  - firebase_options.dart no generado pero Firebase habilitado
+  - URL o anon key de Supabase vacías
+  - Error de JDK/Gradle en Android
+  - DNS roto en el emulador Android
+
+================================================================================
+20. FLUJO DE DATOS Y RESPONSABILIDADES
+================================================================================
+
+FLUJO TÍPICO EN LA APP:
+
+UI/Page/Widget
+  → Provider Riverpod
+  → Repository
+  → Supabase / servicio externo
+  → DTO/Model
+  → Entity / estado
+  → UI reactiva
+
+EJEMPLO DE AUTENTICACIÓN:
+  - login_page.dart recoge email/password
+  - authActionsProvider.signIn(...)
+  - signInUseCaseProvider
+  - authRepositoryProvider
+  - authRemoteDataSourceProvider
+  - Supabase Auth
+  - authStateProvider emite el usuario
+  - app_router.dart reevalúa el redirect
+
+EJEMPLO DE SETTINGS DEL RESTAURANTE:
+  - restaurant_settings_page.dart
+  - restaurant_settings_provider.dart
+  - restaurant_config_repository_impl.dart
+  - Supabase tabla tenants/menu_designs/otros campos de config
+  - La UI muestra loading/error/success según AsyncValue
+
+EJEMPLO DE DISEÑO DE CARTA:
+  - menu_design_editor_page.dart
+  - canvas_provider.dart mantiene elementos y selección
+  - property_panel.dart actualiza props del elemento
+  - menu_template.dart genera elementos iniciales
+  - Exportación PDF usa pdf/printing
+
+CONVENCIONES IMPORTANTES:
+  - Los providers son el punto principal de entrada para la UI
+  - Los repositories deben ocultar detalles de Supabase
+  - Las entidades del dominio no deberían depender de Flutter
+  - La UI suele trabajar con AsyncValue y estados inmutables
+  - Cuando un provider es autoDispose, hay que vigilar mounted tras awaits
+
+================================================================================
+21. MAPA FUNCIONAL POR FEATURE
+================================================================================
+
+AUTH:
+  - Registro/login/logout
+  - Recuperación de contraseña
+  - Verificación de email
+  - Deep links de reseteo
+  - Selección implícita del tenant activo al iniciar sesión
+
+RESTAURANT DASHBOARD:
+  - Vista de métricas generales
+  - KPIs de pedidos, ingresos y operación
+
+TABLES:
+  - Gestión de mesas del local
+  - Editor visual del mapa de mesas
+  - Historial por mesa
+  - Estadísticas de ocupación
+  - Asignación de camareros
+
+ORDERS:
+  - Gestión de pedidos activos
+  - Pedidos por mesa
+  - Historial de pedidos
+  - Ticket preview / generación de ticket
+  - Métricas horarias y top platos
+
+KITCHEN:
+  - Pantalla dedicada a cocina
+  - Seguimiento de estados de preparación
+
+MENU RESTAURANT:
+  - Gestión de categorías y productos
+  - Opciones de producto
+  - Editor visual de carta
+  - QR del menú
+  - Carta digital pública
+
+EMPLOYEES:
+  - Invitar empleados
+  - Plantillas de invitación
+  - Gestión de roles y membresías
+
+HOURS:
+  - Horarios por día con varias franjas
+  - Estado abierto/cerrado calculable desde SQL
+
+INVENTORY:
+  - Productos e inventario
+  - Movimientos de stock
+
+SETTINGS:
+  - Datos del restaurante
+  - Logo
+  - Configuración general
+  - Notificaciones
+
+ACTIVITY LOGS:
+  - Registro visible de acciones de usuario
+
+MARKETPLACE:
+  - Home pública/autenticada del cliente
+  - Búsqueda de restaurantes
+  - Favoritos
+  - Carrito
+  - Checkout
+  - Seguimiento del pedido
+  - Reviews
+  - Recomendaciones
+
+ADMIN:
+  - Dashboard global de plataforma
+  - Restaurantes
+  - Analytics globales
+  - Incidencias
+  - Moderación
+  - Suscripciones
+  - Auditoría
+  - Monitorización
+
+================================================================================
+22. TABLAS Y ENTIDADES CLAVE DEL NEGOCIO
+================================================================================
+
+TABLAS NÚCLEO:
+  - profiles: perfil del usuario autenticado
+  - tenants: restaurante/negocio dentro del sistema multi-tenant
+  - tenant_memberships: relación usuario-restaurante con rol
+  - restaurant_tables: mesas físicas del restaurante
+  - table_sessions: sesión activa de una mesa
+  - orders: pedido principal
+  - order_items: líneas del pedido
+  - menu_categories: categorías del menú
+  - menu_items: platos/productos
+  - menu_item_options: opciones/configuraciones del producto
+  - inventory_items: inventario del restaurante
+  - inventory_movements: entradas/salidas/ajustes de stock
+  - reservations: reservas
+  - payments: pagos
+  - promotions: promociones
+  - reviews: valoraciones
+  - favorites: favoritos del cliente
+  - notifications: notificaciones internas
+  - activity_logs: acciones de negocio
+  - audit_logs: trazabilidad de seguridad y cambios
+  - error_logs: errores monitorizados
+  - performance_metrics: rendimiento agregado
+  - subscriptions: plan SaaS del restaurante
+  - invoices: facturación SaaS
+  - menu_designs: diseño visual de la carta
+  - invitations: invitaciones a empleados
+  - invitation_templates: plantilla visual/textual de invitación
+  - device_tokens: tokens FCM por usuario/dispositivo
+
+RELACIONES IMPORTANTES:
+  - Un profile puede tener varias tenant_memberships
+  - Un tenant tiene muchas mesas, pedidos, categorías, inventario y empleados
+  - Una mesa puede tener una sesión activa y múltiples pedidos históricos
+  - Un pedido tiene múltiples order_items
+  - Un menú pertenece a un tenant
+  - Un diseño de carta pertenece a un tenant
+  - Un dispositivo token pertenece a un usuario autenticado
+
+REGLA DE NEGOCIO CRÍTICA:
+  - El tenant activo en la app debe coincidir con un membership activo del usuario.
+    Si activeTenantIdProvider queda en null o apunta a un tenant inválido,
+    muchas pantallas de restaurante fallarán o no cargarán datos.
+
+================================================================================
+23. CHECKLIST RÁPIDO PARA RETOMAR EL PROYECTO
+================================================================================
+
+ANTES DE TOCAR CÓDIGO:
+  [ ] Confirmar versión de Flutter con flutter --version
+  [ ] Confirmar JDK 17 operativo
+  [ ] Revisar que exista .env
+  [ ] Verificar que SUPABASE_URL y SUPABASE_ANON_KEY están rellenadas
+  [ ] Verificar si Cloudinary está configurado o sigue vacío
+  [ ] Verificar si firebase_options.dart existe
+
+PRIMER ARRANQUE:
+  [ ] flutter pub get
+  [ ] dart run build_runner build --delete-conflicting-outputs
+  [ ] flutter analyze
+  [ ] flutter run
+
+SI FALLA AUTH:
+  [ ] Comprobar URL scheme io.supabase.lome
+  [ ] Comprobar redirect/deep links
+  [ ] Revisar credenciales en .env
+  [ ] Revisar auth.users y tabla profiles en Supabase
+
+SI FALLA EL PANEL RESTAURANT:
+  [ ] Revisar que el usuario tenga tenant_memberships activas
+  [ ] Revisar activeTenantIdProvider
+  [ ] Revisar políticas RLS y verify_tenant_access()
+  [ ] Revisar timeouts o awaits sin mounted
+
+SI FALLA SUBIDA DE IMÁGENES:
+  [ ] Revisar CLOUDINARY_CLOUD_NAME
+  [ ] Revisar CLOUDINARY_UPLOAD_PRESET
+  [ ] Revisar permisos de galería/cámara
+  [ ] Revisar conectividad HTTP del dispositivo/emulador
+
+SI FALLA PUSH:
+  [ ] Revisar Firebase inicializado
+  [ ] Revisar token en tabla device_tokens
+  [ ] Revisar permiso de notificaciones del dispositivo
+  [ ] Revisar webhook/edge function de push
+
+SI FALLA EL EDITOR DE CARTA:
+  [ ] Revisar canvas_provider.dart
+  [ ] Revisar menu_template.dart
+  [ ] Revisar persistencia de menu_designs
+  [ ] Revisar exportación PDF si el fallo es al imprimir/exportar
+
+================================================================================
+24. DEUDA TÉCNICA Y PUNTOS A VIGILAR
+================================================================================
+
+PUNTOS CONOCIDOS:
+  - Existen dos servicios Cloudinary con responsabilidades parecidas
+    (core/services y shared/services). Conviene unificarlos en el futuro.
+  - Parte del editor visual todavía tiene textos hardcodeados fuera del sistema l10n.
+  - Muchos flujos dependen de activeTenantIdProvider; si ese estado se pierde,
+    la UX puede romperse aunque la sesión siga activa.
+  - En providers autoDispose hay que proteger cualquier setState tras awaits.
+  - El proyecto es grande y tiene varios shells de navegación; cualquier cambio de
+    rutas debe revisarse en redirect, deep links y navegación por rol.
+
+MEJORAS NATURALES A FUTURO:
+  - Añadir más tests de providers y repositories
+  - Añadir smoke tests para login, onboarding y settings
+  - Migrar todos los textos visibles a l10n
+  - Revisar y consolidar servicios duplicados
+  - Documentar RPCs críticas con ejemplos de payload
+  - Añadir script reproducible para bootstrap de entorno nuevo
+
+================================================================================
+25. ARCHIVOS MÁS IMPORTANTES PARA ORIENTARSE RÁPIDO
+================================================================================
+
+SI SOLO VAS A LEER 15 ARCHIVOS AL VOLVER AL PROYECTO, QUE SEAN ESTOS:
+
+  1. lib/main.dart
+  2. lib/bootstrap.dart
+  3. lib/app.dart
+  4. lib/core/config/env.dart
+  5. lib/core/router/app_router.dart
+  6. lib/features/auth/presentation/providers/auth_provider.dart
+  7. lib/shared/providers/session_provider.dart
+  8. lib/shared/services/session_manager.dart
+  9. lib/features/restaurant/menu/presentation/providers/canvas_provider.dart
+  10. lib/features/restaurant/menu/presentation/pages/menu_design_editor_page.dart
+  11. lib/features/restaurant/settings/presentation/providers/restaurant_settings_provider.dart
+  12. lib/features/restaurant/data/repositories/restaurant_config_repository_impl.dart
+  13. lib/features/restaurant/orders/presentation/providers/orders_provider.dart
+  14. lib/features/restaurant/tables/presentation/providers/tables_provider.dart
+  15. supabase/migrations/00001_initial_schema.sql
+
+LECTURA RECOMENDADA POR ORDEN:
+  - Arranque y config
+  - Router
+  - Auth
+  - Session/tenant activo
+  - Feature concreta que vayas a tocar
+  - Migración SQL relacionada con esa feature
+
+================================================================================
+26. ESTADO REAL DEL PROYECTO Y CONTEXTO RECIENTE
+================================================================================
+
+RESUMEN OPERATIVO REAL A FECHA 20/04/2026:
+  - El proyecto compila y flutter analyze estaba en verde tras las últimas correcciones.
+  - El editor visual de carta ya permite aplicar plantillas correctamente.
+  - El editor visual de carta ya soporta animaciones en elementos.
+  - Android ya tiene arreglado el problema de desugaring para flutter_local_notifications.
+  - El formulario de ajustes del restaurante dejó de quedarse cargando indefinidamente.
+  - La subida del logo desde galería fue endurecida con manejo de errores.
+  - iOS ya tiene permisos de galería y cámara en Info.plist.
+
+CAMBIOS IMPORTANTES RECIENTES QUE OTRA IA DEBE SABER:
+  - template_gallery.dart recibió callback onTemplateApplied para cerrar correctamente
+    la galería al aplicar una plantilla.
+  - menu_design_editor_page.dart fue conectado a ese callback.
+  - canvas_element.dart ahora expone propiedades de animación.
+  - canvas_element_widget.dart ahora renderiza animaciones con flutter_animate.
+  - property_panel.dart ya incluye controles de animación.
+  - restaurant_settings_provider.dart fue protegido con mounted checks tras awaits.
+  - restaurant_config_repository_impl.dart tiene timeouts de 15 segundos.
+  - restaurant_settings_page.dart endureció _pickLogo() con try/catch.
+
+INCIDENCIAS RECIENTES QUE NO ERAN BUGS DE CÓDIGO:
+  - Error DNS hacia Supabase en emulador Android: parecía problema de red del emulador,
+    no del backend, porque la resolución DNS desde el PC sí funcionaba.
+  - Logs BLASTBufferQueue en Android Emulator: ruido gráfico del emulador, no bug funcional
+    de la app.
+
+CONCLUSIÓN PRÁCTICA:
+  Si en otro ordenador reaparecen errores de settings, logo, plantillas o desugaring,
+  primero comprobar que esos cambios siguen presentes y no se han perdido en una copia
+  vieja del proyecto.
+
+================================================================================
+27. GUÍA DE CONTEXTO PARA OTRA IA
+================================================================================
+
+OBJETIVO DE ESTA SECCIÓN:
+  Si abres este proyecto en otro ordenador y vas a trabajar con otra IA, puedes usar
+  esta sección como briefing inicial para acelerar muchísimo el contexto.
+
+RESUMEN CORTO PARA PEGARLE A OTRA IA:
+
+  Proyecto Flutter llamado LOME. Es una plataforma SaaS para restaurantes con tres
+  superficies principales: panel de restaurante, marketplace de cliente y panel de
+  super admin. Usa Riverpod para estado, GoRouter para navegación y Supabase como
+  backend principal con PostgreSQL, Auth, Realtime y RLS. También usa Cloudinary
+  para imágenes, Firebase para push y Sentry para errores. Hay un editor visual de
+  cartas tipo Canva dentro de features/restaurant/menu con plantillas, exportación
+  PDF y animaciones. El proyecto es multi-tenant: el contexto del tenant activo es
+  crítico y depende de activeTenantIdProvider y de tenant_memberships en Supabase.
+  Las últimas correcciones importantes fueron en plantillas del editor, animaciones,
+  settings del restaurante, subida de logo y desugaring Android.
+
+PROMPT RECOMENDADO PARA DARLE A OTRA IA:
+
+  Estoy trabajando en LOME, una app Flutter multi-tenant para restaurantes.
+  Quiero que primero entiendas el arranque de la app, el router, auth_provider,
+  session_manager, activeTenantIdProvider y la feature que voy a tocar. Usa como
+  contexto principal el documento LOME_APP_DOCUMENTACION_COMPLETA.txt. Antes de
+  proponer cambios, revisa si la lógica depende de RLS, tenant activo, Supabase RPCs
+  o providers autoDispose. Si haces cambios en una feature, identifica también el
+  repository y la migración SQL relacionada.
+
+INSTRUCCIONES ÚTILES PARA OTRA IA:
+  - No asumir que un error del emulador implica bug de la app.
+  - Comprobar siempre el tenant activo antes de tocar features de restaurante.
+  - Si un provider hace awaits y es autoDispose, revisar mounted.
+  - Si falla una operación de backend, revisar RLS además del código Dart.
+  - Si una feature usa Supabase RPCs, revisar migraciones antes de cambiar la UI.
+  - No romper rutas ni redirects sin revisar los tres shells principales.
+
+================================================================================
+28. DO NOT BREAK - REGLAS PRÁCTICAS DEL PROYECTO
+================================================================================
+
+COSAS QUE NO CONVIENE ROMPER SIN REVISIÓN COMPLETA:
+  - activeTenantIdProvider y cualquier flujo que dependa del tenant activo.
+  - Redirects del router entre welcome, marketplace, restaurant y admin.
+  - PKCE / deep links de Supabase Auth.
+  - Política de mounted checks en providers con async.
+  - Timeouts en operaciones sensibles de settings.
+  - Políticas RLS y funciones SQL endurecidas en migraciones recientes.
+  - Persistencia y serialización del editor de carta.
+  - Info.plist y configuración Android para media/push/notificaciones.
+
+ANTES DE MODIFICAR CUALQUIERA DE ESTOS BLOQUES:
+  - Leer router y auth provider.
+  - Revisar si hay flujos por rol.
+  - Revisar si hay dependencia de tablas o RPCs SQL.
+  - Verificar si el cambio afecta a marketplace, restaurant y admin a la vez.
+
+================================================================================
+29. PATRONES DE IMPLEMENTACIÓN QUE YA EXISTEN
+================================================================================
+
+PATRÓN EN FEATURES:
+  - entities en domain
+  - repositories abstractos en domain
+  - implementación concreta en data/repositories
+  - UI y estado en presentation/pages, widgets y providers
+
+PATRÓN DE ESTADO:
+  - AsyncValue para loading/error/data
+  - Providers para inyección de dependencias
+  - StateNotifier cuando la lógica es más rica y necesita múltiples acciones
+  - StreamProvider para auth o datos reactivos
+
+PATRÓN DE ERRORES:
+  - Repositories devuelven fallos controlados cuando aplica
+  - La UI suele enseñar SnackBars, estados vacíos o loaders
+  - Sentry y MonitoringService cubren errores no controlados en producción
+
+PATRÓN MULTI-TENANT:
+  - Las consultas deben estar filtradas por tenant
+  - El usuario puede tener múltiples memberships
+  - La app suele asumir un tenant activo actual
+
+PATRÓN DE HARDENING:
+  - Revisar search_path en funciones SQL críticas
+  - Revisar verify_tenant_access() en RPCs sensibles
+  - Revisar RLS antes de culpar al frontend
+
+================================================================================
+30. RELACIÓN ENTRE FRONTEND Y BACKEND
+================================================================================
+
+EL FRONTEND DEPENDE FUERTEMENTE DE:
+  - auth.users de Supabase Auth
+  - tabla profiles
+  - tabla tenant_memberships
+  - funciones helper SQL de roles/tenant
+  - RPCs para métricas, recomendaciones, stats y menús
+
+CONSECUENCIAS PRÁCTICAS:
+  - Un cambio solo en Dart puede no arreglar un bug si el origen real está en RLS.
+  - Un cambio de schema en SQL puede romper pantallas sin tocar el frontend.
+  - Muchas pantallas de negocio no son realmente independientes del backend.
+
+REGLA DE TRABAJO:
+  Cuando una feature falle, diagnosticar siempre en este orden:
+  1. Estado local/provider
+  2. Repository y mapping de datos
+  3. Respuesta de Supabase
+  4. RLS/policies/RPCs/migraciones
+
+================================================================================
+31. QUÉ MIRAR SEGÚN EL TIPO DE BUG
+================================================================================
+
+SI EL BUG ES DE LOGIN/SESION:
+  - main.dart
+  - bootstrap.dart
+  - app.dart
+  - auth_provider.dart
+  - deep_link_handler.dart
+  - session_manager.dart
+  - app_router.dart
+  - profiles / tenant_memberships en Supabase
+
+SI EL BUG ES DE NAVEGACIÓN:
+  - app_router.dart
+  - route_names.dart
+  - redirect por rol
+  - StatefulShellRoute correspondiente
+
+SI EL BUG ES DE RESTAURANTE NO CARGA DATOS:
+  - activeTenantIdProvider
+  - membership del usuario
+  - repository de la feature
+  - RLS y verify_tenant_access()
+
+SI EL BUG ES DE SETTINGS:
+  - restaurant_settings_page.dart
+  - restaurant_settings_provider.dart
+  - restaurant_config_repository_impl.dart
+  - tenants / menu_designs / config persistida
+
+SI EL BUG ES DE EDITOR VISUAL:
+  - canvas_provider.dart
+  - canvas_element.dart
+  - canvas_element_widget.dart
+  - property_panel.dart
+  - template_gallery.dart
+  - menu_template.dart
+
+SI EL BUG ES DE IMÁGENES:
+  - cloudinary_service.dart
+  - image_picker
+  - Info.plist
+  - conectividad del dispositivo
+
+SI EL BUG ES DE PUSH:
+  - push_notification_service.dart
+  - firebase_options.dart
+  - device_tokens
+  - permisos del sistema operativo
+
+SI EL BUG ES DE ADMIN O MÉTRICAS:
+  - repositorio admin
+  - RPC correspondiente
+  - permisos super_admin
+  - performance_metrics / audit_logs / subscriptions / invoices
+
+================================================================================
+32. SUPOSICIONES IMPORTANTES DEL PROYECTO
+================================================================================
+
+EL CÓDIGO PARECE ASUMIR QUE:
+  - El usuario autenticado tiene profile en la base de datos.
+  - Si el usuario es owner/manager, tendrá al menos una membership activa.
+  - El tenant activo ya está seleccionado o puede inferirse del primer membership.
+  - Las migraciones de Supabase han sido aplicadas en orden y sin saltos.
+  - El entorno tiene acceso a internet y puede resolver Supabase/Cloudinary.
+  - Firebase puede no estar configurado, pero la app debe seguir arrancando.
+
+SI ALGUNA DE ESTAS SUPOSICIONES NO SE CUMPLE:
+  - Pueden aparecer fallos difíciles de leer desde la UI.
+  - El síntoma visible puede ser un loader infinito, listas vacías o navegación rara.
+
+================================================================================
+33. CONTEXTO DE CALIDAD Y VERIFICACIÓN
+================================================================================
+
+VERIFICACIONES QUE YA SE HAN HECHO RECIENTEMENTE:
+  - flutter analyze en verde después de los últimos arreglos mencionados.
+
+VERIFICACIONES QUE SIGUEN SIENDO IMPORTANTES AL RETOMAR:
+  - Repetir flutter analyze al abrir el proyecto en otro ordenador.
+  - Probar login y redirect inicial.
+  - Probar acceso a una feature de restaurante con tenant real.
+  - Probar guardar ajustes del restaurante.
+  - Probar selección de plantilla en el editor visual.
+  - Probar exportación del diseño si se va a tocar esa zona.
+  - Probar subida de logo si Cloudinary ya está configurado.
+
+TESTING:
+  - Hay carpeta test/, pero no se ha documentado una batería amplia de tests.
+  - En la práctica, este proyecto depende bastante de validación manual y análisis.
+  - Si una IA va a tocar una zona sensible, debería añadir pruebas o al menos
+    ejecutar comprobaciones manuales dirigidas.
+
+================================================================================
+34. CÓMO CONTINUAR EL DESARROLLO SIN PERDER EL HILO
+================================================================================
+
+FORMA RECOMENDADA DE TRABAJAR AL VOLVER:
+  1. Leer este documento completo una vez.
+  2. Confirmar setup y arranque.
+  3. Decidir una sola feature a tocar.
+  4. Leer provider + repository + migración SQL relacionados.
+  5. Hacer cambio mínimo.
+  6. Ejecutar analyze.
+  7. Probar manualmente el flujo afectado.
+
+RECOMENDACIÓN FUERTE:
+  No entrar cambiando UI sin entender primero:
+  - cómo llega el dato,
+  - quién decide el tenant,
+  - qué RLS protege esa información,
+  - y qué ruta/redirección depende de ese estado.
+
+================================================================================
+FIN DEL DOCUMENTO
+================================================================================
