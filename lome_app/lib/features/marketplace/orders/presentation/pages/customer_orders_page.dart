@@ -44,14 +44,13 @@ class CustomerOrdersPage extends ConsumerWidget {
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.all(AppTheme.spacingMd),
             itemCount: orders.length,
-            itemBuilder: (context, index) =>
-                _OrderCard(order: orders[index])
-                    .animate()
-                    .fadeIn(
-                      delay: Duration(milliseconds: index * 60),
-                      duration: 300.ms,
-                    )
-                    .slideY(begin: 0.05, end: 0),
+            itemBuilder: (context, index) => _OrderCard(order: orders[index])
+                .animate()
+                .fadeIn(
+                  delay: Duration(milliseconds: index * 60),
+                  duration: 300.ms,
+                )
+                .slideY(begin: 0.05, end: 0),
           );
         },
       ),
@@ -166,65 +165,65 @@ class _OrderCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: AppTheme.spacingSm),
               child: Divider(height: 1, color: AppColors.grey100),
             ),
-              // Items summary
-              ...order.items
-                  .take(3)
-                  .map(
-                    (item) => Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 2),
-                      child: Row(
-                        children: [
-                          Text(
-                            '${item.quantity}x ',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.primary,
-                              fontSize: 13,
-                            ),
+            // Items summary
+            ...order.items
+                .take(3)
+                .map(
+                  (item) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 2),
+                    child: Row(
+                      children: [
+                        Text(
+                          '${item.quantity}x ',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.primary,
+                            fontSize: 13,
                           ),
-                          Expanded(
-                            child: Text(
-                              item.name,
-                              style: const TextStyle(fontSize: 13),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            item.name,
+                            style: const TextStyle(fontSize: 13),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ),
-              if (order.items.length > 3)
-                Padding(
-                  padding: const EdgeInsets.only(top: 2),
-                  child: Text(
-                    context.l10n.marketplaceCustomerOrdersMoreItems(
-                      order.items.length - 3,
-                    ),
-                    style: TextStyle(fontSize: 12, color: AppColors.grey400),
                   ),
                 ),
-              const SizedBox(height: AppTheme.spacingSm),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    _formatDate(order.createdAt),
-                    style: TextStyle(fontSize: 12, color: AppColors.grey400),
+            if (order.items.length > 3)
+              Padding(
+                padding: const EdgeInsets.only(top: 2),
+                child: Text(
+                  context.l10n.marketplaceCustomerOrdersMoreItems(
+                    order.items.length - 3,
                   ),
-                  Text(
-                    '€${order.total.toStringAsFixed(2)}',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 17,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                ],
+                  style: TextStyle(fontSize: 12, color: AppColors.grey400),
+                ),
               ),
-            ],
-          ),
+            const SizedBox(height: AppTheme.spacingSm),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  _formatDate(order.createdAt),
+                  style: TextStyle(fontSize: 12, color: AppColors.grey400),
+                ),
+                Text(
+                  '€${order.total.toStringAsFixed(2)}',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 17,
+                    color: AppColors.primary,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
+      ),
     );
   }
 

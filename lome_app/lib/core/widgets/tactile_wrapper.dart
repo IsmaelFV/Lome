@@ -47,10 +47,7 @@ class _TactileWrapperState extends State<TactileWrapper>
       duration: const Duration(milliseconds: 100),
       reverseDuration: const Duration(milliseconds: 250),
     );
-    _scaleAnimation = Tween<double>(
-      begin: 1.0,
-      end: widget.pressScale,
-    ).animate(
+    _scaleAnimation = Tween<double>(begin: 1.0, end: widget.pressScale).animate(
       CurvedAnimation(
         parent: _controller,
         curve: Curves.easeInOut,
@@ -95,10 +92,8 @@ class _TactileWrapperState extends State<TactileWrapper>
       behavior: HitTestBehavior.opaque,
       child: AnimatedBuilder(
         animation: _scaleAnimation,
-        builder: (context, child) => Transform.scale(
-          scale: _scaleAnimation.value,
-          child: child,
-        ),
+        builder: (context, child) =>
+            Transform.scale(scale: _scaleAnimation.value, child: child),
         child: widget.child,
       ),
     );

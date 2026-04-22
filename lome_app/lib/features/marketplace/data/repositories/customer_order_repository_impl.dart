@@ -22,9 +22,13 @@ class SupabaseCustomerOrderRepository implements CustomerOrderRepository {
 
   @override
   Future<Map<String, dynamic>> placeOrder(
-      Map<String, dynamic> orderData) async {
-    final rows =
-        await _client.from('orders').insert(orderData).select('id').single();
+    Map<String, dynamic> orderData,
+  ) async {
+    final rows = await _client
+        .from('orders')
+        .insert(orderData)
+        .select('id')
+        .single();
     return rows;
   }
 
@@ -39,11 +43,11 @@ class SupabaseCustomerOrderRepository implements CustomerOrderRepository {
   }
 
   @override
-  Future<void> updateOrderPaymentStatus(
-      String orderId, String status) async {
+  Future<void> updateOrderPaymentStatus(String orderId, String status) async {
     await _client
         .from('orders')
-        .update({'payment_status': status}).eq('id', orderId);
+        .update({'payment_status': status})
+        .eq('id', orderId);
   }
 
   @override
@@ -71,8 +75,7 @@ class SupabaseCustomerOrderRepository implements CustomerOrderRepository {
   }
 
   @override
-  Future<Map<String, dynamic>> createAddress(
-      Map<String, dynamic> data) async {
+  Future<Map<String, dynamic>> createAddress(Map<String, dynamic> data) async {
     return await _client
         .from('customer_addresses')
         .insert(data)
@@ -81,8 +84,7 @@ class SupabaseCustomerOrderRepository implements CustomerOrderRepository {
   }
 
   @override
-  Future<void> updateAddress(
-      String id, Map<String, dynamic> data) async {
+  Future<void> updateAddress(String id, Map<String, dynamic> data) async {
     await _client.from('customer_addresses').update(data).eq('id', id);
   }
 
@@ -90,21 +92,24 @@ class SupabaseCustomerOrderRepository implements CustomerOrderRepository {
   Future<void> clearDefaultAddresses(String userId) async {
     await _client
         .from('customer_addresses')
-        .update({'is_default': false}).eq('user_id', userId);
+        .update({'is_default': false})
+        .eq('user_id', userId);
   }
 
   @override
   Future<void> setDefaultAddress(String id) async {
     await _client
         .from('customer_addresses')
-        .update({'is_default': true}).eq('id', id);
+        .update({'is_default': true})
+        .eq('id', id);
   }
 
   @override
   Future<void> softDeleteAddress(String id) async {
     await _client
         .from('customer_addresses')
-        .update({'is_active': false}).eq('id', id);
+        .update({'is_active': false})
+        .eq('id', id);
   }
 
   // ---------------------------------------------------------------------------
@@ -121,8 +126,7 @@ class SupabaseCustomerOrderRepository implements CustomerOrderRepository {
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getCustomerOrders(
-      String userId) async {
+  Future<List<Map<String, dynamic>>> getCustomerOrders(String userId) async {
     return await _client
         .from('orders')
         .select('*, tenants(name, logo_url)')
@@ -133,7 +137,8 @@ class SupabaseCustomerOrderRepository implements CustomerOrderRepository {
 
   @override
   Future<List<Map<String, dynamic>>> getActiveDeliveryOrders(
-      String userId) async {
+    String userId,
+  ) async {
     return await _client
         .from('orders')
         .select(_orderDetailSelect)
@@ -151,7 +156,8 @@ class SupabaseCustomerOrderRepository implements CustomerOrderRepository {
   }
 }
 
-final customerOrderRepositoryProvider =
-    Provider<CustomerOrderRepository>((ref) {
+final customerOrderRepositoryProvider = Provider<CustomerOrderRepository>((
+  ref,
+) {
   return SupabaseCustomerOrderRepository(ref.read(supabaseClientProvider));
 });

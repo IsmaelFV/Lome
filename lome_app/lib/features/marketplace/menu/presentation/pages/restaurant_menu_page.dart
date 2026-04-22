@@ -359,10 +359,7 @@ class _RestaurantMenuScaffoldState
                   ),
                 ],
               ),
-            )
-                .animate()
-                .fadeIn(duration: 400.ms)
-                .slideY(begin: 0.03, end: 0),
+            ).animate().fadeIn(duration: 400.ms).slideY(begin: 0.03, end: 0),
           ),
 
           // ── Promociones del restaurante ──
@@ -597,14 +594,12 @@ class _RestaurantMenuScaffoldState
                   ),
                 ),
               ),
+            ).animate().slideY(
+              begin: 1,
+              end: 0,
+              duration: 350.ms,
+              curve: Curves.easeOutCubic,
             )
-                .animate()
-                .slideY(
-                  begin: 1,
-                  end: 0,
-                  duration: 350.ms,
-                  curve: Curves.easeOutCubic,
-                )
           : null,
     );
   }
@@ -638,147 +633,149 @@ class _DishCard extends ConsumerWidget {
           boxShadow: AppShadows.card,
         ),
         child: Row(
-            children: [
-              // Info
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            dish.name,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 15,
-                            ),
-                          ),
-                        ),
-                        if (dish.isFeatured)
-                          Container(
-                            padding: const EdgeInsets.all(4),
-                            decoration: BoxDecoration(
-                              color: AppColors.accent.withValues(alpha: 0.1),
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              PhosphorIcons.fire(PhosphorIconsStyle.fill),
-                              size: 14,
-                              color: AppColors.accent,
-                            ),
-                          ),
-                      ],
-                    ),
-                    if (dish.description != null) ...[
-                      const SizedBox(height: 2),
-                      Text(
-                        dish.description!,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: AppColors.grey500,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Text(
-                          '€${dish.price.toStringAsFixed(2)}',
+          children: [
+            // Info
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          dish.name,
                           style: const TextStyle(
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w700,
                             fontSize: 15,
-                            color: AppColors.primary,
                           ),
                         ),
-                        const SizedBox(width: 8),
-                        if (dish.tags.isNotEmpty)
-                          ...dish.tags
-                              .take(3)
-                              .map(
-                                (t) => Padding(
-                                  padding: const EdgeInsets.only(right: 4),
-                                  child: _TagChip(tag: t),
-                                ),
-                              ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: AppTheme.spacingSm),
-
-              // Image + add button
-              SizedBox(
-                width: 88,
-                height: 88,
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(AppTheme.radiusMd),
-                      child: dish.imageUrl != null
-                          ? Image.network(
-                              dish.imageUrl!,
-                              width: 88,
-                              height: 88,
-                              fit: BoxFit.cover,
-                            )
-                          : Container(
-                              width: 88,
-                              height: 88,
-                              color: AppColors.grey100,
-                              child: Icon(
-                                PhosphorIcons.forkKnife(
-                                  PhosphorIconsStyle.duotone,
-                                ),
-                                color: AppColors.grey300,
-                                size: 32,
-                              ),
-                            ),
-                    ),
-                    Positioned(
-                      bottom: -6,
-                      right: -6,
-                      child: TactileWrapper(
-                        onTap: () {
-                          ref.read(cartProvider.notifier).addItem(
-                            dish: dish,
-                            restaurantId: restaurantId,
-                            restaurantName: restaurantName,
-                            quantity: 1,
-                          );
-                        },
-                        child: Container(
-                          width: 30,
-                          height: 30,
+                      ),
+                      if (dish.isFeatured)
+                        Container(
+                          padding: const EdgeInsets.all(4),
                           decoration: BoxDecoration(
-                            gradient: AppColors.heroGradient,
+                            color: AppColors.accent.withValues(alpha: 0.1),
                             shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.primary.withValues(alpha: 0.3),
-                                blurRadius: 6,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
                           ),
                           child: Icon(
-                            PhosphorIcons.plus(PhosphorIconsStyle.bold),
+                            PhosphorIcons.fire(PhosphorIconsStyle.fill),
                             size: 14,
-                            color: AppColors.white,
+                            color: AppColors.accent,
                           ),
+                        ),
+                    ],
+                  ),
+                  if (dish.description != null) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      dish.description!,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.grey500,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Text(
+                        '€${dish.price.toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 15,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      if (dish.tags.isNotEmpty)
+                        ...dish.tags
+                            .take(3)
+                            .map(
+                              (t) => Padding(
+                                padding: const EdgeInsets.only(right: 4),
+                                child: _TagChip(tag: t),
+                              ),
+                            ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: AppTheme.spacingSm),
+
+            // Image + add button
+            SizedBox(
+              width: 88,
+              height: 88,
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+                    child: dish.imageUrl != null
+                        ? Image.network(
+                            dish.imageUrl!,
+                            width: 88,
+                            height: 88,
+                            fit: BoxFit.cover,
+                          )
+                        : Container(
+                            width: 88,
+                            height: 88,
+                            color: AppColors.grey100,
+                            child: Icon(
+                              PhosphorIcons.forkKnife(
+                                PhosphorIconsStyle.duotone,
+                              ),
+                              color: AppColors.grey300,
+                              size: 32,
+                            ),
+                          ),
+                  ),
+                  Positioned(
+                    bottom: -6,
+                    right: -6,
+                    child: TactileWrapper(
+                      onTap: () {
+                        ref
+                            .read(cartProvider.notifier)
+                            .addItem(
+                              dish: dish,
+                              restaurantId: restaurantId,
+                              restaurantName: restaurantName,
+                              quantity: 1,
+                            );
+                      },
+                      child: Container(
+                        width: 30,
+                        height: 30,
+                        decoration: BoxDecoration(
+                          gradient: AppColors.heroGradient,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.primary.withValues(alpha: 0.3),
+                              blurRadius: 6,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Icon(
+                          PhosphorIcons.plus(PhosphorIconsStyle.bold),
+                          size: 14,
+                          color: AppColors.white,
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
     );
   }
 
@@ -1001,9 +998,7 @@ class _DishDetailSheetState extends ConsumerState<_DishDetailSheet> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       TactileWrapper(
-                        onTap: _qty > 1
-                            ? () => setState(() => _qty--)
-                            : null,
+                        onTap: _qty > 1 ? () => setState(() => _qty--) : null,
                         child: Container(
                           width: 36,
                           height: 36,
@@ -1276,7 +1271,10 @@ class _RestaurantPromotions extends ConsumerWidget {
                   ),
                 ),
               ),
-              const Divider(height: AppTheme.spacingMd, color: AppColors.grey100),
+              const Divider(
+                height: AppTheme.spacingMd,
+                color: AppColors.grey100,
+              ),
             ],
           ),
         );
@@ -1337,7 +1335,10 @@ class _RestaurantReviews extends ConsumerWidget {
               ),
               const SizedBox(height: AppTheme.spacingSm),
               ...shown.map((r) => _ReviewTile(review: r)),
-              const Divider(height: AppTheme.spacingMd, color: AppColors.grey100),
+              const Divider(
+                height: AppTheme.spacingMd,
+                color: AppColors.grey100,
+              ),
             ],
           ),
         );

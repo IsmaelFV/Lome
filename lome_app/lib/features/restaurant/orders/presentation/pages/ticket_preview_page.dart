@@ -69,15 +69,11 @@ class _TicketPreviewPageState extends ConsumerState<TicketPreviewPage>
           ),
           tabs: [
             Tab(
-              icon: Icon(
-                PhosphorIcons.forkKnife(PhosphorIconsStyle.duotone),
-              ),
+              icon: Icon(PhosphorIcons.forkKnife(PhosphorIconsStyle.duotone)),
               text: context.l10n.ticketPreviewKitchenTab,
             ),
             Tab(
-              icon: Icon(
-                PhosphorIcons.receipt(PhosphorIconsStyle.duotone),
-              ),
+              icon: Icon(PhosphorIcons.receipt(PhosphorIconsStyle.duotone)),
               text: context.l10n.ticketPreviewClientTab,
             ),
           ],

@@ -75,14 +75,11 @@ class _MenuDesignEditorPageState extends ConsumerState<MenuDesignEditorPage> {
           _initialized = true;
         }
 
-        final categories =
-            asyncCategories.valueOrNull ?? <CategoryEntity>[];
+        final categories = asyncCategories.valueOrNull ?? <CategoryEntity>[];
         final dishes = asyncDishes.valueOrNull ?? <MenuItemEntity>[];
 
-        final restaurantName = ref
-                .watch(restaurantSettingsProvider)
-                .data
-                ?.name ??
+        final restaurantName =
+            ref.watch(restaurantSettingsProvider).data?.name ??
             'Mi Restaurante';
 
         // Show template gallery as full screen when no canvas data
@@ -143,19 +140,23 @@ class _MenuDesignEditorPageState extends ConsumerState<MenuDesignEditorPage> {
           ),
           // Undo
           IconButton(
-            icon: Icon(PhosphorIcons.arrowCounterClockwise(),
-                color: notifier.canUndo
-                    ? Colors.white
-                    : Colors.white.withValues(alpha: 0.4)),
+            icon: Icon(
+              PhosphorIcons.arrowCounterClockwise(),
+              color: notifier.canUndo
+                  ? Colors.white
+                  : Colors.white.withValues(alpha: 0.4),
+            ),
             tooltip: 'Deshacer',
             onPressed: notifier.canUndo ? notifier.undo : null,
           ),
           // Redo
           IconButton(
-            icon: Icon(PhosphorIcons.arrowClockwise(),
-                color: notifier.canRedo
-                    ? Colors.white
-                    : Colors.white.withValues(alpha: 0.4)),
+            icon: Icon(
+              PhosphorIcons.arrowClockwise(),
+              color: notifier.canRedo
+                  ? Colors.white
+                  : Colors.white.withValues(alpha: 0.4),
+            ),
             tooltip: 'Rehacer',
             onPressed: notifier.canRedo ? notifier.redo : null,
           ),
@@ -165,16 +166,19 @@ class _MenuDesignEditorPageState extends ConsumerState<MenuDesignEditorPage> {
                 ? const SizedBox(
                     width: 20,
                     height: 20,
-                    child:
-                        CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.white,
+                    ),
                   )
-                : Icon(PhosphorIcons.floppyDisk(),
+                : Icon(
+                    PhosphorIcons.floppyDisk(),
                     color: cs.hasUnsavedChanges
                         ? Colors.white
-                        : Colors.white.withValues(alpha: 0.4)),
+                        : Colors.white.withValues(alpha: 0.4),
+                  ),
             tooltip: 'Guardar',
-            onPressed:
-                cs.hasUnsavedChanges && !_saving ? () => _save() : null,
+            onPressed: cs.hasUnsavedChanges && !_saving ? () => _save() : null,
           ),
           // Export PDF
           PopupMenuButton<String>(
@@ -227,10 +231,16 @@ class _MenuDesignEditorPageState extends ConsumerState<MenuDesignEditorPage> {
                 value: 'clear',
                 child: Row(
                   children: [
-                    Icon(PhosphorIcons.trash(), size: 20, color: AppColors.error),
+                    Icon(
+                      PhosphorIcons.trash(),
+                      size: 20,
+                      color: AppColors.error,
+                    ),
                     const SizedBox(width: 8),
-                    const Text('Limpiar todo',
-                        style: TextStyle(color: AppColors.error)),
+                    const Text(
+                      'Limpiar todo',
+                      style: TextStyle(color: AppColors.error),
+                    ),
                   ],
                 ),
               ),
@@ -242,10 +252,7 @@ class _MenuDesignEditorPageState extends ConsumerState<MenuDesignEditorPage> {
         children: [
           // Canvas area
           Expanded(
-            child: DesignCanvas(
-              categories: categories,
-              dishes: dishes,
-            ),
+            child: DesignCanvas(categories: categories, dishes: dishes),
           ),
 
           // Property panel (visible when element is selected)
@@ -254,7 +261,11 @@ class _MenuDesignEditorPageState extends ConsumerState<MenuDesignEditorPage> {
               key: ValueKey(selectedElement.id),
               element: selectedElement,
               categories: categories,
-            ).animate().slideY(begin: 1, duration: 200.ms, curve: Curves.easeOut),
+            ).animate().slideY(
+              begin: 1,
+              duration: 200.ms,
+              curve: Curves.easeOut,
+            ),
 
           // Bottom toolbar
           EditorToolbar(
@@ -280,8 +291,9 @@ class _MenuDesignEditorPageState extends ConsumerState<MenuDesignEditorPage> {
       context: context,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.vertical(top: Radius.circular(AppTheme.radiusLg)),
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(AppTheme.radiusLg),
+        ),
       ),
       builder: (_) => DraggableScrollableSheet(
         initialChildSize: 0.85,
@@ -307,18 +319,20 @@ class _MenuDesignEditorPageState extends ConsumerState<MenuDesignEditorPage> {
 
     try {
       final canvasJson = ref.read(canvasProvider.notifier).toJson();
-      await ref.read(menuDesignCrudProvider.notifier).updateDesign(
-        _designId!,
-        {'custom_styles': {'canvas': canvasJson}},
-      );
+      await ref.read(menuDesignCrudProvider.notifier).updateDesign(_designId!, {
+        'custom_styles': {'canvas': canvasJson},
+      });
       ref.read(canvasProvider.notifier).markSaved();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Row(
               children: [
-                Icon(PhosphorIcons.checkCircle(PhosphorIconsStyle.fill),
-                    color: Colors.white, size: 18),
+                Icon(
+                  PhosphorIcons.checkCircle(PhosphorIconsStyle.fill),
+                  color: Colors.white,
+                  size: 18,
+                ),
                 const SizedBox(width: 8),
                 const Text('Diseño guardado'),
               ],
@@ -361,9 +375,7 @@ class _MenuDesignEditorPageState extends ConsumerState<MenuDesignEditorPage> {
             children: [
               // Background
               pw.Positioned.fill(
-                child: pw.Container(
-                  color: _pdfColor(cs.backgroundColor),
-                ),
+                child: pw.Container(color: _pdfColor(cs.backgroundColor)),
               ),
               // Elements
               for (final el in cs.sortedElements)
@@ -378,10 +390,7 @@ class _MenuDesignEditorPageState extends ConsumerState<MenuDesignEditorPage> {
       ),
     );
 
-    await Printing.layoutPdf(
-      onLayout: (_) => doc.save(),
-      name: 'menu_carta',
-    );
+    await Printing.layoutPdf(onLayout: (_) => doc.save(), name: 'menu_carta');
   }
 
   pw.Widget _buildPdfElement(
@@ -486,6 +495,84 @@ class _MenuDesignEditorPageState extends ConsumerState<MenuDesignEditorPage> {
           color: _pdfColor(el.dividerColor),
         );
 
+      case 'image':
+        return pw.Container(
+          width: el.width,
+          height: el.height,
+          decoration: pw.BoxDecoration(
+            color: const PdfColor.fromInt(0xFFEEEEEE),
+            borderRadius: pw.BorderRadius.circular(el.borderRadius),
+            border: pw.Border.all(
+              color: const PdfColor.fromInt(0xFFCCCCCC),
+              width: 0.5,
+            ),
+          ),
+          alignment: pw.Alignment.center,
+          child: pw.Text(
+            el.imageUrl != null && el.imageUrl!.isNotEmpty
+                ? '[Imagen]'
+                : '[Imagen]',
+            style: pw.TextStyle(
+              fontSize: 10,
+              color: const PdfColor.fromInt(0xFF999999),
+            ),
+          ),
+        );
+
+      case 'carousel':
+        final catDishes = dishes
+            .where((d) => d.categoryId == el.categoryId && d.isAvailable)
+            .toList();
+        return pw.Container(
+          width: el.width,
+          height: el.height,
+          padding: const pw.EdgeInsets.all(8),
+          decoration: pw.BoxDecoration(
+            borderRadius: pw.BorderRadius.circular(el.borderRadius),
+            border: pw.Border.all(color: _pdfColor(el.textColor), width: 0.5),
+          ),
+          child: pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            children: [
+              pw.Text(
+                '★ DESTACADOS',
+                style: pw.TextStyle(
+                  fontSize: 10,
+                  fontWeight: pw.FontWeight.bold,
+                  color: _pdfColor(el.textColor),
+                ),
+              ),
+              pw.SizedBox(height: 4),
+              for (final dish in catDishes.take(5))
+                pw.Padding(
+                  padding: const pw.EdgeInsets.only(bottom: 2),
+                  child: pw.Row(
+                    children: [
+                      pw.Expanded(
+                        child: pw.Text(
+                          dish.name,
+                          style: pw.TextStyle(
+                            fontSize: el.fontSize - 2,
+                            color: _pdfColor(el.textColor),
+                          ),
+                        ),
+                      ),
+                      if (el.showPrices)
+                        pw.Text(
+                          '${dish.price.toStringAsFixed(2)} €',
+                          style: pw.TextStyle(
+                            fontSize: el.fontSize - 2,
+                            fontWeight: pw.FontWeight.bold,
+                            color: _pdfColor(el.priceColor),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+        );
+
       default:
         return pw.SizedBox(width: el.width, height: el.height);
     }
@@ -511,15 +598,24 @@ class _MenuDesignEditorPageState extends ConsumerState<MenuDesignEditorPage> {
 
   void _showBackgroundPicker() {
     const colors = [
-      '#FFFFFF', '#FFF8F0', '#F5E6D3', '#FAFAFA', '#F0F0F0',
-      '#1A1A2E', '#2D3436', '#0D1B2A', '#1B1B1B', '#F5F5DC',
+      '#FFFFFF',
+      '#FFF8F0',
+      '#F5E6D3',
+      '#FAFAFA',
+      '#F0F0F0',
+      '#1A1A2E',
+      '#2D3436',
+      '#0D1B2A',
+      '#1B1B1B',
+      '#F5F5DC',
     ];
 
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.vertical(top: Radius.circular(AppTheme.radiusLg)),
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(AppTheme.radiusLg),
+        ),
       ),
       builder: (_) => Padding(
         padding: const EdgeInsets.all(AppTheme.spacingLg),
@@ -536,8 +632,7 @@ class _MenuDesignEditorPageState extends ConsumerState<MenuDesignEditorPage> {
               spacing: 12,
               runSpacing: 12,
               children: colors.map((c) {
-                final selected =
-                    ref.read(canvasProvider).backgroundColor == c;
+                final selected = ref.read(canvasProvider).backgroundColor == c;
                 return GestureDetector(
                   onTap: () {
                     ref.read(canvasProvider.notifier).setBackground(c);
@@ -577,7 +672,8 @@ class _MenuDesignEditorPageState extends ConsumerState<MenuDesignEditorPage> {
       builder: (_) => AlertDialog(
         title: const Text('Limpiar todo'),
         content: const Text(
-            '¿Estás seguro? Se eliminarán todos los elementos del canvas.'),
+          '¿Estás seguro? Se eliminarán todos los elementos del canvas.',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),

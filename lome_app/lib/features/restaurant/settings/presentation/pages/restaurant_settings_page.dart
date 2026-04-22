@@ -289,7 +289,10 @@ class _RestaurantSettingsPageState
                     validator: FormValidators.phone,
                     keyboardType: TextInputType.phone,
                     textInputAction: TextInputAction.next,
-                    prefixIcon: Icon(PhosphorIcons.phone(PhosphorIconsStyle.duotone), size: 18),
+                    prefixIcon: Icon(
+                      PhosphorIcons.phone(PhosphorIconsStyle.duotone),
+                      size: 18,
+                    ),
                   ),
                   const SizedBox(height: AppTheme.spacingMd),
 
@@ -303,7 +306,10 @@ class _RestaurantSettingsPageState
                     },
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
-                    prefixIcon: Icon(PhosphorIcons.envelope(PhosphorIconsStyle.duotone), size: 18),
+                    prefixIcon: Icon(
+                      PhosphorIcons.envelope(PhosphorIconsStyle.duotone),
+                      size: 18,
+                    ),
                   ),
                   const SizedBox(height: AppTheme.spacingMd),
 
@@ -313,7 +319,10 @@ class _RestaurantSettingsPageState
                     hint: context.l10n.restaurantSettingsWebHint,
                     keyboardType: TextInputType.url,
                     textInputAction: TextInputAction.next,
-                    prefixIcon: Icon(PhosphorIcons.globe(PhosphorIconsStyle.duotone), size: 18),
+                    prefixIcon: Icon(
+                      PhosphorIcons.globe(PhosphorIconsStyle.duotone),
+                      size: 18,
+                    ),
                   ),
 
                   const SizedBox(height: AppTheme.spacingLg),
@@ -335,7 +344,10 @@ class _RestaurantSettingsPageState
                     controller: _addressCtrl,
                     hint: context.l10n.restaurantSettingsAddressHint,
                     textInputAction: TextInputAction.next,
-                    prefixIcon: Icon(PhosphorIcons.mapPin(PhosphorIconsStyle.duotone), size: 18),
+                    prefixIcon: Icon(
+                      PhosphorIcons.mapPin(PhosphorIconsStyle.duotone),
+                      size: 18,
+                    ),
                   ),
                   const SizedBox(height: AppTheme.spacingMd),
 
@@ -506,10 +518,7 @@ class _LogoSection extends StatelessWidget {
           const SizedBox(height: AppTheme.spacingSm),
           Text(
             context.l10n.restaurantSettingsChangeLogo,
-            style: const TextStyle(
-              fontSize: 12,
-              color: AppColors.grey400,
-            ),
+            style: const TextStyle(fontSize: 12, color: AppColors.grey400),
           ),
         ],
       ),

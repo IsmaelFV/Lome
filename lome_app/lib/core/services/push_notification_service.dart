@@ -139,7 +139,8 @@ class PushNotificationService {
     if (defaultTargetPlatform == TargetPlatform.android) {
       await _localNotifications!
           .resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin>()
+            AndroidFlutterLocalNotificationsPlugin
+          >()
           ?.createNotificationChannel(_androidChannel);
     }
   }
@@ -201,15 +202,12 @@ class PushNotificationService {
         : (defaultTargetPlatform == TargetPlatform.iOS ? 'ios' : 'android');
 
     try {
-      await Supabase.instance.client.from('device_tokens').upsert(
-        {
-          'user_id': userId,
-          'token': token,
-          'platform': platform,
-          'updated_at': DateTime.now().toIso8601String(),
-        },
-        onConflict: 'token',
-      );
+      await Supabase.instance.client.from('device_tokens').upsert({
+        'user_id': userId,
+        'token': token,
+        'platform': platform,
+        'updated_at': DateTime.now().toIso8601String(),
+      }, onConflict: 'token');
     } catch (e) {
       logger.w('Error guardando token: $e');
     }

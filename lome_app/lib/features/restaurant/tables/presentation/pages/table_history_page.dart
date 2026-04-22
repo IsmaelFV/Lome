@@ -81,19 +81,18 @@ class TableHistoryPage extends ConsumerWidget {
                   itemCount: entries.length,
                   separatorBuilder: (_, __) =>
                       const SizedBox(height: AppTheme.spacingSm),
-                  itemBuilder: (context, index) => _HistoryTile(
-                    entry: entries[index],
-                  )
-                      .animate()
-                      .fadeIn(
-                        delay: Duration(milliseconds: 60 * index),
-                        duration: AppTheme.durationMedium,
-                      )
-                      .slideY(
-                        begin: 0.03,
-                        end: 0,
-                        delay: Duration(milliseconds: 60 * index),
-                      ),
+                  itemBuilder: (context, index) =>
+                      _HistoryTile(entry: entries[index])
+                          .animate()
+                          .fadeIn(
+                            delay: Duration(milliseconds: 60 * index),
+                            duration: AppTheme.durationMedium,
+                          )
+                          .slideY(
+                            begin: 0.03,
+                            end: 0,
+                            delay: Duration(milliseconds: 60 * index),
+                          ),
                 ),
               ),
             ],
@@ -192,10 +191,7 @@ class _MiniStat extends StatelessWidget {
           ),
           Text(
             label,
-            style: TextStyle(
-              color: Colors.white.withAlpha(180),
-              fontSize: 10,
-            ),
+            style: TextStyle(color: Colors.white.withAlpha(180), fontSize: 10),
             textAlign: TextAlign.center,
           ),
         ],
@@ -323,10 +319,7 @@ class _InfoChip extends StatelessWidget {
         const SizedBox(width: 2),
         Text(
           text,
-          style: const TextStyle(
-            color: AppColors.grey500,
-            fontSize: 11,
-          ),
+          style: const TextStyle(color: AppColors.grey500, fontSize: 11),
         ),
       ],
     );

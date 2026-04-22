@@ -74,9 +74,7 @@ class NotificationSettingsPage extends ConsumerWidget {
                 letterSpacing: 0.5,
               ),
             ),
-          )
-              .animate()
-              .fadeIn(duration: 300.ms, delay: 100.ms),
+          ).animate().fadeIn(duration: 300.ms, delay: 100.ms),
 
           _SectionCard(
             delay: 150,
@@ -139,9 +137,7 @@ class NotificationSettingsPage extends ConsumerWidget {
               ),
               textAlign: TextAlign.center,
             ),
-          )
-              .animate()
-              .fadeIn(duration: 300.ms, delay: 300.ms),
+          ).animate().fadeIn(duration: 300.ms, delay: 300.ms),
         ],
       ),
     );
@@ -161,22 +157,25 @@ class _SectionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: AppTheme.spacingMd),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+          margin: const EdgeInsets.symmetric(horizontal: AppTheme.spacingMd),
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.04),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Column(children: children),
-    )
+          child: Column(children: children),
+        )
         .animate()
-        .fadeIn(duration: 300.ms, delay: Duration(milliseconds: delay))
+        .fadeIn(
+          duration: 300.ms,
+          delay: Duration(milliseconds: delay),
+        )
         .slideY(
           begin: 0.02,
           end: 0,

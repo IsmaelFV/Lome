@@ -62,16 +62,17 @@ class RestaurantHoursPage extends ConsumerWidget {
                 final isOpen = slots.isNotEmpty;
 
                 return _DayCard(
-                  dayIndex: day,
-                  slots: slots,
-                  isOpen: isOpen,
-                  onAddSlot: () =>
-                      _showTimeDialog(context, ref, dayOfWeek: day),
-                  onEditSlot: (h) => _showTimeDialog(context, ref, existing: h),
-                  onDeleteSlot: (h) => ref
-                      .read(restaurantHoursProvider.notifier)
-                      .deleteHour(h.id!),
-                )
+                      dayIndex: day,
+                      slots: slots,
+                      isOpen: isOpen,
+                      onAddSlot: () =>
+                          _showTimeDialog(context, ref, dayOfWeek: day),
+                      onEditSlot: (h) =>
+                          _showTimeDialog(context, ref, existing: h),
+                      onDeleteSlot: (h) => ref
+                          .read(restaurantHoursProvider.notifier)
+                          .deleteHour(h.id!),
+                    )
                     .animate(delay: Duration(milliseconds: 50 * day))
                     .fadeIn(duration: AppTheme.durationFast)
                     .slideY(begin: 0.1, end: 0);
@@ -179,10 +180,7 @@ class _DayCard extends StatelessWidget {
               ),
               child: Text(
                 context.l10n.restaurantHoursClosed,
-                style: const TextStyle(
-                  fontSize: 13,
-                  color: AppColors.grey400,
-                ),
+                style: const TextStyle(fontSize: 13, color: AppColors.grey400),
               ),
             )
           else
@@ -214,7 +212,9 @@ class _DayCard extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(4),
                         child: Icon(
-                          PhosphorIcons.pencilSimple(PhosphorIconsStyle.duotone),
+                          PhosphorIcons.pencilSimple(
+                            PhosphorIconsStyle.duotone,
+                          ),
                           size: 16,
                           color: AppColors.grey400,
                         ),

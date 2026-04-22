@@ -79,12 +79,15 @@ class DashboardPage extends ConsumerWidget {
                           return Stack(
                             children: [
                               TactileWrapper(
-                                onTap: () =>
-                                    NotificationsPanel.show(context),
+                                onTap: () => NotificationsPanel.show(context),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(AppTheme.spacingSm),
+                                  padding: const EdgeInsets.all(
+                                    AppTheme.spacingSm,
+                                  ),
                                   child: Icon(
-                                    PhosphorIcons.bell(PhosphorIconsStyle.duotone),
+                                    PhosphorIcons.bell(
+                                      PhosphorIconsStyle.duotone,
+                                    ),
                                     color: AppColors.grey600,
                                   ),
                                 ),
@@ -126,7 +129,9 @@ class DashboardPage extends ConsumerWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(AppTheme.spacingSm),
                           child: Icon(
-                            PhosphorIcons.arrowClockwise(PhosphorIconsStyle.duotone),
+                            PhosphorIcons.arrowClockwise(
+                              PhosphorIconsStyle.duotone,
+                            ),
                             color: AppColors.grey600,
                           ),
                         ),
@@ -297,12 +302,10 @@ class DashboardPage extends ConsumerWidget {
                           padding: const EdgeInsets.symmetric(
                             horizontal: AppTheme.spacingMd,
                           ),
-                          child: _QuickActionsGrid()
-                              .animate()
-                              .fadeIn(
-                                delay: 800.ms,
-                                duration: AppTheme.durationMedium,
-                              ),
+                          child: _QuickActionsGrid().animate().fadeIn(
+                            delay: 800.ms,
+                            duration: AppTheme.durationMedium,
+                          ),
                         ),
                         const SizedBox(height: AppTheme.spacingXxl),
                       ],
@@ -466,10 +469,7 @@ class _HeroRevenueCard extends ConsumerWidget {
           AnimatedCounter(
             end: stats.salesToday,
             formatter: (v) => '€${v.toStringAsFixed(2)}',
-            style: AppTypography.stat(
-              size: 36,
-              color: AppColors.white,
-            ),
+            style: AppTypography.stat(size: 36, color: AppColors.white),
           ),
 
           const SizedBox(height: AppTheme.spacingMd),
@@ -485,8 +485,7 @@ class _HeroRevenueCard extends ConsumerWidget {
               const SizedBox(width: AppTheme.spacingLg),
               _HeroMiniStat(
                 icon: PhosphorIcons.gridFour(),
-                label:
-                    '${stats.occupiedTables}/${stats.totalTables}',
+                label: '${stats.occupiedTables}/${stats.totalTables}',
                 sublabel: context.l10n.tables,
               ),
             ],
@@ -520,10 +519,12 @@ class _HeroRevenueCard extends ConsumerWidget {
             ...OperationalStatus.values.map((s) {
               final isSelected = s == currentStatus;
               final itemIcon = switch (s) {
-                OperationalStatus.open =>
-                  PhosphorIcons.checkCircle(PhosphorIconsStyle.fill),
-                OperationalStatus.closed =>
-                  PhosphorIcons.prohibit(PhosphorIconsStyle.fill),
+                OperationalStatus.open => PhosphorIcons.checkCircle(
+                  PhosphorIconsStyle.fill,
+                ),
+                OperationalStatus.closed => PhosphorIcons.prohibit(
+                  PhosphorIconsStyle.fill,
+                ),
                 OperationalStatus.temporarilyClosed =>
                   PhosphorIcons.pauseCircle(PhosphorIconsStyle.fill),
               };
@@ -535,8 +536,7 @@ class _HeroRevenueCard extends ConsumerWidget {
                 title: Text(
                   s.label,
                   style: TextStyle(
-                    fontWeight:
-                        isSelected ? FontWeight.w600 : FontWeight.w400,
+                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                     color: isSelected ? AppColors.primary : AppColors.grey700,
                   ),
                 ),
@@ -544,9 +544,7 @@ class _HeroRevenueCard extends ConsumerWidget {
                     ? Icon(PhosphorIcons.check(), color: AppColors.primary)
                     : null,
                 onTap: () {
-                  ref
-                      .read(restaurantStatusProvider.notifier)
-                      .setStatus(s);
+                  ref.read(restaurantStatusProvider.notifier).setStatus(s);
                   Navigator.pop(ctx);
                 },
               );
@@ -623,89 +621,86 @@ class _KpiCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(AppTheme.spacingMd),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-        boxShadow: AppShadows.card,
-        border: Border.all(
-          color: AppColors.grey100,
-          width: 1,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
+          padding: const EdgeInsets.all(AppTheme.spacingMd),
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+            boxShadow: AppShadows.card,
+            border: Border.all(color: AppColors.grey100, width: 1),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                width: 36,
-                height: 36,
-                decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(AppTheme.radiusSm),
-                ),
-                child: Icon(icon, size: 18, color: color),
+              Row(
+                children: [
+                  Container(
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: color.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusSm),
+                    ),
+                    child: Icon(icon, size: 18, color: color),
+                  ),
+                  const SizedBox(width: AppTheme.spacingSm),
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: const TextStyle(
+                        color: AppColors.grey500,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(width: AppTheme.spacingSm),
-              Expanded(
-                child: Text(
-                  title,
+              const Spacer(),
+              if (isText)
+                Text(
+                  value,
                   style: const TextStyle(
-                    color: AppColors.grey500,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.grey800,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                )
+              else
+                AnimatedSwitcher(
+                  duration: AppTheme.durationMedium,
+                  transitionBuilder: (child, animation) => FadeTransition(
+                    opacity: animation,
+                    child: SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(0, 0.2),
+                        end: Offset.zero,
+                      ).animate(animation),
+                      child: child,
+                    ),
+                  ),
+                  child: Text(
+                    value,
+                    key: ValueKey(value),
+                    style: AppTypography.stat(size: 22),
+                  ),
+                ),
+              if (subtitle != null)
+                Text(
+                  subtitle!,
+                  style: TextStyle(
+                    color: color.withValues(alpha: 0.8),
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
                   ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
             ],
           ),
-          const Spacer(),
-          if (isText)
-            Text(
-              value,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-                color: AppColors.grey800,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            )
-          else
-            AnimatedSwitcher(
-              duration: AppTheme.durationMedium,
-              transitionBuilder: (child, animation) => FadeTransition(
-                opacity: animation,
-                child: SlideTransition(
-                  position: Tween<Offset>(
-                    begin: const Offset(0, 0.2),
-                    end: Offset.zero,
-                  ).animate(animation),
-                  child: child,
-                ),
-              ),
-              child: Text(
-                value,
-                key: ValueKey(value),
-                style: AppTypography.stat(size: 22),
-              ),
-            ),
-          if (subtitle != null)
-            Text(
-              subtitle!,
-              style: TextStyle(
-                color: color.withValues(alpha: 0.8),
-                fontSize: 11,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-        ],
-      ),
-    )
+        )
         .animate()
         .fadeIn(
           delay: Duration(milliseconds: delay),
@@ -737,12 +732,11 @@ class _AlertCard extends StatelessWidget {
       AlertType.info => AppColors.info,
     };
     final icon = switch (alert.type) {
-      AlertType.error =>
-        PhosphorIcons.warningCircle(PhosphorIconsStyle.duotone),
-      AlertType.warning =>
-        PhosphorIcons.warning(PhosphorIconsStyle.duotone),
-      AlertType.info =>
-        PhosphorIcons.info(PhosphorIconsStyle.duotone),
+      AlertType.error => PhosphorIcons.warningCircle(
+        PhosphorIconsStyle.duotone,
+      ),
+      AlertType.warning => PhosphorIcons.warning(PhosphorIconsStyle.duotone),
+      AlertType.info => PhosphorIcons.info(PhosphorIconsStyle.duotone),
     };
 
     return Container(
@@ -750,9 +744,7 @@ class _AlertCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(AppTheme.radiusMd),
-        border: Border(
-          left: BorderSide(color: color, width: 3),
-        ),
+        border: Border(left: BorderSide(color: color, width: 3)),
       ),
       child: Row(
         children: [
@@ -873,10 +865,7 @@ class _TopSellingList extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: AppTheme.spacingSm),
-                Text(
-                  '${item.quantity}',
-                  style: AppTypography.stat(size: 16),
-                ),
+                Text('${item.quantity}', style: AppTypography.stat(size: 16)),
               ],
             ),
           );
@@ -913,8 +902,8 @@ class _LowStockList extends StatelessWidget {
           final color = pct < 25
               ? AppColors.error
               : pct < 50
-                  ? AppColors.warning
-                  : AppColors.success;
+              ? AppColors.warning
+              : AppColors.success;
 
           return Padding(
             padding: EdgeInsets.only(
@@ -1032,36 +1021,36 @@ class _QuickActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TactileWrapper(
-      onTap: onTap,
-      child: SizedBox(
-        width: 72,
-        child: Column(
-          children: [
-            Container(
-              width: 54,
-              height: 54,
-              decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.08),
-                borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-              ),
-              child: Icon(icon, size: 24, color: color),
+          onTap: onTap,
+          child: SizedBox(
+            width: 72,
+            child: Column(
+              children: [
+                Container(
+                  width: 54,
+                  height: 54,
+                  decoration: BoxDecoration(
+                    color: color.withValues(alpha: 0.08),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+                  ),
+                  child: Icon(icon, size: 24, color: color),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.grey600,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
             ),
-            const SizedBox(height: 6),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w500,
-                color: AppColors.grey600,
-              ),
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
-        ),
-      ),
-    )
+          ),
+        )
         .animate()
         .fadeIn(
           delay: Duration(milliseconds: 800 + delay),
@@ -1093,9 +1082,7 @@ class _ErrorBanner extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.error.withValues(alpha: 0.06),
         borderRadius: BorderRadius.circular(AppTheme.radiusMd),
-        border: Border(
-          left: BorderSide(color: AppColors.error, width: 3),
-        ),
+        border: Border(left: BorderSide(color: AppColors.error, width: 3)),
       ),
       child: Row(
         children: [

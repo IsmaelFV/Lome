@@ -47,30 +47,33 @@ class NotificationPreferences {
   }
 
   Map<String, bool> toPreferencesMap() => {
-        'orders': orders,
-        'reviews': reviews,
-        'stock': stock,
-        'system': system,
-      };
+    'orders': orders,
+    'reviews': reviews,
+    'stock': stock,
+    'system': system,
+  };
 }
 
 // =============================================================================
 // Provider
 // =============================================================================
 
-final notificationPreferencesProvider = StateNotifierProvider<
-    NotificationPreferencesNotifier, NotificationPreferences>(
-  (ref) => NotificationPreferencesNotifier(
-    ref.read(pushNotificationServiceProvider),
-  ),
-);
+final notificationPreferencesProvider =
+    StateNotifierProvider<
+      NotificationPreferencesNotifier,
+      NotificationPreferences
+    >(
+      (ref) => NotificationPreferencesNotifier(
+        ref.read(pushNotificationServiceProvider),
+      ),
+    );
 
 class NotificationPreferencesNotifier
     extends StateNotifier<NotificationPreferences> {
   final PushNotificationService _service;
 
   NotificationPreferencesNotifier(this._service)
-      : super(const NotificationPreferences()) {
+    : super(const NotificationPreferences()) {
     _load();
   }
 

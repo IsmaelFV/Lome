@@ -156,10 +156,70 @@ class CanvasElement {
       width: width,
       height: thickness,
       zIndex: zIndex,
+      props: {'color': color, 'thickness': thickness, 'style': style},
+    );
+  }
+
+  factory CanvasElement.image({
+    double x = 0,
+    double y = 0,
+    double width = 200,
+    double height = 150,
+    String? imageUrl,
+    double borderRadius = 0,
+    double opacity = 1,
+    int zIndex = 0,
+  }) {
+    return CanvasElement(
+      id: _uuid.v4(),
+      type: 'image',
+      x: x,
+      y: y,
+      width: width,
+      height: height,
+      zIndex: zIndex,
       props: {
-        'color': color,
-        'thickness': thickness,
-        'style': style,
+        'imageUrl': imageUrl,
+        'borderRadius': borderRadius,
+        'opacity': opacity,
+      },
+    );
+  }
+
+  factory CanvasElement.carousel({
+    double x = 0,
+    double y = 0,
+    double width = 400,
+    double height = 150,
+    String? categoryId,
+    int displayDuration = 3000,
+    String backgroundColor = '#FFFFFF',
+    String textColor = '#2D3436',
+    String priceColor = '#27AE60',
+    double fontSize = 16,
+    bool showPrices = true,
+    bool showDescriptions = false,
+    double borderRadius = 8,
+    int zIndex = 0,
+  }) {
+    return CanvasElement(
+      id: _uuid.v4(),
+      type: 'carousel',
+      x: x,
+      y: y,
+      width: width,
+      height: height,
+      zIndex: zIndex,
+      props: {
+        'categoryId': categoryId,
+        'displayDuration': displayDuration,
+        'backgroundColor': backgroundColor,
+        'textColor': textColor,
+        'priceColor': priceColor,
+        'fontSize': fontSize,
+        'showPrices': showPrices,
+        'showDescriptions': showDescriptions,
+        'borderRadius': borderRadius,
       },
     );
   }
@@ -247,18 +307,15 @@ class CanvasElement {
   String get priceColor => props['priceColor'] as String? ?? '#27AE60';
   double get titleFontSize =>
       (props['titleFontSize'] as num?)?.toDouble() ?? 18;
-  double get itemFontSize =>
-      (props['itemFontSize'] as num?)?.toDouble() ?? 13;
+  double get itemFontSize => (props['itemFontSize'] as num?)?.toDouble() ?? 13;
   bool get showPrices => props['showPrices'] as bool? ?? true;
   bool get showDescriptions => props['showDescriptions'] as bool? ?? false;
 
   String get shapeType => props['shapeType'] as String? ?? 'rect';
   String get fillColor => props['fillColor'] as String? ?? '#FFFFFF';
   String get strokeColor => props['strokeColor'] as String? ?? '#2D3436';
-  double get strokeWidth =>
-      (props['strokeWidth'] as num?)?.toDouble() ?? 1;
-  double get borderRadius =>
-      (props['borderRadius'] as num?)?.toDouble() ?? 0;
+  double get strokeWidth => (props['strokeWidth'] as num?)?.toDouble() ?? 1;
+  double get borderRadius => (props['borderRadius'] as num?)?.toDouble() ?? 0;
   double get opacity => (props['opacity'] as num?)?.toDouble() ?? 1;
 
   String get dividerColor => props['color'] as String? ?? '#DFE6E9';
@@ -271,7 +328,11 @@ class CanvasElement {
   String get animation => props['animation'] as String? ?? 'none';
   int get animationDuration =>
       (props['animationDuration'] as num?)?.toInt() ?? 500;
-  int get animationDelay =>
-      (props['animationDelay'] as num?)?.toInt() ?? 0;
+  int get animationDelay => (props['animationDelay'] as num?)?.toInt() ?? 0;
   bool get animationLoop => props['animationLoop'] as bool? ?? false;
+
+  // Carousel props
+  int get displayDuration =>
+      (props['displayDuration'] as num?)?.toInt() ?? 3000;
+  String get textColor => props['textColor'] as String? ?? '#2D3436';
 }

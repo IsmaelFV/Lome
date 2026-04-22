@@ -147,12 +147,12 @@ class ActivityLogsPage extends ConsumerWidget {
                                     ),
                                   ),
                                 ),
-                              _LogTile(log: log)
-                                  .animate()
-                                  .fadeIn(
-                                    delay: Duration(milliseconds: 40 * (index % 10)),
-                                    duration: 200.ms,
-                                  ),
+                              _LogTile(log: log).animate().fadeIn(
+                                delay: Duration(
+                                  milliseconds: 40 * (index % 10),
+                                ),
+                                duration: 200.ms,
+                              ),
                             ],
                           );
                         },
@@ -279,7 +279,10 @@ class _LogTile extends StatelessWidget {
                         ),
                         const Text(
                           ' · ',
-                          style: TextStyle(color: AppColors.grey300, fontSize: 12),
+                          style: TextStyle(
+                            color: AppColors.grey300,
+                            fontSize: 12,
+                          ),
                         ),
                       ],
                       Text(
@@ -296,10 +299,7 @@ class _LogTile extends StatelessWidget {
             ),
             Text(
               time,
-              style: const TextStyle(
-                color: AppColors.grey400,
-                fontSize: 11,
-              ),
+              style: const TextStyle(color: AppColors.grey400, fontSize: 11),
             ),
           ],
         ),
@@ -352,10 +352,7 @@ class _EmptyLogs extends StatelessWidget {
           const SizedBox(height: AppTheme.spacingSm),
           Text(
             context.l10n.activityLogsEmpty,
-            style: const TextStyle(
-              fontSize: 14,
-              color: AppColors.grey400,
-            ),
+            style: const TextStyle(fontSize: 14, color: AppColors.grey400),
           ),
         ],
       ),

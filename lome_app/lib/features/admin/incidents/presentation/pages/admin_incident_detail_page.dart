@@ -46,7 +46,9 @@ class AdminIncidentDetailPage extends ConsumerWidget {
         error: (e, _) => Center(child: Text('Error: $e')),
         data: (incident) {
           if (incident == null) {
-            return Center(child: Text(context.l10n.adminIncidentDetailNotFound));
+            return Center(
+              child: Text(context.l10n.adminIncidentDetailNotFound),
+            );
           }
           return SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
@@ -84,8 +86,10 @@ class _HeaderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final priorityColor = _priorityColor(incident.priority);
     final statusColor = _statusColor(incident.status);
-    final dateStr =
-        DateFormat('d MMM yyyy HH:mm', 'es').format(incident.createdAt);
+    final dateStr = DateFormat(
+      'd MMM yyyy HH:mm',
+      'es',
+    ).format(incident.createdAt);
 
     return LomeCard(
       padding: const EdgeInsets.all(AppTheme.spacingLg),
@@ -95,8 +99,10 @@ class _HeaderCard extends StatelessWidget {
           Row(
             children: [
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: priorityColor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(AppTheme.radiusFull),
@@ -104,16 +110,18 @@ class _HeaderCard extends StatelessWidget {
                 child: Text(
                   _priorityLabel(context, incident.priority),
                   style: TextStyle(
-                        fontSize: 11,
-                        color: priorityColor,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    fontSize: 11,
+                    color: priorityColor,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const SizedBox(width: AppTheme.spacingSm),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: statusColor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(AppTheme.radiusFull),
@@ -121,10 +129,10 @@ class _HeaderCard extends StatelessWidget {
                 child: Text(
                   _statusLabel(context, incident.status),
                   style: TextStyle(
-                        fontSize: 11,
-                        color: statusColor,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    fontSize: 11,
+                    color: statusColor,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ],
@@ -132,11 +140,17 @@ class _HeaderCard extends StatelessWidget {
           const SizedBox(height: AppTheme.spacingMd),
           Text(
             incident.title,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: AppColors.grey900),
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: AppColors.grey900,
+            ),
           ),
           const SizedBox(height: AppTheme.spacingSm),
-          Text(dateStr,
-              style: const TextStyle(fontSize: 12, color: AppColors.grey400)),
+          Text(
+            dateStr,
+            style: const TextStyle(fontSize: 12, color: AppColors.grey400),
+          ),
         ],
       ),
     ).animate().fadeIn(duration: 400.ms);
@@ -209,16 +223,24 @@ class _DetailsCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(context.l10n.adminIncidentDetailDescription,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.grey900)),
+        Text(
+          context.l10n.adminIncidentDetailDescription,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: AppColors.grey900,
+          ),
+        ),
         const SizedBox(height: AppTheme.spacingMd),
         LomeCard(
           padding: const EdgeInsets.all(AppTheme.spacingMd),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(incident.description,
-                  style: const TextStyle(fontSize: 14, color: AppColors.grey700)),
+              Text(
+                incident.description,
+                style: const TextStyle(fontSize: 14, color: AppColors.grey700),
+              ),
               const Divider(height: AppTheme.spacingLg),
               if (incident.tenantName != null)
                 _DetailRow(
@@ -275,11 +297,19 @@ class _DetailRow extends StatelessWidget {
       children: [
         Icon(icon, size: 16, color: AppColors.grey500),
         const SizedBox(width: AppTheme.spacingSm),
-        Text('$label: ',
-            style: const TextStyle(fontSize: 12, color: AppColors.grey500)),
+        Text(
+          '$label: ',
+          style: const TextStyle(fontSize: 12, color: AppColors.grey500),
+        ),
         Expanded(
-          child: Text(value,
-              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.grey500)),
+          child: Text(
+            value,
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: AppColors.grey500,
+            ),
+          ),
         ),
       ],
     );
@@ -298,8 +328,14 @@ class _ResolutionCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(context.l10n.adminIncidentDetailResolution,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.grey900)),
+        Text(
+          context.l10n.adminIncidentDetailResolution,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: AppColors.grey900,
+          ),
+        ),
         const SizedBox(height: AppTheme.spacingMd),
         LomeCard(
           padding: const EdgeInsets.all(AppTheme.spacingMd),
@@ -308,28 +344,40 @@ class _ResolutionCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Icon(PhosphorIcons.checkCircle(PhosphorIconsStyle.fill),
-                      color: AppColors.success, size: 20),
+                  Icon(
+                    PhosphorIcons.checkCircle(PhosphorIconsStyle.fill),
+                    color: AppColors.success,
+                    size: 20,
+                  ),
                   const SizedBox(width: AppTheme.spacingSm),
-                  Text(context.l10n.adminIncidentDetailStatusResolved,
-                      style: const TextStyle(
-                            fontSize: 14,
-                            color: AppColors.success,
-                            fontWeight: FontWeight.w600,
-                          )),
+                  Text(
+                    context.l10n.adminIncidentDetailStatusResolved,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: AppColors.success,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                   if (incident.resolvedAt != null) ...[
                     const Spacer(),
                     Text(
-                      DateFormat('d MMM yyyy', 'es')
-                          .format(incident.resolvedAt!),
-                      style: const TextStyle(fontSize: 12, color: AppColors.grey400),
+                      DateFormat(
+                        'd MMM yyyy',
+                        'es',
+                      ).format(incident.resolvedAt!),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.grey400,
+                      ),
                     ),
                   ],
                 ],
               ),
               const SizedBox(height: AppTheme.spacingSm),
-              Text(incident.resolution!,
-                  style: const TextStyle(fontSize: 14, color: AppColors.grey700)),
+              Text(
+                incident.resolution!,
+                style: const TextStyle(fontSize: 14, color: AppColors.grey700),
+              ),
             ],
           ),
         ),
@@ -355,17 +403,26 @@ class _ActionsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(context.l10n.actions,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.grey900)),
+        Text(
+          context.l10n.actions,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: AppColors.grey900,
+          ),
+        ),
         const SizedBox(height: AppTheme.spacingMd),
         if (incident.status == 'open')
           LomeButton(
             label: context.l10n.adminIncidentDetailMarkInProgress,
             variant: LomeButtonVariant.primary,
             onPressed: () {
-              ref.read(updateIncidentStatusProvider(
-                (id: incident.id, newStatus: 'in_progress'),
-              ));
+              ref.read(
+                updateIncidentStatusProvider((
+                  id: incident.id,
+                  newStatus: 'in_progress',
+                )),
+              );
             },
             icon: PhosphorIcons.play(PhosphorIconsStyle.duotone),
             isExpanded: true,
@@ -383,9 +440,12 @@ class _ActionsSection extends StatelessWidget {
             label: context.l10n.adminIncidentDetailCloseWithoutResolve,
             variant: LomeButtonVariant.outlined,
             onPressed: () {
-              ref.read(updateIncidentStatusProvider(
-                (id: incident.id, newStatus: 'closed'),
-              ));
+              ref.read(
+                updateIncidentStatusProvider((
+                  id: incident.id,
+                  newStatus: 'closed',
+                )),
+              );
             },
             icon: PhosphorIcons.x(PhosphorIconsStyle.duotone),
             isExpanded: true,
@@ -417,12 +477,12 @@ class _ActionsSection extends StatelessWidget {
           FilledButton(
             onPressed: () {
               if (controller.text.trim().isNotEmpty) {
-                ref.read(resolveIncidentProvider(
-                  (
+                ref.read(
+                  resolveIncidentProvider((
                     id: incident.id,
                     resolution: controller.text.trim(),
-                  ),
-                ));
+                  )),
+                );
                 Navigator.pop(ctx);
               }
             },

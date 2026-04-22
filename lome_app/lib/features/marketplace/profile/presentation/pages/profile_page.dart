@@ -83,54 +83,51 @@ class ProfilePage extends ConsumerWidget {
                 ),
               ],
             ),
-          )
-              .animate()
-              .fadeIn(duration: 400.ms)
-              .slideY(begin: 0.05, end: 0),
+          ).animate().fadeIn(duration: 400.ms).slideY(begin: 0.05, end: 0),
 
           const SizedBox(height: AppTheme.spacingLg),
 
           // — Menu section —
           Container(
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-              boxShadow: AppShadows.card,
-            ),
-            child: Column(
-              children: [
-                _ProfileMenuItem(
-                  icon: PhosphorIcons.receipt(PhosphorIconsStyle.duotone),
-                  iconColor: AppColors.primary,
-                  label: context.l10n.marketplaceCustomerOrdersTitle,
-                  onTap: () => context.push(RoutePaths.customerOrders),
-                  isFirst: true,
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+                  boxShadow: AppShadows.card,
                 ),
-                _buildDivider(),
-                _ProfileMenuItem(
-                  icon: PhosphorIcons.heart(PhosphorIconsStyle.duotone),
-                  iconColor: AppColors.error,
-                  label: context.l10n.favorites,
-                  onTap: () => context.push(RoutePaths.customerFavorites),
+                child: Column(
+                  children: [
+                    _ProfileMenuItem(
+                      icon: PhosphorIcons.receipt(PhosphorIconsStyle.duotone),
+                      iconColor: AppColors.primary,
+                      label: context.l10n.marketplaceCustomerOrdersTitle,
+                      onTap: () => context.push(RoutePaths.customerOrders),
+                      isFirst: true,
+                    ),
+                    _buildDivider(),
+                    _ProfileMenuItem(
+                      icon: PhosphorIcons.heart(PhosphorIconsStyle.duotone),
+                      iconColor: AppColors.error,
+                      label: context.l10n.favorites,
+                      onTap: () => context.push(RoutePaths.customerFavorites),
+                    ),
+                    _buildDivider(),
+                    _ProfileMenuItem(
+                      icon: PhosphorIcons.mapPin(PhosphorIconsStyle.duotone),
+                      iconColor: AppColors.accent,
+                      label: context.l10n.marketplaceProfileAddresses,
+                      onTap: () {},
+                    ),
+                    _buildDivider(),
+                    _ProfileMenuItem(
+                      icon: PhosphorIcons.gear(PhosphorIconsStyle.duotone),
+                      iconColor: AppColors.grey500,
+                      label: context.l10n.settings,
+                      onTap: () {},
+                      isLast: true,
+                    ),
+                  ],
                 ),
-                _buildDivider(),
-                _ProfileMenuItem(
-                  icon: PhosphorIcons.mapPin(PhosphorIconsStyle.duotone),
-                  iconColor: AppColors.accent,
-                  label: context.l10n.marketplaceProfileAddresses,
-                  onTap: () {},
-                ),
-                _buildDivider(),
-                _ProfileMenuItem(
-                  icon: PhosphorIcons.gear(PhosphorIconsStyle.duotone),
-                  iconColor: AppColors.grey500,
-                  label: context.l10n.settings,
-                  onTap: () {},
-                  isLast: true,
-                ),
-              ],
-            ),
-          )
+              )
               .animate()
               .fadeIn(delay: 100.ms, duration: 400.ms)
               .slideY(begin: 0.05, end: 0),
@@ -139,42 +136,42 @@ class ProfilePage extends ConsumerWidget {
 
           // — Sign out —
           TactileWrapper(
-            onTap: () async {
-              await ref.read(authActionsProvider.notifier).signOut();
-            },
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppTheme.spacingMd,
-                vertical: AppTheme.spacingSm + 4,
-              ),
-              decoration: BoxDecoration(
-                color: AppColors.error.withValues(alpha: 0.08),
-                borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-                border: Border.all(
-                  color: AppColors.error.withValues(alpha: 0.2),
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    PhosphorIcons.signOut(),
-                    color: AppColors.error,
-                    size: 20,
+                onTap: () async {
+                  await ref.read(authActionsProvider.notifier).signOut();
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppTheme.spacingMd,
+                    vertical: AppTheme.spacingSm + 4,
                   ),
-                  const SizedBox(width: AppTheme.spacingSm),
-                  Text(
-                    context.l10n.marketplaceProfileSignOut,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 15,
-                      color: AppColors.error,
+                  decoration: BoxDecoration(
+                    color: AppColors.error.withValues(alpha: 0.08),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+                    border: Border.all(
+                      color: AppColors.error.withValues(alpha: 0.2),
                     ),
                   ),
-                ],
-              ),
-            ),
-          )
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        PhosphorIcons.signOut(),
+                        color: AppColors.error,
+                        size: 20,
+                      ),
+                      const SizedBox(width: AppTheme.spacingSm),
+                      Text(
+                        context.l10n.marketplaceProfileSignOut,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 15,
+                          color: AppColors.error,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
               .animate()
               .fadeIn(delay: 200.ms, duration: 400.ms)
               .slideY(begin: 0.05, end: 0),

@@ -89,10 +89,10 @@ class CustomRolesPage extends ConsumerWidget {
                 itemBuilder: (context, index) {
                   final role = rolesState.roles[index];
                   return _RoleCard(
-                    role: role,
-                    onEdit: () => _showRoleDialog(context, ref, role: role),
-                    onDelete: () => _confirmDelete(context, ref, role),
-                  )
+                        role: role,
+                        onEdit: () => _showRoleDialog(context, ref, role: role),
+                        onDelete: () => _confirmDelete(context, ref, role),
+                      )
                       .animate(delay: Duration(milliseconds: 50 * index))
                       .fadeIn(duration: AppTheme.durationFast)
                       .slideY(begin: 0.1, end: 0);
@@ -500,43 +500,46 @@ class _EmptyState extends StatelessWidget {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppTheme.spacingXl),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              PhosphorIcons.identificationBadge(PhosphorIconsStyle.duotone),
-              size: 64,
-              color: AppColors.grey200,
-            ),
-            const SizedBox(height: AppTheme.spacingMd),
-            Text(
-              context.l10n.customRolesEmptyTitle,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: AppColors.grey700,
-              ),
-            ),
-            const SizedBox(height: AppTheme.spacingSm),
-            Text(
-              context.l10n.customRolesEmptySubtitle,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 14,
-                color: AppColors.grey500,
-              ),
-            ),
-            const SizedBox(height: AppTheme.spacingLg),
-            LomeButton(
-              label: context.l10n.customRolesCreateFirst,
-              icon: PhosphorIcons.plus(),
-              onPressed: onCreateFirst,
-            ),
-          ],
-        )
-            .animate()
-            .fadeIn(duration: AppTheme.durationFast)
-            .slideY(begin: 0.1, end: 0),
+        child:
+            Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      PhosphorIcons.identificationBadge(
+                        PhosphorIconsStyle.duotone,
+                      ),
+                      size: 64,
+                      color: AppColors.grey200,
+                    ),
+                    const SizedBox(height: AppTheme.spacingMd),
+                    Text(
+                      context.l10n.customRolesEmptyTitle,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.grey700,
+                      ),
+                    ),
+                    const SizedBox(height: AppTheme.spacingSm),
+                    Text(
+                      context.l10n.customRolesEmptySubtitle,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: AppColors.grey500,
+                      ),
+                    ),
+                    const SizedBox(height: AppTheme.spacingLg),
+                    LomeButton(
+                      label: context.l10n.customRolesCreateFirst,
+                      icon: PhosphorIcons.plus(),
+                      onPressed: onCreateFirst,
+                    ),
+                  ],
+                )
+                .animate()
+                .fadeIn(duration: AppTheme.durationFast)
+                .slideY(begin: 0.1, end: 0),
       ),
     );
   }

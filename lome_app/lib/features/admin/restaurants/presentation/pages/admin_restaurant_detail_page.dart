@@ -49,7 +49,9 @@ class AdminRestaurantDetailPage extends ConsumerWidget {
         error: (e, _) => Center(child: Text('Error: $e')),
         data: (restaurant) {
           if (restaurant == null) {
-            return Center(child: Text(context.l10n.adminRestaurantDetailNotFound));
+            return Center(
+              child: Text(context.l10n.adminRestaurantDetailNotFound),
+            );
           }
           return SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
@@ -85,8 +87,7 @@ class _HeaderSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final statusColor = _statusColor(restaurant.status);
-    final dateStr =
-        DateFormat('d MMM yyyy', 'es').format(restaurant.createdAt);
+    final dateStr = DateFormat('d MMM yyyy', 'es').format(restaurant.createdAt);
 
     return LomeCard(
       padding: const EdgeInsets.all(AppTheme.spacingLg),
@@ -102,10 +103,10 @@ class _HeaderSection extends StatelessWidget {
                 ? Text(
                     restaurant.name.isNotEmpty ? restaurant.name[0] : '?',
                     style: const TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
-                        ),
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primary,
+                    ),
                   )
                 : null,
           ),
@@ -113,10 +114,10 @@ class _HeaderSection extends StatelessWidget {
           Text(
             restaurant.name,
             style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.grey900,
-                ),
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: AppColors.grey900,
+            ),
             textAlign: TextAlign.center,
           ),
           if (restaurant.city != null) ...[
@@ -124,14 +125,19 @@ class _HeaderSection extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(PhosphorIcons.mapPin(PhosphorIconsStyle.fill),
-                    size: 16, color: AppColors.grey500),
+                Icon(
+                  PhosphorIcons.mapPin(PhosphorIconsStyle.fill),
+                  size: 16,
+                  color: AppColors.grey500,
+                ),
                 const SizedBox(width: 4),
-                Text(restaurant.city!,
-                    style: const TextStyle(
-                          fontSize: 14,
-                          color: AppColors.grey500,
-                        )),
+                Text(
+                  restaurant.city!,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: AppColors.grey500,
+                  ),
+                ),
               ],
             ),
           ],
@@ -140,8 +146,10 @@ class _HeaderSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: statusColor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(AppTheme.radiusFull),
@@ -149,17 +157,19 @@ class _HeaderSection extends StatelessWidget {
                 child: Text(
                   _statusLabel(context, restaurant.status),
                   style: TextStyle(
-                        fontSize: 12,
-                        color: statusColor,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    fontSize: 12,
+                    color: statusColor,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
               if (restaurant.subscriptionPlan != null) ...[
                 const SizedBox(width: AppTheme.spacingSm),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.info.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(AppTheme.radiusFull),
@@ -167,36 +177,38 @@ class _HeaderSection extends StatelessWidget {
                   child: Text(
                     restaurant.subscriptionPlan!.toUpperCase(),
                     style: const TextStyle(
-                          fontSize: 12,
-                          color: AppColors.info,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      fontSize: 12,
+                      color: AppColors.info,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ],
             ],
           ),
           const SizedBox(height: AppTheme.spacingSm),
-          Text(context.l10n.adminRestaurantDetailRegistered(dateStr),
-              style: const TextStyle(
-                    fontSize: 12,
-                    color: AppColors.grey400,
-                  )),
+          Text(
+            context.l10n.adminRestaurantDetailRegistered(dateStr),
+            style: const TextStyle(fontSize: 12, color: AppColors.grey400),
+          ),
           const SizedBox(height: AppTheme.spacingSm),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (restaurant.rating > 0) ...[
-                Icon(PhosphorIcons.star(PhosphorIconsStyle.fill),
-                    size: 18, color: AppColors.warning),
+                Icon(
+                  PhosphorIcons.star(PhosphorIconsStyle.fill),
+                  size: 18,
+                  color: AppColors.warning,
+                ),
                 const SizedBox(width: 4),
                 Text(
                   '${restaurant.rating.toStringAsFixed(1)} (${restaurant.totalReviews})',
                   style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.grey900,
-                      ),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.grey900,
+                  ),
                 ),
               ],
             ],
@@ -248,12 +260,14 @@ class _StatsSection extends StatelessWidget {
       data: (stats) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(context.l10n.adminRestaurantDetailStatistics,
-              style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.grey900,
-                  )),
+          Text(
+            context.l10n.adminRestaurantDetailStatistics,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: AppColors.grey900,
+            ),
+          ),
           const SizedBox(height: AppTheme.spacingMd),
           GridView.count(
             crossAxisCount: 2,
@@ -268,28 +282,36 @@ class _StatsSection extends StatelessWidget {
                 iconColor: AppColors.primary,
                 title: context.l10n.adminRestaurantDetailTotalOrders,
                 value: '${stats.totalOrders}',
-                subtitle: context.l10n.adminStatThisMonth('${stats.monthOrders}'),
+                subtitle: context.l10n.adminStatThisMonth(
+                  '${stats.monthOrders}',
+                ),
               ),
               LomeStatCard(
                 icon: PhosphorIcons.currencyEur(PhosphorIconsStyle.fill),
                 iconColor: AppColors.success,
                 title: context.l10n.adminAnalyticsTotalRevenue,
                 value: _formatCurrency(stats.totalRevenue),
-                subtitle: context.l10n.adminStatThisMonth(_formatCurrency(stats.monthRevenue)),
+                subtitle: context.l10n.adminStatThisMonth(
+                  _formatCurrency(stats.monthRevenue),
+                ),
               ),
               LomeStatCard(
                 icon: PhosphorIcons.users(PhosphorIconsStyle.fill),
                 iconColor: AppColors.info,
                 title: context.l10n.adminRestaurantDetailEmployees,
                 value: '${stats.totalEmployees}',
-                subtitle: context.l10n.adminRestaurantDetailMenuItems(stats.totalMenuItems),
+                subtitle: context.l10n.adminRestaurantDetailMenuItems(
+                  stats.totalMenuItems,
+                ),
               ),
               LomeStatCard(
                 icon: PhosphorIcons.star(PhosphorIconsStyle.fill),
                 iconColor: AppColors.warning,
                 title: context.l10n.adminRestaurantDetailRating,
                 value: stats.avgRating.toStringAsFixed(1),
-                subtitle: context.l10n.adminRestaurantDetailReviewCount(stats.totalReviews),
+                subtitle: context.l10n.adminRestaurantDetailReviewCount(
+                  stats.totalReviews,
+                ),
               ),
             ],
           ).animate().fadeIn(duration: 400.ms),
@@ -299,16 +321,21 @@ class _StatsSection extends StatelessWidget {
               padding: const EdgeInsets.all(AppTheme.spacingMd),
               child: Row(
                 children: [
-                  Icon(PhosphorIcons.warning(PhosphorIconsStyle.fill),
-                      color: AppColors.warning, size: 20),
+                  Icon(
+                    PhosphorIcons.warning(PhosphorIconsStyle.fill),
+                    color: AppColors.warning,
+                    size: 20,
+                  ),
                   const SizedBox(width: AppTheme.spacingSm),
                   Text(
-                    context.l10n.adminRestaurantDetailOpenIncidents(stats.openIncidents),
+                    context.l10n.adminRestaurantDetailOpenIncidents(
+                      stats.openIncidents,
+                    ),
                     style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.warning,
-                        ),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.warning,
+                    ),
                   ),
                 ],
               ),
@@ -339,12 +366,14 @@ class _InfoSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(context.l10n.adminRestaurantDetailTabInfo,
-            style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.grey900,
-                )),
+        Text(
+          context.l10n.adminRestaurantDetailTabInfo,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: AppColors.grey900,
+          ),
+        ),
         const SizedBox(height: AppTheme.spacingMd),
         LomeCard(
           padding: const EdgeInsets.all(AppTheme.spacingMd),
@@ -375,21 +404,25 @@ class _InfoSection extends StatelessWidget {
               if (restaurant.description != null) ...[
                 const Divider(),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: AppTheme.spacingSm),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: AppTheme.spacingSm,
+                  ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(PhosphorIcons.textAa(PhosphorIconsStyle.duotone),
-                          size: 18, color: AppColors.grey500),
+                      Icon(
+                        PhosphorIcons.textAa(PhosphorIconsStyle.duotone),
+                        size: 18,
+                        color: AppColors.grey500,
+                      ),
                       const SizedBox(width: AppTheme.spacingMd),
                       Expanded(
                         child: Text(
                           restaurant.description!,
                           style: const TextStyle(
-                                    fontSize: 14,
-                                    color: AppColors.grey600,
-                                  ),
+                            fontSize: 14,
+                            color: AppColors.grey600,
+                          ),
                         ),
                       ),
                     ],
@@ -427,17 +460,21 @@ class _InfoRow extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(label,
-                    style: const TextStyle(
-                          fontSize: 11,
-                          color: AppColors.grey400,
-                        )),
-                Text(value,
-                    style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.grey700,
-                        )),
+                Text(
+                  label,
+                  style: const TextStyle(
+                    fontSize: 11,
+                    color: AppColors.grey400,
+                  ),
+                ),
+                Text(
+                  value,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.grey700,
+                  ),
+                ),
               ],
             ),
           ),
@@ -460,12 +497,14 @@ class _ActionsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(context.l10n.actions,
-            style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.grey900,
-                )),
+        Text(
+          context.l10n.actions,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: AppColors.grey900,
+          ),
+        ),
         const SizedBox(height: AppTheme.spacingMd),
         if (restaurant.status == 'pending')
           LomeButton(
@@ -498,11 +537,15 @@ class _ActionsSection extends StatelessWidget {
   }
 
   void _toggleStatus(BuildContext context, String newStatus) {
-    ref.read(toggleRestaurantStatusProvider(
-      (id: restaurant.id, newStatus: newStatus),
-    ));
+    ref.read(
+      toggleRestaurantStatusProvider((id: restaurant.id, newStatus: newStatus)),
+    );
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(context.l10n.adminRestaurantDetailStatusUpdated(newStatus))),
+      SnackBar(
+        content: Text(
+          context.l10n.adminRestaurantDetailStatusUpdated(newStatus),
+        ),
+      ),
     );
   }
 }

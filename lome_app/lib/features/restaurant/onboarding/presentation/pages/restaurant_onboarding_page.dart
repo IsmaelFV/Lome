@@ -14,6 +14,7 @@ import '../../../../../core/theme/app_theme.dart';
 import '../../../../../core/widgets/lome_button.dart';
 import '../../../../../core/widgets/lome_text_field.dart';
 import '../../../../auth/presentation/providers/auth_provider.dart';
+import '../../../data/repositories/restaurant_config_repository_impl.dart';
 import '../../../settings/presentation/providers/restaurant_settings_provider.dart';
 import '../../../hours/presentation/providers/restaurant_hours_provider.dart';
 import '../providers/restaurant_onboarding_provider.dart';
@@ -171,9 +172,9 @@ class _RestaurantOnboardingPageState
     } catch (_) {
       setState(() => _isUploadingLogo = false);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Error al subir el logo')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Error al subir el logo')));
       }
     }
   }
@@ -214,52 +215,52 @@ class _RestaurantOnboardingPageState
 
     try {
       final tenantId = ref.read(activeTenantIdProvider);
-      if (tenantId == null) return;
+      if (tenantId == null) {
+        throw Exception(
+          'No se encontró el restaurante. Cierra sesión e inténtalo de nuevo.',
+        );
+      }
 
-      // Save restaurant data
-      final settingsNotifier = ref.read(restaurantSettingsProvider.notifier);
-      await settingsNotifier.save(RestaurantData(
-        id: tenantId,
-        name: _nameController.text.trim(),
-        description: _descriptionController.text.trim().isEmpty
+      // Save restaurant data directly via repository (avoids autoDispose issues)
+      final repo = ref.read(restaurantConfigRepositoryProvider);
+      await repo.updateRestaurantData(tenantId, {
+        'name': _nameController.text.trim(),
+        'description': _descriptionController.text.trim().isEmpty
             ? null
             : _descriptionController.text.trim(),
-        logoUrl: _logoUrl,
-        phone: _phoneController.text.trim().isEmpty
+        'phone': _phoneController.text.trim().isEmpty
             ? null
             : _phoneController.text.trim(),
-        email: _emailController.text.trim().isEmpty
+        'email': _emailController.text.trim().isEmpty
             ? null
             : _emailController.text.trim(),
-        website: _websiteController.text.trim().isEmpty
+        'website': _websiteController.text.trim().isEmpty
             ? null
             : _websiteController.text.trim(),
-        addressLine1: _addressController.text.trim().isEmpty
+        'address_line1': _addressController.text.trim().isEmpty
             ? null
             : _addressController.text.trim(),
-        city: _cityController.text.trim().isEmpty
+        'city': _cityController.text.trim().isEmpty
             ? null
             : _cityController.text.trim(),
-        postalCode: _postalCodeController.text.trim().isEmpty
+        'postal_code': _postalCodeController.text.trim().isEmpty
             ? null
             : _postalCodeController.text.trim(),
-        cuisineType: _selectedCuisines,
-      ));
+        'cuisine_type': _selectedCuisines,
+      });
 
       // Save hours
       if (_selectedDays.isNotEmpty) {
-        final hoursNotifier = ref.read(restaurantHoursProvider.notifier);
         for (final day in _selectedDays) {
-          final schedule = _sameHoursAllDays
-              ? null
-              : _daySchedules[day];
+          final schedule = _sameHoursAllDays ? null : _daySchedules[day];
           final open = schedule?.open ?? _openTime;
           final close = schedule?.close ?? _closeTime;
-          await hoursNotifier.saveHour(
-            dayOfWeek: day,
-            openTime: _formatTime(open),
-            closeTime: _formatTime(close),
-          );
+          await repo.insertHour({
+            'tenant_id': tenantId,
+            'day_of_week': day,
+            'open_time': _formatTime(open),
+            'close_time': _formatTime(close),
+          });
         }
       }
 
@@ -270,10 +271,14 @@ class _RestaurantOnboardingPageState
         context.go(RoutePaths.tables);
       }
     } catch (e) {
-      setState(() => _isSaving = false);
       if (mounted) {
+        setState(() => _isSaving = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
+          SnackBar(
+            content: Text('Error al guardar: $e'),
+            backgroundColor: Colors.red.shade700,
+            duration: const Duration(seconds: 5),
+          ),
         );
       }
     }
@@ -312,12 +317,7 @@ class _RestaurantOnboardingPageState
   // ---------------------------------------------------------------------------
 
   Widget _buildHeader() {
-    const titles = [
-      'Tu restaurante',
-      'Contacto',
-      'Horarios',
-      '¡Listo!',
-    ];
+    const titles = ['Tu restaurante', 'Contacto', 'Horarios', '¡Listo!'];
     const subtitles = [
       'Cuéntanos sobre tu negocio',
       'Cómo te encuentran tus clientes',
@@ -432,8 +432,8 @@ class _RestaurantOnboardingPageState
                 color: isCompleted
                     ? AppColors.primary
                     : isCurrent
-                        ? AppColors.primaryLight
-                        : AppColors.grey200,
+                    ? AppColors.primaryLight
+                    : AppColors.grey200,
               ),
             ),
           );
@@ -488,34 +488,33 @@ class _RestaurantOnboardingPageState
                         ),
                       )
                     : _logoBytes == null
-                        ? Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                PhosphorIcons.camera(
-                                    PhosphorIconsStyle.duotone),
-                                size: 28,
-                                color: AppColors.grey400,
-                              ),
-                              const SizedBox(height: 4),
-                              const Text(
-                                'Logo',
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  color: AppColors.grey400,
-                                ),
-                              ),
-                            ],
-                          )
-                        : null,
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            PhosphorIcons.camera(PhosphorIconsStyle.duotone),
+                            size: 28,
+                            color: AppColors.grey400,
+                          ),
+                          const SizedBox(height: 4),
+                          const Text(
+                            'Logo',
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: AppColors.grey400,
+                            ),
+                          ),
+                        ],
+                      )
+                    : null,
               ),
             ),
           ).animate().scale(
-                begin: const Offset(0.8, 0.8),
-                end: const Offset(1, 1),
-                duration: 400.ms,
-                curve: Curves.easeOutBack,
-              ),
+            begin: const Offset(0.8, 0.8),
+            end: const Offset(1, 1),
+            duration: 400.ms,
+            curve: Curves.easeOutBack,
+          ),
 
           const SizedBox(height: AppTheme.spacingLg),
 
@@ -581,18 +580,15 @@ class _RestaurantOnboardingPageState
                     color: selected ? AppColors.primarySoft : AppColors.grey50,
                     borderRadius: BorderRadius.circular(AppTheme.radiusFull),
                     border: Border.all(
-                      color:
-                          selected ? AppColors.primary : AppColors.grey200,
+                      color: selected ? AppColors.primary : AppColors.grey200,
                     ),
                   ),
                   child: Text(
                     cuisine,
                     style: TextStyle(
                       fontSize: 13,
-                      fontWeight:
-                          selected ? FontWeight.w600 : FontWeight.w400,
-                      color:
-                          selected ? AppColors.primary : AppColors.grey600,
+                      fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+                      color: selected ? AppColors.primary : AppColors.grey600,
                     ),
                   ),
                 ),
@@ -716,10 +712,7 @@ class _RestaurantOnboardingPageState
                 const Expanded(
                   child: Text(
                     'Todos estos campos son opcionales. Podrás completarlos después desde Ajustes.',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: AppColors.grey600,
-                    ),
+                    style: TextStyle(fontSize: 12, color: AppColors.grey600),
                   ),
                 ),
               ],
@@ -825,8 +818,11 @@ class _RestaurantOnboardingPageState
                         ),
                       ),
                       child: _sameHoursAllDays
-                          ? const Icon(Icons.check,
-                              size: 14, color: AppColors.white)
+                          ? const Icon(
+                              Icons.check,
+                              size: 14,
+                              color: AppColors.white,
+                            )
                           : null,
                     ),
                     const SizedBox(width: AppTheme.spacingMd),
@@ -848,12 +844,21 @@ class _RestaurantOnboardingPageState
             const SizedBox(height: AppTheme.spacingMd),
 
             if (_sameHoursAllDays) ...[
-              _buildTimeRow('Apertura', _openTime, () => _pickTime(context, true)),
+              _buildTimeRow(
+                'Apertura',
+                _openTime,
+                () => _pickTime(context, true),
+              ),
               const SizedBox(height: AppTheme.spacingMd),
-              _buildTimeRow('Cierre', _closeTime, () => _pickTime(context, false)),
+              _buildTimeRow(
+                'Cierre',
+                _closeTime,
+                () => _pickTime(context, false),
+              ),
             ] else ...[
               ...(_selectedDays.toList()..sort()).map((day) {
-                final schedule = _daySchedules[day] ??
+                final schedule =
+                    _daySchedules[day] ??
                     _DaySchedule(open: _openTime, close: _closeTime);
                 return Padding(
                   padding: const EdgeInsets.only(bottom: AppTheme.spacingMd),
@@ -889,7 +894,8 @@ class _RestaurantOnboardingPageState
                                   if (picked != null) {
                                     setState(() {
                                       _daySchedules[day] = schedule.copyWith(
-                                          open: picked);
+                                        open: picked,
+                                      );
                                     });
                                   }
                                 },
@@ -897,8 +903,10 @@ class _RestaurantOnboardingPageState
                             ),
                             const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 8),
-                              child: Text('—',
-                                  style: TextStyle(color: AppColors.grey400)),
+                              child: Text(
+                                '—',
+                                style: TextStyle(color: AppColors.grey400),
+                              ),
                             ),
                             Expanded(
                               child: _buildCompactTimeButton(
@@ -911,7 +919,8 @@ class _RestaurantOnboardingPageState
                                   if (picked != null) {
                                     setState(() {
                                       _daySchedules[day] = schedule.copyWith(
-                                          close: picked);
+                                        close: picked,
+                                      );
                                     });
                                   }
                                 },
@@ -946,10 +955,7 @@ class _RestaurantOnboardingPageState
                 const Expanded(
                   child: Text(
                     'Podrás configurar horarios más detallados después desde Ajustes > Horarios.',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: AppColors.grey600,
-                    ),
+                    style: TextStyle(fontSize: 12, color: AppColors.grey600),
                   ),
                 ),
               ],
@@ -993,11 +999,11 @@ class _RestaurantOnboardingPageState
               ),
             ),
           ).animate().scale(
-                begin: const Offset(0.5, 0.5),
-                end: const Offset(1, 1),
-                duration: 500.ms,
-                curve: Curves.easeOutBack,
-              ),
+            begin: const Offset(0.5, 0.5),
+            end: const Offset(1, 1),
+            duration: 500.ms,
+            curve: Curves.easeOutBack,
+          ),
 
           const SizedBox(height: AppTheme.spacingLg),
 
@@ -1016,10 +1022,7 @@ class _RestaurantOnboardingPageState
           const Text(
             'Revisa el resumen de tu restaurante. Puedes modificar todo esto después desde Ajustes.',
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 14,
-              color: AppColors.grey500,
-            ),
+            style: TextStyle(fontSize: 14, color: AppColors.grey500),
           ),
 
           const SizedBox(height: AppTheme.spacingXl),
@@ -1032,8 +1035,7 @@ class _RestaurantOnboardingPageState
               _nameController.text.trim(),
               if (_descriptionController.text.trim().isNotEmpty)
                 _descriptionController.text.trim(),
-              if (_selectedCuisines.isNotEmpty)
-                _selectedCuisines.join(', '),
+              if (_selectedCuisines.isNotEmpty) _selectedCuisines.join(', '),
             ],
           ),
 
@@ -1178,10 +1180,7 @@ class _RestaurantOnboardingPageState
             const SizedBox(width: AppTheme.spacingMd),
             Text(
               label,
-              style: const TextStyle(
-                fontSize: 14,
-                color: AppColors.grey500,
-              ),
+              style: const TextStyle(fontSize: 14, color: AppColors.grey500),
             ),
             const Spacer(),
             Text(
@@ -1267,16 +1266,10 @@ class _RestaurantOnboardingPageState
           const SizedBox(height: AppTheme.spacingSm),
           ...items.map(
             (item) => Padding(
-              padding: const EdgeInsets.only(
-                left: 40,
-                bottom: 4,
-              ),
+              padding: const EdgeInsets.only(left: 40, bottom: 4),
               child: Text(
                 item,
-                style: const TextStyle(
-                  fontSize: 13,
-                  color: AppColors.grey600,
-                ),
+                style: const TextStyle(fontSize: 13, color: AppColors.grey600),
               ),
             ),
           ),
@@ -1297,8 +1290,5 @@ class _DaySchedule {
   const _DaySchedule({required this.open, required this.close});
 
   _DaySchedule copyWith({TimeOfDay? open, TimeOfDay? close}) =>
-      _DaySchedule(
-        open: open ?? this.open,
-        close: close ?? this.close,
-      );
+      _DaySchedule(open: open ?? this.open, close: close ?? this.close);
 }

@@ -135,7 +135,9 @@ class MenuCategoryCrud extends AutoDisposeAsyncNotifier<void> {
     final repo = ref.read(restaurantSupportRepositoryProvider);
     final tenantId = ref.read(activeTenantIdProvider);
     if (tenantId == null) {
-      throw Exception('No se encontró el restaurante activo. Cierra sesión e inicia de nuevo.');
+      throw Exception(
+        'No se encontró el restaurante activo. Cierra sesión e inicia de nuevo.',
+      );
     }
 
     await repo.createMenuCategory({
@@ -193,7 +195,9 @@ class MenuItemCrud extends AutoDisposeAsyncNotifier<void> {
     final repo = ref.read(restaurantSupportRepositoryProvider);
     final tenantId = ref.read(activeTenantIdProvider);
     if (tenantId == null) {
-      throw Exception('No se encontró el restaurante activo. Cierra sesión e inicia de nuevo.');
+      throw Exception(
+        'No se encontró el restaurante activo. Cierra sesión e inicia de nuevo.',
+      );
     }
 
     await repo.createMenuItem({

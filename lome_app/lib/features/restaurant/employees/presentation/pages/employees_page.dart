@@ -100,7 +100,10 @@ class _EmployeesPageState extends ConsumerState<EmployeesPage>
                 message: context.l10n.invTemplTitle,
                 child: Padding(
                   padding: const EdgeInsets.all(8),
-                  child: Icon(PhosphorIcons.envelope(PhosphorIconsStyle.duotone), color: AppColors.white),
+                  child: Icon(
+                    PhosphorIcons.envelope(PhosphorIconsStyle.duotone),
+                    color: AppColors.white,
+                  ),
                 ),
               ),
             ),
@@ -126,31 +129,46 @@ class _EmployeesPageState extends ConsumerState<EmployeesPage>
         permission: AppPermission.manageEmployees,
         child: TactileWrapper(
           onTap: () => context.push(RoutePaths.inviteEmployee),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-            decoration: BoxDecoration(
-              gradient: AppColors.heroGradient,
-              borderRadius: BorderRadius.circular(AppTheme.radiusFull),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.3),
-                  blurRadius: 12,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(PhosphorIcons.userPlus(PhosphorIconsStyle.duotone), color: AppColors.white, size: 20),
-                const SizedBox(width: 8),
-                Text(
-                  context.l10n.employeesInviteButton,
-                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.white),
-                ),
-              ],
-            ),
-          ).animate().fadeIn(delay: 400.ms, duration: 400.ms).slideY(begin: 0.3, end: 0, delay: 400.ms, duration: 400.ms),
+          child:
+              Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 14,
+                    ),
+                    decoration: BoxDecoration(
+                      gradient: AppColors.heroGradient,
+                      borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.primary.withValues(alpha: 0.3),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          PhosphorIcons.userPlus(PhosphorIconsStyle.duotone),
+                          color: AppColors.white,
+                          size: 20,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          context.l10n.employeesInviteButton,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                  .animate()
+                  .fadeIn(delay: 400.ms, duration: 400.ms)
+                  .slideY(begin: 0.3, end: 0, delay: 400.ms, duration: 400.ms),
         ),
       ),
     );
@@ -182,7 +200,11 @@ class _EmployeesTab extends ConsumerWidget {
               const SizedBox(height: AppTheme.spacingMd),
               Text(
                 context.l10n.employeesLoadError,
-                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.grey700),
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.grey700,
+                ),
               ),
               const SizedBox(height: AppTheme.spacingSm),
               Text(
@@ -193,7 +215,10 @@ class _EmployeesTab extends ConsumerWidget {
               const SizedBox(height: AppTheme.spacingLg),
               TextButton.icon(
                 onPressed: () => ref.invalidate(employeesProvider),
-                icon: Icon(PhosphorIcons.arrowClockwise(PhosphorIconsStyle.duotone), size: 18),
+                icon: Icon(
+                  PhosphorIcons.arrowClockwise(PhosphorIconsStyle.duotone),
+                  size: 18,
+                ),
                 label: Text(context.l10n.retry),
               ),
             ],
@@ -213,7 +238,9 @@ class _EmployeesTab extends ConsumerWidget {
           color: AppColors.primary,
           onRefresh: () async => ref.invalidate(employeesProvider),
           child: ListView.builder(
-            physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+            physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics(),
+            ),
             padding: const EdgeInsets.all(AppTheme.spacingMd),
             itemCount: employees.length + 1,
             itemBuilder: (context, index) {
@@ -230,15 +257,18 @@ class _EmployeesTab extends ConsumerWidget {
               final employee = employees[i];
               return Padding(
                 padding: EdgeInsets.only(top: i > 0 ? AppTheme.spacingSm : 0),
-                child: _EmployeeCard(employee: employee).animate().fadeIn(
-                  delay: Duration(milliseconds: i * 60),
-                  duration: 400.ms,
-                ).slideX(
-                  begin: 0.03,
-                  end: 0,
-                  delay: Duration(milliseconds: i * 60),
-                  duration: 400.ms,
-                ),
+                child: _EmployeeCard(employee: employee)
+                    .animate()
+                    .fadeIn(
+                      delay: Duration(milliseconds: i * 60),
+                      duration: 400.ms,
+                    )
+                    .slideX(
+                      begin: 0.03,
+                      end: 0,
+                      delay: Duration(milliseconds: i * 60),
+                      duration: 400.ms,
+                    ),
               );
             },
           ),
@@ -370,7 +400,11 @@ class _EmployeeCard extends ConsumerWidget {
             child: Row(
               children: [
                 // Avatar
-                _buildAvatar(employee.avatarUrl, employee.fullName, roleInfo.color),
+                _buildAvatar(
+                  employee.avatarUrl,
+                  employee.fullName,
+                  roleInfo.color,
+                ),
                 const SizedBox(width: AppTheme.spacingMd),
 
                 // Info
@@ -391,12 +425,19 @@ class _EmployeeCard extends ConsumerWidget {
                       const SizedBox(height: 2),
                       Row(
                         children: [
-                          Icon(PhosphorIcons.envelope(PhosphorIconsStyle.duotone), size: 12, color: AppColors.grey500),
+                          Icon(
+                            PhosphorIcons.envelope(PhosphorIconsStyle.duotone),
+                            size: 12,
+                            color: AppColors.grey500,
+                          ),
                           const SizedBox(width: 4),
                           Expanded(
                             child: Text(
                               employee.email,
-                              style: const TextStyle(fontSize: 12, color: AppColors.grey500),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: AppColors.grey500,
+                              ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -418,7 +459,9 @@ class _EmployeeCard extends ConsumerWidget {
                   permission: AppPermission.manageEmployees,
                   child: PopupMenuButton<String>(
                     icon: Icon(
-                      PhosphorIcons.dotsThreeVertical(PhosphorIconsStyle.duotone),
+                      PhosphorIcons.dotsThreeVertical(
+                        PhosphorIconsStyle.duotone,
+                      ),
                       color: AppColors.grey400,
                       size: 22,
                     ),
@@ -432,7 +475,12 @@ class _EmployeeCard extends ConsumerWidget {
                           value: 'change_role',
                           child: ListTile(
                             dense: true,
-                            leading: Icon(PhosphorIcons.arrowsLeftRight(PhosphorIconsStyle.duotone), size: 20),
+                            leading: Icon(
+                              PhosphorIcons.arrowsLeftRight(
+                                PhosphorIconsStyle.duotone,
+                              ),
+                              size: 20,
+                            ),
                             title: Text(context.l10n.employeesChangeRole),
                             contentPadding: EdgeInsets.zero,
                           ),
@@ -442,7 +490,9 @@ class _EmployeeCard extends ConsumerWidget {
                           child: ListTile(
                             dense: true,
                             leading: Icon(
-                              PhosphorIcons.userMinus(PhosphorIconsStyle.duotone),
+                              PhosphorIcons.userMinus(
+                                PhosphorIconsStyle.duotone,
+                              ),
                               size: 20,
                               color: AppColors.error,
                             ),
@@ -658,21 +708,26 @@ class _InvitationsTab extends ConsumerWidget {
       onRefresh: () =>
           ref.read(invitationNotifierProvider.notifier).loadInvitations(),
       child: ListView.separated(
-        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+        physics: const BouncingScrollPhysics(
+          parent: AlwaysScrollableScrollPhysics(),
+        ),
         padding: const EdgeInsets.all(AppTheme.spacingMd),
         itemCount: invitations.length,
         separatorBuilder: (_, _) => const SizedBox(height: AppTheme.spacingSm),
         itemBuilder: (context, index) {
           final invitation = invitations[index];
-          return _InvitationCard(invitation: invitation).animate().fadeIn(
-            delay: Duration(milliseconds: index * 60),
-            duration: 400.ms,
-          ).slideY(
-            begin: 0.05,
-            end: 0,
-            delay: Duration(milliseconds: index * 60),
-            duration: 400.ms,
-          );
+          return _InvitationCard(invitation: invitation)
+              .animate()
+              .fadeIn(
+                delay: Duration(milliseconds: index * 60),
+                duration: 400.ms,
+              )
+              .slideY(
+                begin: 0.05,
+                end: 0,
+                delay: Duration(milliseconds: index * 60),
+                duration: 400.ms,
+              );
         },
       ),
     );
@@ -764,10 +819,7 @@ class _InvitationCard extends ConsumerWidget {
             padding: const EdgeInsets.only(top: AppTheme.spacingSm, left: 56),
             child: Text(
               _timeInfo(context.l10n),
-              style: const TextStyle(
-                color: AppColors.grey400,
-                fontSize: 11,
-              ),
+              style: const TextStyle(color: AppColors.grey400, fontSize: 11),
             ),
           ),
 
@@ -784,7 +836,12 @@ class _InvitationCard extends ConsumerWidget {
                       onPressed: () => ref
                           .read(invitationNotifierProvider.notifier)
                           .resendInvitation(invitation.id),
-                      icon: Icon(PhosphorIcons.arrowClockwise(PhosphorIconsStyle.duotone), size: 16),
+                      icon: Icon(
+                        PhosphorIcons.arrowClockwise(
+                          PhosphorIconsStyle.duotone,
+                        ),
+                        size: 16,
+                      ),
                       label: Text(context.l10n.invitationsResend),
                       style: TextButton.styleFrom(
                         foregroundColor: AppColors.info,
@@ -794,7 +851,10 @@ class _InvitationCard extends ConsumerWidget {
                     const SizedBox(width: 8),
                     TextButton.icon(
                       onPressed: () => _showCancelDialog(context, ref),
-                      icon: Icon(PhosphorIcons.x(PhosphorIconsStyle.bold), size: 16),
+                      icon: Icon(
+                        PhosphorIcons.x(PhosphorIconsStyle.bold),
+                        size: 16,
+                      ),
                       label: Text(context.l10n.invitationsCancel),
                       style: TextButton.styleFrom(
                         foregroundColor: AppColors.error,
@@ -985,7 +1045,11 @@ _RoleVisual _roleVisual(String role, AppLocalizations l10n) {
         PhosphorIcons.eye(PhosphorIconsStyle.duotone),
       );
     default:
-      return _RoleVisual(role, AppColors.grey500, PhosphorIcons.user(PhosphorIconsStyle.duotone));
+      return _RoleVisual(
+        role,
+        AppColors.grey500,
+        PhosphorIcons.user(PhosphorIconsStyle.duotone),
+      );
   }
 }
 

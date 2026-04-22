@@ -46,8 +46,7 @@ class SupabaseMarketplaceRepository implements MarketplaceRepository {
   }
 
   @override
-  Future<Map<String, dynamic>?> getRestaurantDetail(
-      String restaurantId) async {
+  Future<Map<String, dynamic>?> getRestaurantDetail(String restaurantId) async {
     return await _client
         .from('tenants')
         .select(_restaurantFields)
@@ -79,8 +78,7 @@ class SupabaseMarketplaceRepository implements MarketplaceRepository {
   // ---------------------------------------------------------------------------
 
   @override
-  Future<List<Map<String, dynamic>>> getMenuCategories(
-      String tenantId) async {
+  Future<List<Map<String, dynamic>>> getMenuCategories(String tenantId) async {
     return await _client
         .from('menu_categories')
         .select()
@@ -139,7 +137,8 @@ class SupabaseMarketplaceRepository implements MarketplaceRepository {
 
   @override
   Future<List<Map<String, dynamic>>> getRestaurantReviews(
-      String tenantId) async {
+    String tenantId,
+  ) async {
     return await _client
         .from('reviews')
         .select('*, profiles(full_name, avatar_url)')
@@ -150,7 +149,9 @@ class SupabaseMarketplaceRepository implements MarketplaceRepository {
 
   @override
   Future<Map<String, dynamic>?> getUserReviewForOrder(
-      String userId, String orderId) async {
+    String userId,
+    String orderId,
+  ) async {
     return await _client
         .from('reviews')
         .select()
@@ -207,7 +208,8 @@ class SupabaseMarketplaceRepository implements MarketplaceRepository {
 
   @override
   Future<List<Map<String, dynamic>>> getFavoriteRestaurants(
-      List<String> tenantIds) async {
+    List<String> tenantIds,
+  ) async {
     if (tenantIds.isEmpty) return [];
     return await _client
         .from('tenants')
@@ -232,7 +234,8 @@ class SupabaseMarketplaceRepository implements MarketplaceRepository {
 
   @override
   Future<List<Map<String, dynamic>>> getRestaurantPromotions(
-      String tenantId) async {
+    String tenantId,
+  ) async {
     return await _client
         .from('promotions')
         .select()
@@ -244,10 +247,12 @@ class SupabaseMarketplaceRepository implements MarketplaceRepository {
 
   @override
   Future<List<Map<String, dynamic>>> getRecommendedRestaurants(
-      String userId) async {
-    final response = await _client.rpc('get_recommended_restaurants', params: {
-      'p_user_id': userId,
-    });
+    String userId,
+  ) async {
+    final response = await _client.rpc(
+      'get_recommended_restaurants',
+      params: {'p_user_id': userId},
+    );
     return List<Map<String, dynamic>>.from(response as List);
   }
 }

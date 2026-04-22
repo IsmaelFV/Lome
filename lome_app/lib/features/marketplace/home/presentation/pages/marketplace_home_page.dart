@@ -76,13 +76,13 @@ class _MarketplaceHomePageState extends ConsumerState<MarketplaceHomePage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        context.l10n.marketplaceHomeSearchHint,
-                        style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w800,
-                          color: AppColors.grey900,
-                        ),
-                      )
+                            context.l10n.marketplaceHomeSearchHint,
+                            style: const TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w800,
+                              color: AppColors.grey900,
+                            ),
+                          )
                           .animate()
                           .fadeIn(duration: 400.ms)
                           .slideY(begin: -0.05, end: 0),
@@ -105,10 +105,7 @@ class _MarketplaceHomePageState extends ConsumerState<MarketplaceHomePage> {
             ),
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(1),
-              child: Container(
-                height: 1,
-                color: AppColors.grey100,
-              ),
+              child: Container(height: 1, color: AppColors.grey100),
             ),
           ),
 
@@ -150,17 +147,17 @@ class _MarketplaceHomePageState extends ConsumerState<MarketplaceHomePage> {
                           final name = cuisines[i];
                           final isActive = filter.cuisineType == name;
                           return _CategoryChip(
-                            icon: _cuisineIcon(name),
-                            label: name,
-                            isActive: isActive,
-                            onTap: () {
-                              ref
-                                  .read(restaurantFilterProvider.notifier)
-                                  .state = isActive
-                                  ? filter.copyWith(clearCuisine: true)
-                                  : filter.copyWith(cuisineType: name);
-                            },
-                          )
+                                icon: _cuisineIcon(name),
+                                label: name,
+                                isActive: isActive,
+                                onTap: () {
+                                  ref
+                                      .read(restaurantFilterProvider.notifier)
+                                      .state = isActive
+                                      ? filter.copyWith(clearCuisine: true)
+                                      : filter.copyWith(cuisineType: name);
+                                },
+                              )
                               .animate()
                               .fadeIn(
                                 delay: Duration(milliseconds: i * 60),
@@ -210,7 +207,11 @@ class _MarketplaceHomePageState extends ConsumerState<MarketplaceHomePage> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(PhosphorIcons.x(PhosphorIconsStyle.duotone), size: 14, color: AppColors.error),
+                          Icon(
+                            PhosphorIcons.x(PhosphorIconsStyle.duotone),
+                            size: 14,
+                            color: AppColors.error,
+                          ),
                           const SizedBox(width: 4),
                           Text(
                             context.l10n.marketplaceHomeClearFilters,
@@ -293,9 +294,7 @@ class _MarketplaceHomePageState extends ConsumerState<MarketplaceHomePage> {
           ),
 
           // Espaciado inferior
-          const SliverToBoxAdapter(
-            child: SizedBox(height: AppTheme.spacingXl),
-          ),
+          const SliverToBoxAdapter(child: SizedBox(height: AppTheme.spacingXl)),
         ],
       ),
     );
@@ -308,7 +307,8 @@ class _MarketplaceHomePageState extends ConsumerState<MarketplaceHomePage> {
 
 IconData _cuisineIcon(String cuisine) {
   final lower = cuisine.toLowerCase();
-  if (lower.contains('pizza')) return PhosphorIcons.pizza(PhosphorIconsStyle.duotone);
+  if (lower.contains('pizza'))
+    return PhosphorIcons.pizza(PhosphorIconsStyle.duotone);
   if (lower.contains('sushi') || lower.contains('japon'))
     return PhosphorIcons.fish(PhosphorIconsStyle.duotone);
   if (lower.contains('burger') || lower.contains('hambur'))
@@ -322,8 +322,10 @@ IconData _cuisineIcon(String cuisine) {
     return PhosphorIcons.coffee(PhosphorIconsStyle.duotone);
   if (lower.contains('panad') || lower.contains('baker'))
     return PhosphorIcons.bread(PhosphorIconsStyle.duotone);
-  if (lower.contains('mexi')) return PhosphorIcons.fire(PhosphorIconsStyle.duotone);
-  if (lower.contains('indi')) return PhosphorIcons.bowlSteam(PhosphorIconsStyle.duotone);
+  if (lower.contains('mexi'))
+    return PhosphorIcons.fire(PhosphorIconsStyle.duotone);
+  if (lower.contains('indi'))
+    return PhosphorIcons.bowlSteam(PhosphorIconsStyle.duotone);
   if (lower.contains('mediterr') || lower.contains('español'))
     return PhosphorIcons.forkKnife(PhosphorIconsStyle.duotone);
   return PhosphorIcons.forkKnife(PhosphorIconsStyle.duotone);
@@ -358,14 +360,10 @@ class _CategoryChip extends StatelessWidget {
                 width: 68,
                 height: 68,
                 decoration: BoxDecoration(
-                  color: isActive
-                      ? AppColors.primary
-                      : AppColors.primarySoft,
+                  color: isActive ? AppColors.primary : AppColors.primarySoft,
                   borderRadius: BorderRadius.circular(AppTheme.radiusXl),
                   border: Border.all(
-                    color: isActive
-                        ? AppColors.primary
-                        : AppColors.grey100,
+                    color: isActive ? AppColors.primary : AppColors.grey100,
                     width: 2,
                   ),
                 ),
@@ -497,7 +495,9 @@ class _RestaurantCard extends ConsumerWidget {
                               color: AppColors.grey100,
                               child: Center(
                                 child: Icon(
-                                  PhosphorIcons.image(PhosphorIconsStyle.duotone),
+                                  PhosphorIcons.image(
+                                    PhosphorIconsStyle.duotone,
+                                  ),
                                   size: 32,
                                   color: AppColors.grey300,
                                 ),
@@ -507,7 +507,9 @@ class _RestaurantCard extends ConsumerWidget {
                               color: AppColors.grey100,
                               child: Center(
                                 child: Icon(
-                                  PhosphorIcons.forkKnife(PhosphorIconsStyle.duotone),
+                                  PhosphorIcons.forkKnife(
+                                    PhosphorIconsStyle.duotone,
+                                  ),
                                   size: 48,
                                   color: AppColors.grey400,
                                 ),
@@ -518,7 +520,9 @@ class _RestaurantCard extends ConsumerWidget {
                             color: AppColors.grey200,
                             child: Center(
                               child: Icon(
-                                PhosphorIcons.forkKnife(PhosphorIconsStyle.duotone),
+                                PhosphorIcons.forkKnife(
+                                  PhosphorIconsStyle.duotone,
+                                ),
                                 size: 48,
                                 color: AppColors.grey400,
                               ),
@@ -622,7 +626,9 @@ class _RestaurantCard extends ConsumerWidget {
                       ),
                       decoration: BoxDecoration(
                         color: AppColors.white,
-                        borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+                        borderRadius: BorderRadius.circular(
+                          AppTheme.radiusFull,
+                        ),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withValues(alpha: 0.12),
@@ -663,8 +669,9 @@ class _RestaurantCard extends ConsumerWidget {
                         ),
                         decoration: BoxDecoration(
                           color: AppColors.white.withValues(alpha: 0.95),
-                          borderRadius:
-                              BorderRadius.circular(AppTheme.radiusFull),
+                          borderRadius: BorderRadius.circular(
+                            AppTheme.radiusFull,
+                          ),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withValues(alpha: 0.1),
@@ -763,7 +770,9 @@ class _RestaurantCard extends ConsumerWidget {
                         ),
                         decoration: BoxDecoration(
                           color: AppColors.accentSoft,
-                          borderRadius: BorderRadius.circular(AppTheme.radiusSm),
+                          borderRadius: BorderRadius.circular(
+                            AppTheme.radiusSm,
+                          ),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -788,7 +797,10 @@ class _RestaurantCard extends ConsumerWidget {
                       const SizedBox(width: 6),
                       Text(
                         '(${restaurant.totalReviews})',
-                        style: TextStyle(fontSize: 12, color: AppColors.grey400),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: AppColors.grey400,
+                        ),
                       ),
                       const Spacer(),
                       if (restaurant.deliveryEnabled)
@@ -885,16 +897,17 @@ class _PromotionsBannerState extends ConsumerState<_PromotionsBanner> {
                   physics: const BouncingScrollPhysics(),
                   onPageChanged: (i) => setState(() => _currentPage = i),
                   itemCount: promos.length,
-                  itemBuilder: (ctx, i) => Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 6),
-                    child: _PromotionCard(promo: promos[i]),
-                  )
-                      .animate()
-                      .fadeIn(
-                        delay: Duration(milliseconds: i * 80),
-                        duration: 300.ms,
-                      )
-                      .slideX(begin: 0.1, end: 0),
+                  itemBuilder: (ctx, i) =>
+                      Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 6),
+                            child: _PromotionCard(promo: promos[i]),
+                          )
+                          .animate()
+                          .fadeIn(
+                            delay: Duration(milliseconds: i * 80),
+                            duration: 300.ms,
+                          )
+                          .slideX(begin: 0.1, end: 0),
                 ),
               ),
               if (promos.length > 1)

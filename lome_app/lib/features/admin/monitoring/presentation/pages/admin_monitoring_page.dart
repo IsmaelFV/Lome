@@ -86,12 +86,18 @@ class _DashboardBody extends ConsumerWidget {
                       selected: periodHours == option.value,
                       selectedColor: AppColors.primary.withValues(alpha: 0.15),
                       labelStyle: TextStyle(
-                        color: periodHours == option.value ? AppColors.primary : AppColors.grey600,
-                        fontWeight: periodHours == option.value ? FontWeight.w600 : FontWeight.w400,
+                        color: periodHours == option.value
+                            ? AppColors.primary
+                            : AppColors.grey600,
+                        fontWeight: periodHours == option.value
+                            ? FontWeight.w600
+                            : FontWeight.w400,
                       ),
-                      onSelected: (_) => ref
-                          .read(monitoringPeriodHoursProvider.notifier)
-                          .state = option.value,
+                      onSelected: (_) =>
+                          ref
+                                  .read(monitoringPeriodHoursProvider.notifier)
+                                  .state =
+                              option.value,
                     ),
                   ),
               ],
@@ -102,7 +108,11 @@ class _DashboardBody extends ConsumerWidget {
           // ── Error KPIs ─────────────────────────────────────────────────
           Text(
             context.l10n.adminMonitoringErrors,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.grey900),
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: AppColors.grey900,
+            ),
           ),
           const SizedBox(height: AppTheme.spacingSm),
           Row(
@@ -155,23 +165,36 @@ class _DashboardBody extends ConsumerWidget {
                 children: [
                   Text(
                     context.l10n.adminMonitoringErrorsBySource,
-                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.grey900),
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.grey900,
+                    ),
                   ),
                   const SizedBox(height: AppTheme.spacingSm),
                   ...dash.errors.bySource.entries.map(
                     (e) => Padding(
-                      padding:
-                          const EdgeInsets.only(bottom: AppTheme.spacingXs),
+                      padding: const EdgeInsets.only(
+                        bottom: AppTheme.spacingXs,
+                      ),
                       child: Row(
                         children: [
                           Expanded(
-                            child: Text(e.key,
-                                style:
-                                    const TextStyle(fontSize: 12, color: AppColors.grey500)),
+                            child: Text(
+                              e.key,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: AppColors.grey500,
+                              ),
+                            ),
                           ),
                           Text(
                             '${e.value}',
-                            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.grey500),
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.grey500,
+                            ),
                           ),
                         ],
                       ),
@@ -187,7 +210,11 @@ class _DashboardBody extends ConsumerWidget {
           // ── API KPIs ───────────────────────────────────────────────────
           Text(
             context.l10n.adminMonitoringApiPerformance,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.grey900),
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: AppColors.grey900,
+            ),
           ),
           const SizedBox(height: AppTheme.spacingSm),
           GridView.count(
@@ -208,13 +235,15 @@ class _DashboardBody extends ConsumerWidget {
                 icon: PhosphorIcons.timer(PhosphorIconsStyle.fill),
                 iconColor: AppColors.success,
                 title: context.l10n.adminMonitoringAvgResponse,
-                value: '${dash.apiUsage.avgResponseTimeMs.toStringAsFixed(0)} ms',
+                value:
+                    '${dash.apiUsage.avgResponseTimeMs.toStringAsFixed(0)} ms',
               ),
               LomeStatCard(
                 icon: PhosphorIcons.chartLine(PhosphorIconsStyle.fill),
                 iconColor: AppColors.warning,
                 title: context.l10n.adminMonitoringP95Response,
-                value: '${dash.apiUsage.p95ResponseTimeMs.toStringAsFixed(0)} ms',
+                value:
+                    '${dash.apiUsage.p95ResponseTimeMs.toStringAsFixed(0)} ms',
               ),
               LomeStatCard(
                 icon: PhosphorIcons.warningCircle(PhosphorIconsStyle.fill),
@@ -237,22 +266,36 @@ class _DashboardBody extends ConsumerWidget {
                 children: [
                   Text(
                     context.l10n.adminMonitoringTopEndpoints,
-                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.grey900),
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.grey900,
+                    ),
                   ),
                   const SizedBox(height: AppTheme.spacingSm),
                   ...dash.apiUsage.topEndpoints.map(
                     (ep) => Padding(
-                      padding:
-                          const EdgeInsets.only(bottom: AppTheme.spacingXs),
+                      padding: const EdgeInsets.only(
+                        bottom: AppTheme.spacingXs,
+                      ),
                       child: Row(
                         children: [
                           Expanded(
-                            child: Text(ep.endpoint,
-                                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.grey500)),
+                            child: Text(
+                              ep.endpoint,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.grey500,
+                              ),
+                            ),
                           ),
                           Text(
                             context.l10n.adminMonitoringHitsCount('${ep.hits}'),
-                            style: const TextStyle(fontSize: 12, color: AppColors.grey500),
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: AppColors.grey500,
+                            ),
                           ),
                         ],
                       ),
@@ -273,35 +316,46 @@ class _DashboardBody extends ConsumerWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(PhosphorIcons.warning(PhosphorIconsStyle.duotone),
-                          size: 16, color: AppColors.warning),
+                      Icon(
+                        PhosphorIcons.warning(PhosphorIconsStyle.duotone),
+                        size: 16,
+                        color: AppColors.warning,
+                      ),
                       const SizedBox(width: 6),
                       Text(
                         context.l10n.adminMonitoringSlowEndpoints,
-                        style:
-                            const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.warning),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.warning,
+                        ),
                       ),
                     ],
                   ),
                   const SizedBox(height: AppTheme.spacingSm),
                   ...dash.apiUsage.slowEndpoints.map(
                     (ep) => Padding(
-                      padding:
-                          const EdgeInsets.only(bottom: AppTheme.spacingXs),
+                      padding: const EdgeInsets.only(
+                        bottom: AppTheme.spacingXs,
+                      ),
                       child: Row(
                         children: [
                           Expanded(
-                            child: Text(ep.endpoint,
-                                style:
-                                    const TextStyle(fontSize: 12, color: AppColors.grey500)),
+                            child: Text(
+                              ep.endpoint,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: AppColors.grey500,
+                              ),
+                            ),
                           ),
                           Text(
                             '${ep.avgMs.toStringAsFixed(0)} ms',
                             style: const TextStyle(
-                                  fontSize: 12,
-                                  color: AppColors.error,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              fontSize: 12,
+                              color: AppColors.error,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ],
                       ),
@@ -317,7 +371,11 @@ class _DashboardBody extends ConsumerWidget {
           // ── Recent Critical Errors ─────────────────────────────────────
           Text(
             context.l10n.adminMonitoringRecentCritical,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.grey900),
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: AppColors.grey900,
+            ),
           ),
           const SizedBox(height: AppTheme.spacingSm),
 
@@ -327,12 +385,18 @@ class _DashboardBody extends ConsumerWidget {
               child: Center(
                 child: Column(
                   children: [
-                    Icon(PhosphorIcons.checkCircle(PhosphorIconsStyle.duotone),
-                        size: 48, color: AppColors.success),
+                    Icon(
+                      PhosphorIcons.checkCircle(PhosphorIconsStyle.duotone),
+                      size: 48,
+                      color: AppColors.success,
+                    ),
                     const SizedBox(height: AppTheme.spacingSm),
                     Text(
                       context.l10n.adminMonitoringNoCritical,
-                      style: const TextStyle(fontSize: 14, color: AppColors.success),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: AppColors.success,
+                      ),
                     ),
                   ],
                 ),
@@ -340,11 +404,10 @@ class _DashboardBody extends ConsumerWidget {
             )
           else
             ...dash.recentCriticalErrors.asMap().entries.map(
-                  (entry) => _ErrorTile(error: entry.value)
-                      .animate()
-                      .fadeIn(
-                          delay: (entry.key * 50).ms, duration: 250.ms),
-                ),
+              (entry) => _ErrorTile(
+                error: entry.value,
+              ).animate().fadeIn(delay: (entry.key * 50).ms, duration: 250.ms),
+            ),
 
           const SizedBox(height: AppTheme.spacingXl),
 
@@ -353,7 +416,11 @@ class _DashboardBody extends ConsumerWidget {
             children: [
               Text(
                 context.l10n.adminMonitoringErrorLog,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.grey900),
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.grey900,
+                ),
               ),
               const Spacer(),
               _SeverityFilter(ref: ref),
@@ -368,8 +435,13 @@ class _DashboardBody extends ConsumerWidget {
                 return LomeCard(
                   padding: const EdgeInsets.all(AppTheme.spacingLg),
                   child: Center(
-                    child: Text(context.l10n.adminMonitoringNoErrors,
-                        style: const TextStyle(fontSize: 14, color: AppColors.grey500)),
+                    child: Text(
+                      context.l10n.adminMonitoringNoErrors,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: AppColors.grey500,
+                      ),
+                    ),
                   ),
                 );
               }
@@ -377,10 +449,11 @@ class _DashboardBody extends ConsumerWidget {
                 children: logs
                     .asMap()
                     .entries
-                    .map((entry) => _ErrorTile(error: entry.value)
-                        .animate()
-                        .fadeIn(
-                            delay: (entry.key * 40).ms, duration: 200.ms))
+                    .map(
+                      (entry) => _ErrorTile(error: entry.value)
+                          .animate()
+                          .fadeIn(delay: (entry.key * 40).ms, duration: 200.ms),
+                    )
                     .toList(),
               );
             },
@@ -420,17 +493,14 @@ class _KpiTile extends StatelessWidget {
           Text(
             value,
             style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: color,
-                ),
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
           ),
           Text(
             label,
-            style: TextStyle(
-                  fontSize: 11,
-                  color: AppColors.grey500,
-                ),
+            style: TextStyle(fontSize: 11, color: AppColors.grey500),
             textAlign: TextAlign.center,
           ),
         ],
@@ -451,17 +521,22 @@ class _SeverityFilter extends StatelessWidget {
     final severity = ref.watch(errorSeverityFilterProvider);
     return DropdownButton<String?>(
       value: severity,
-      hint: Text(context.l10n.adminMonitoringSeverity, style: const TextStyle(fontSize: 12, color: AppColors.grey500)),
+      hint: Text(
+        context.l10n.adminMonitoringSeverity,
+        style: const TextStyle(fontSize: 12, color: AppColors.grey500),
+      ),
       underline: const SizedBox.shrink(),
       isDense: true,
       items: [null, 'critical', 'error', 'warning', 'info', 'debug']
-          .map((s) => DropdownMenuItem<String?>(
-                value: s,
-                child: Text(
-                  s ?? context.l10n.adminMonitoringAllSeverities,
-                  style: const TextStyle(fontSize: 12, color: AppColors.grey500),
-                ),
-              ))
+          .map(
+            (s) => DropdownMenuItem<String?>(
+              value: s,
+              child: Text(
+                s ?? context.l10n.adminMonitoringAllSeverities,
+                style: const TextStyle(fontSize: 12, color: AppColors.grey500),
+              ),
+            ),
+          )
           .toList(),
       onChanged: (v) =>
           ref.read(errorSeverityFilterProvider.notifier).state = v,
@@ -504,8 +579,7 @@ class _ErrorTile extends StatelessWidget {
           Row(
             children: [
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
                   color: _severityColor.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(AppTheme.radiusSm),
@@ -513,35 +587,28 @@ class _ErrorTile extends StatelessWidget {
                 child: Text(
                   error.severity.toUpperCase(),
                   style: TextStyle(
-                        color: _severityColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 10,
-                      ),
+                    color: _severityColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 10,
+                  ),
                 ),
               ),
               const SizedBox(width: 6),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
                   color: AppColors.info.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                 ),
                 child: Text(
                   error.source,
-                  style: const TextStyle(
-                        color: AppColors.info,
-                        fontSize: 10,
-                      ),
+                  style: const TextStyle(color: AppColors.info, fontSize: 10),
                 ),
               ),
               const Spacer(),
               Text(
                 ts,
-                style: const TextStyle(
-                      color: AppColors.grey400,
-                      fontSize: 11,
-                    ),
+                style: const TextStyle(color: AppColors.grey400, fontSize: 11),
               ),
             ],
           ),
@@ -549,20 +616,17 @@ class _ErrorTile extends StatelessWidget {
           Text(
             error.message,
             style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.grey500,
-                ),
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+              color: AppColors.grey500,
+            ),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
           if (error.appVersion != null)
             Text(
               'v${error.appVersion}',
-              style: const TextStyle(
-                    color: AppColors.grey400,
-                    fontSize: 11,
-                  ),
+              style: const TextStyle(color: AppColors.grey400, fontSize: 11),
             ),
         ],
       ),

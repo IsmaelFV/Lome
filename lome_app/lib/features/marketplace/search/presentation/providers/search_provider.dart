@@ -39,8 +39,9 @@ class DishSearchResult {
   });
 }
 
-final searchResultsProvider =
-    FutureProvider.autoDispose<SearchResults>((ref) async {
+final searchResultsProvider = FutureProvider.autoDispose<SearchResults>((
+  ref,
+) async {
   final query = ref.watch(searchQueryProvider).trim();
   if (query.length < 2) return const SearchResults();
 
@@ -78,8 +79,8 @@ const _maxRecentSearches = 8;
 
 final recentSearchesProvider =
     StateNotifierProvider<RecentSearchesNotifier, List<String>>((ref) {
-  return RecentSearchesNotifier();
-});
+      return RecentSearchesNotifier();
+    });
 
 class RecentSearchesNotifier extends StateNotifier<List<String>> {
   RecentSearchesNotifier() : super([]) {

@@ -19,8 +19,7 @@ class AdminIncidentsPage extends ConsumerStatefulWidget {
   const AdminIncidentsPage({super.key});
 
   @override
-  ConsumerState<AdminIncidentsPage> createState() =>
-      _AdminIncidentsPageState();
+  ConsumerState<AdminIncidentsPage> createState() => _AdminIncidentsPageState();
 }
 
 class _AdminIncidentsPageState extends ConsumerState<AdminIncidentsPage>
@@ -126,15 +125,27 @@ class _AdminIncidentsPageState extends ConsumerState<AdminIncidentsPage>
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(PhosphorIcons.checkCircle(PhosphorIconsStyle.duotone),
-                            size: 64, color: AppColors.grey300),
+                        Icon(
+                          PhosphorIcons.checkCircle(PhosphorIconsStyle.duotone),
+                          size: 64,
+                          color: AppColors.grey300,
+                        ),
                         const SizedBox(height: AppTheme.spacingMd),
-                        Text(context.l10n.adminIncidentsEmpty,
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.grey500)),
+                        Text(
+                          context.l10n.adminIncidentsEmpty,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.grey500,
+                          ),
+                        ),
                         const SizedBox(height: AppTheme.spacingSm),
                         Text(
                           context.l10n.adminIncidentsEmptySubtitle,
-                          style: const TextStyle(fontSize: 12, color: AppColors.grey400),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: AppColors.grey400,
+                          ),
                         ),
                       ],
                     ),
@@ -143,18 +154,17 @@ class _AdminIncidentsPageState extends ConsumerState<AdminIncidentsPage>
 
                 return RefreshIndicator(
                   color: AppColors.primary,
-                  onRefresh: () async =>
-                      ref.invalidate(adminIncidentsProvider),
+                  onRefresh: () async => ref.invalidate(adminIncidentsProvider),
                   child: ListView.builder(
                     physics: const BouncingScrollPhysics(),
                     padding: const EdgeInsets.symmetric(
-                        horizontal: AppTheme.spacingMd),
+                      horizontal: AppTheme.spacingMd,
+                    ),
                     itemCount: incidents.length,
                     itemBuilder: (context, index) {
                       return _IncidentTile(incident: incidents[index])
                           .animate()
-                          .fadeIn(
-                              delay: (index * 80).ms, duration: 300.ms)
+                          .fadeIn(delay: (index * 80).ms, duration: 300.ms)
                           .slideX(begin: 0.05);
                     },
                   ),
@@ -199,9 +209,9 @@ class _PriorityBadge extends StatelessWidget {
             Text(
               count.toString(),
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: color,
-                  ),
+                fontWeight: FontWeight.bold,
+                color: color,
+              ),
             ),
             Text(
               label,
@@ -283,39 +293,52 @@ class _IncidentTile extends StatelessWidget {
                       children: [
                         Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 6, vertical: 2),
+                            horizontal: 6,
+                            vertical: 2,
+                          ),
                           decoration: BoxDecoration(
                             color: _priorityColor.withOpacity(0.1),
-                            borderRadius:
-                                BorderRadius.circular(AppTheme.radiusSm),
+                            borderRadius: BorderRadius.circular(
+                              AppTheme.radiusSm,
+                            ),
                           ),
                           child: Text(
                             _priorityLabel(context),
                             style: TextStyle(
-                                  fontSize: 10,
-                                  color: _priorityColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              fontSize: 10,
+                              color: _priorityColor,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                         if (incident.category != null) ...[
                           const SizedBox(width: AppTheme.spacingSm),
                           Text(
                             incident.category!,
-                            style: const TextStyle(fontSize: 11, color: AppColors.grey500),
+                            style: const TextStyle(
+                              fontSize: 11,
+                              color: AppColors.grey500,
+                            ),
                           ),
                         ],
                         const Spacer(),
                         Text(
                           timeAgo,
-                          style: const TextStyle(fontSize: 12, color: AppColors.grey400),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: AppColors.grey400,
+                          ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 4),
                     Text(
                       incident.title,
-                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.grey900),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.grey900,
+                      ),
                     ),
                   ],
                 ),
@@ -338,27 +361,42 @@ class _IncidentTile extends StatelessWidget {
             child: Row(
               children: [
                 if (incident.tenantName != null) ...[
-                  Icon(PhosphorIcons.storefront(PhosphorIconsStyle.duotone),
-                      size: 14, color: AppColors.grey500),
+                  Icon(
+                    PhosphorIcons.storefront(PhosphorIconsStyle.duotone),
+                    size: 14,
+                    color: AppColors.grey500,
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     incident.tenantName!,
-                    style: const TextStyle(fontSize: 12, color: AppColors.grey500),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.grey500,
+                    ),
                   ),
                 ],
                 if (incident.assigneeName != null) ...[
                   const SizedBox(width: AppTheme.spacingMd),
-                  Icon(PhosphorIcons.user(PhosphorIconsStyle.duotone),
-                      size: 14, color: AppColors.grey500),
+                  Icon(
+                    PhosphorIcons.user(PhosphorIconsStyle.duotone),
+                    size: 14,
+                    color: AppColors.grey500,
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     incident.assigneeName!,
-                    style: const TextStyle(fontSize: 12, color: AppColors.grey500),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.grey500,
+                    ),
                   ),
                 ],
                 const Spacer(),
-                Icon(PhosphorIcons.caretRight(PhosphorIconsStyle.duotone),
-                    size: 16, color: AppColors.grey400),
+                Icon(
+                  PhosphorIcons.caretRight(PhosphorIconsStyle.duotone),
+                  size: 16,
+                  color: AppColors.grey400,
+                ),
               ],
             ),
           ),

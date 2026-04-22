@@ -161,12 +161,8 @@ class _MenuQrPageState extends ConsumerState<MenuQrPage> {
   }
 
   Widget _buildQrWidget(ThemeData theme) {
-    final qrColor = _selectedStyle == 'dark'
-        ? Colors.white
-        : AppColors.grey900;
-    final bgColor = _selectedStyle == 'dark'
-        ? AppColors.grey900
-        : Colors.white;
+    final qrColor = _selectedStyle == 'dark' ? Colors.white : AppColors.grey900;
+    final bgColor = _selectedStyle == 'dark' ? AppColors.grey900 : Colors.white;
 
     return Container(
       padding: const EdgeInsets.all(AppTheme.spacingMd),
@@ -182,17 +178,13 @@ class _MenuQrPageState extends ConsumerState<MenuQrPage> {
           eyeShape: _selectedStyle == 'rounded'
               ? QrEyeShape.circle
               : QrEyeShape.square,
-          color: _selectedStyle == 'brand'
-              ? AppColors.primary
-              : qrColor,
+          color: _selectedStyle == 'brand' ? AppColors.primary : qrColor,
         ),
         dataModuleStyle: QrDataModuleStyle(
           dataModuleShape: _selectedStyle == 'rounded'
               ? QrDataModuleShape.circle
               : QrDataModuleShape.square,
-          color: _selectedStyle == 'brand'
-              ? AppColors.primary
-              : qrColor,
+          color: _selectedStyle == 'brand' ? AppColors.primary : qrColor,
         ),
         gapless: true,
       ),
@@ -211,15 +203,15 @@ class _MenuQrPageState extends ConsumerState<MenuQrPage> {
       ),
       child: Row(
         children: [
-          Icon(PhosphorIcons.link(PhosphorIconsStyle.duotone), color: AppColors.primary),
+          Icon(
+            PhosphorIcons.link(PhosphorIconsStyle.duotone),
+            color: AppColors.primary,
+          ),
           const SizedBox(width: AppTheme.spacingSm),
           Expanded(
             child: Text(
               _menuUrl,
-              style: const TextStyle(
-                fontSize: 12,
-                color: AppColors.grey500,
-              ),
+              style: const TextStyle(fontSize: 12, color: AppColors.grey500),
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -255,10 +247,26 @@ class _MenuQrPageState extends ConsumerState<MenuQrPage> {
 
   Widget _buildStyleSelector(ThemeData theme) {
     final styles = [
-      _QrStyle('modern', 'Moderno', PhosphorIcons.square(PhosphorIconsStyle.duotone)),
-      _QrStyle('rounded', 'Redondeado', PhosphorIcons.circle(PhosphorIconsStyle.duotone)),
-      _QrStyle('brand', 'Marca', PhosphorIcons.palette(PhosphorIconsStyle.duotone)),
-      _QrStyle('dark', 'Oscuro', PhosphorIcons.moon(PhosphorIconsStyle.duotone)),
+      _QrStyle(
+        'modern',
+        'Moderno',
+        PhosphorIcons.square(PhosphorIconsStyle.duotone),
+      ),
+      _QrStyle(
+        'rounded',
+        'Redondeado',
+        PhosphorIcons.circle(PhosphorIconsStyle.duotone),
+      ),
+      _QrStyle(
+        'brand',
+        'Marca',
+        PhosphorIcons.palette(PhosphorIconsStyle.duotone),
+      ),
+      _QrStyle(
+        'dark',
+        'Oscuro',
+        PhosphorIcons.moon(PhosphorIconsStyle.duotone),
+      ),
     ];
 
     return Column(
@@ -306,7 +314,9 @@ class _MenuQrPageState extends ConsumerState<MenuQrPage> {
                           style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w500,
-                            color: isActive ? AppColors.white : AppColors.grey600,
+                            color: isActive
+                                ? AppColors.white
+                                : AppColors.grey600,
                           ),
                         ),
                       ],
@@ -398,10 +408,7 @@ class _MenuQrPageState extends ConsumerState<MenuQrPage> {
           Expanded(
             child: Text(
               text,
-              style: const TextStyle(
-                fontSize: 12,
-                color: AppColors.grey500,
-              ),
+              style: const TextStyle(fontSize: 12, color: AppColors.grey500),
             ),
           ),
         ],

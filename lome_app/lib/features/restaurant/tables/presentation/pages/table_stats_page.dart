@@ -51,8 +51,9 @@ class TableStatsPage extends ConsumerWidget {
                       ),
                       decoration: BoxDecoration(
                         color: isSelected ? AppColors.primary : AppColors.white,
-                        borderRadius:
-                            BorderRadius.circular(AppTheme.radiusFull),
+                        borderRadius: BorderRadius.circular(
+                          AppTheme.radiusFull,
+                        ),
                         border: isSelected
                             ? null
                             : Border.all(color: AppColors.grey200),
@@ -61,10 +62,10 @@ class TableStatsPage extends ConsumerWidget {
                       child: Text(
                         p.label,
                         style: TextStyle(
-                          color:
-                              isSelected ? Colors.white : AppColors.grey600,
-                          fontWeight:
-                              isSelected ? FontWeight.w600 : FontWeight.w500,
+                          color: isSelected ? Colors.white : AppColors.grey600,
+                          fontWeight: isSelected
+                              ? FontWeight.w600
+                              : FontWeight.w500,
                           fontSize: 13,
                         ),
                       ),
@@ -82,29 +83,34 @@ class TableStatsPage extends ConsumerWidget {
               data: (stats) {
                 if (stats.isEmpty) {
                   return Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          PhosphorIcons.chartBar(PhosphorIconsStyle.duotone),
-                          size: 64,
-                          color: AppColors.grey200,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              PhosphorIcons.chartBar(
+                                PhosphorIconsStyle.duotone,
+                              ),
+                              size: 64,
+                              color: AppColors.grey200,
+                            ),
+                            const SizedBox(height: AppTheme.spacingMd),
+                            Text(
+                              context.l10n.tableStatsNoData,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.grey400,
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: AppTheme.spacingMd),
-                        Text(
-                          context.l10n.tableStatsNoData,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.grey400,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ).animate().fadeIn(duration: 300.ms).scale(
-                    begin: const Offset(0.95, 0.95),
-                    end: const Offset(1, 1),
-                  );
+                      )
+                      .animate()
+                      .fadeIn(duration: 300.ms)
+                      .scale(
+                        begin: const Offset(0.95, 0.95),
+                        end: const Offset(1, 1),
+                      );
                 }
 
                 return ListView(
@@ -127,20 +133,25 @@ class TableStatsPage extends ConsumerWidget {
                         padding: const EdgeInsets.only(
                           bottom: AppTheme.spacingSm,
                         ),
-                        child: _TableStatTile(
-                          stat: entry.value,
-                          maxRevenue: stats.first.totalRevenue,
-                        )
-                            .animate()
-                            .fadeIn(
-                              delay: Duration(milliseconds: 100 + entry.key * 60),
-                              duration: AppTheme.durationMedium,
-                            )
-                            .slideY(
-                              begin: 0.03,
-                              end: 0,
-                              delay: Duration(milliseconds: 100 + entry.key * 60),
-                            ),
+                        child:
+                            _TableStatTile(
+                                  stat: entry.value,
+                                  maxRevenue: stats.first.totalRevenue,
+                                )
+                                .animate()
+                                .fadeIn(
+                                  delay: Duration(
+                                    milliseconds: 100 + entry.key * 60,
+                                  ),
+                                  duration: AppTheme.durationMedium,
+                                )
+                                .slideY(
+                                  begin: 0.03,
+                                  end: 0,
+                                  delay: Duration(
+                                    milliseconds: 100 + entry.key * 60,
+                                  ),
+                                ),
                       ),
                     ),
                   ],
@@ -229,53 +240,53 @@ class _StatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(AppTheme.spacingMd),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-        boxShadow: AppShadows.card,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
+          padding: const EdgeInsets.all(AppTheme.spacingMd),
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+            boxShadow: AppShadows.card,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                width: 36,
-                height: 36,
-                decoration: BoxDecoration(
-                  color: iconColor.withAlpha(25),
-                  borderRadius: BorderRadius.circular(AppTheme.radiusSm),
-                ),
-                child: Icon(icon, size: 18, color: iconColor),
-              ),
-              const SizedBox(width: AppTheme.spacingSm),
-              Expanded(
-                child: Text(
-                  title,
-                  style: const TextStyle(
-                    color: AppColors.grey500,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w500,
+              Row(
+                children: [
+                  Container(
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: iconColor.withAlpha(25),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusSm),
+                    ),
+                    child: Icon(icon, size: 18, color: iconColor),
                   ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+                  const SizedBox(width: AppTheme.spacingSm),
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: const TextStyle(
+                        color: AppColors.grey500,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+              Text(
+                value,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.grey800,
                 ),
               ),
             ],
           ),
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w800,
-              color: AppColors.grey800,
-            ),
-          ),
-        ],
-      ),
-    )
+        )
         .animate()
         .fadeIn(
           delay: Duration(milliseconds: delay),
@@ -392,10 +403,7 @@ class _StatDetail extends StatelessWidget {
         const SizedBox(width: 2),
         Text(
           label,
-          style: const TextStyle(
-            color: AppColors.grey500,
-            fontSize: 11,
-          ),
+          style: const TextStyle(color: AppColors.grey500, fontSize: 11),
         ),
       ],
     );

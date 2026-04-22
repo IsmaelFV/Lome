@@ -172,16 +172,19 @@ class _InviteEmployeePageState extends ConsumerState<InviteEmployeePage> {
                   color: AppColors.grey900,
                 ),
                 textAlign: TextAlign.center,
-              ).animate().fadeIn(delay: 100.ms, duration: AppTheme.durationFast),
+              ).animate().fadeIn(
+                delay: 100.ms,
+                duration: AppTheme.durationFast,
+              ),
               const SizedBox(height: AppTheme.spacingSm),
               Text(
                 context.l10n.inviteEmployeeSubheading,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: AppColors.grey500,
-                ),
+                style: const TextStyle(fontSize: 14, color: AppColors.grey500),
                 textAlign: TextAlign.center,
-              ).animate().fadeIn(delay: 150.ms, duration: AppTheme.durationFast),
+              ).animate().fadeIn(
+                delay: 150.ms,
+                duration: AppTheme.durationFast,
+              ),
               const SizedBox(height: AppTheme.spacingXl),
 
               // Email
@@ -191,9 +194,15 @@ class _InviteEmployeePageState extends ConsumerState<InviteEmployeePage> {
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.done,
-                prefixIcon: Icon(PhosphorIcons.envelope(PhosphorIconsStyle.duotone), size: 20),
+                prefixIcon: Icon(
+                  PhosphorIcons.envelope(PhosphorIconsStyle.duotone),
+                  size: 20,
+                ),
                 validator: FormValidators.email,
-              ).animate().fadeIn(delay: 200.ms, duration: AppTheme.durationFast),
+              ).animate().fadeIn(
+                delay: 200.ms,
+                duration: AppTheme.durationFast,
+              ),
               const SizedBox(height: AppTheme.spacingLg),
 
               // Rol
@@ -204,7 +213,10 @@ class _InviteEmployeePageState extends ConsumerState<InviteEmployeePage> {
                   fontWeight: FontWeight.w600,
                   color: AppColors.grey800,
                 ),
-              ).animate().fadeIn(delay: 250.ms, duration: AppTheme.durationFast),
+              ).animate().fadeIn(
+                delay: 250.ms,
+                duration: AppTheme.durationFast,
+              ),
               const SizedBox(height: AppTheme.spacingSm),
               ..._buildRoleOptions(context).asMap().entries.map((entry) {
                 final index = entry.key;
@@ -228,7 +240,10 @@ class _InviteEmployeePageState extends ConsumerState<InviteEmployeePage> {
                 isLoading: invState.isSending,
                 onPressed: _handleSend,
                 icon: PhosphorIcons.paperPlaneTilt(PhosphorIconsStyle.duotone),
-              ).animate().fadeIn(delay: 600.ms, duration: AppTheme.durationFast),
+              ).animate().fadeIn(
+                delay: 600.ms,
+                duration: AppTheme.durationFast,
+              ),
 
               const SizedBox(height: AppTheme.spacingMd),
 
@@ -245,7 +260,11 @@ class _InviteEmployeePageState extends ConsumerState<InviteEmployeePage> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(PhosphorIcons.info(PhosphorIconsStyle.duotone), size: 18, color: AppColors.info),
+                    Icon(
+                      PhosphorIcons.info(PhosphorIconsStyle.duotone),
+                      size: 18,
+                      color: AppColors.info,
+                    ),
                     const SizedBox(width: AppTheme.spacingSm),
                     Expanded(
                       child: Text(
@@ -259,7 +278,10 @@ class _InviteEmployeePageState extends ConsumerState<InviteEmployeePage> {
                     ),
                   ],
                 ),
-              ).animate().fadeIn(delay: 700.ms, duration: AppTheme.durationFast),
+              ).animate().fadeIn(
+                delay: 700.ms,
+                duration: AppTheme.durationFast,
+              ),
 
               const SizedBox(height: AppTheme.spacingLg),
             ],

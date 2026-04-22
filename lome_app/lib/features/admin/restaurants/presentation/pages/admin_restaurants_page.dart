@@ -99,8 +99,7 @@ class _AdminRestaurantsPageState extends ConsumerState<AdminRestaurantsPage>
             ),
           ),
           Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: AppTheme.spacingMd),
+            padding: const EdgeInsets.symmetric(horizontal: AppTheme.spacingMd),
             child: Row(
               children: [
                 _QuickStat(
@@ -140,11 +139,20 @@ class _AdminRestaurantsPageState extends ConsumerState<AdminRestaurantsPage>
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(PhosphorIcons.storefront(PhosphorIconsStyle.duotone), size: 64,
-                            color: AppColors.grey300),
+                        Icon(
+                          PhosphorIcons.storefront(PhosphorIconsStyle.duotone),
+                          size: 64,
+                          color: AppColors.grey300,
+                        ),
                         const SizedBox(height: AppTheme.spacingMd),
-                        Text(context.l10n.adminRestaurantsEmpty,
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.grey500)),
+                        Text(
+                          context.l10n.adminRestaurantsEmpty,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.grey500,
+                          ),
+                        ),
                       ],
                     ),
                   );
@@ -157,7 +165,9 @@ class _AdminRestaurantsPageState extends ConsumerState<AdminRestaurantsPage>
                   },
                   child: ListView.builder(
                     physics: const BouncingScrollPhysics(),
-                    padding: const EdgeInsets.symmetric(horizontal: AppTheme.spacingMd),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppTheme.spacingMd,
+                    ),
                     itemCount: restaurants.length,
                     itemBuilder: (context, index) {
                       return _RestaurantTile(restaurant: restaurants[index])
@@ -177,7 +187,11 @@ class _AdminRestaurantsPageState extends ConsumerState<AdminRestaurantsPage>
 }
 
 class _QuickStat extends StatelessWidget {
-  const _QuickStat({required this.label, required this.value, required this.color});
+  const _QuickStat({
+    required this.label,
+    required this.value,
+    required this.color,
+  });
   final String label;
   final String value;
   final Color color;
@@ -187,16 +201,24 @@ class _QuickStat extends StatelessWidget {
     return Expanded(
       child: Container(
         padding: const EdgeInsets.symmetric(
-          horizontal: AppTheme.spacingSm, vertical: AppTheme.spacingSm),
+          horizontal: AppTheme.spacingSm,
+          vertical: AppTheme.spacingSm,
+        ),
         decoration: BoxDecoration(
           color: color.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(AppTheme.radiusSm)),
+          borderRadius: BorderRadius.circular(AppTheme.radiusSm),
+        ),
         child: Column(
           children: [
-            Text(value,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: color)),
-            Text(label,
-              style: TextStyle(fontSize: 11, color: color)),
+            Text(
+              value,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: color,
+              ),
+            ),
+            Text(label, style: TextStyle(fontSize: 11, color: color)),
           ],
         ),
       ),
@@ -210,19 +232,27 @@ class _RestaurantTile extends ConsumerWidget {
 
   Color _statusColor(String status) {
     switch (status) {
-      case 'active': return AppColors.success;
-      case 'pending': return AppColors.warning;
-      case 'suspended': return AppColors.error;
-      default: return AppColors.grey500;
+      case 'active':
+        return AppColors.success;
+      case 'pending':
+        return AppColors.warning;
+      case 'suspended':
+        return AppColors.error;
+      default:
+        return AppColors.grey500;
     }
   }
 
   String _statusLabel(BuildContext context, String status) {
     switch (status) {
-      case 'active': return context.l10n.active;
-      case 'pending': return context.l10n.statusPending;
-      case 'suspended': return context.l10n.statusSuspended;
-      default: return status;
+      case 'active':
+        return context.l10n.active;
+      case 'pending':
+        return context.l10n.statusPending;
+      case 'suspended':
+        return context.l10n.statusSuspended;
+      default:
+        return status;
     }
   }
 
@@ -234,8 +264,10 @@ class _RestaurantTile extends ConsumerWidget {
       margin: const EdgeInsets.only(bottom: AppTheme.spacingSm),
       padding: const EdgeInsets.all(AppTheme.spacingMd),
       onTap: () {
-        context.pushNamed(RouteNames.adminRestaurantDetail,
-          pathParameters: {'id': restaurant.id});
+        context.pushNamed(
+          RouteNames.adminRestaurantDetail,
+          pathParameters: {'id': restaurant.id},
+        );
       },
       child: Row(
         children: [
@@ -243,10 +275,17 @@ class _RestaurantTile extends ConsumerWidget {
             radius: 24,
             backgroundColor: AppColors.primaryLight.withOpacity(0.2),
             backgroundImage: restaurant.logoUrl != null
-                ? NetworkImage(restaurant.logoUrl!) : null,
+                ? NetworkImage(restaurant.logoUrl!)
+                : null,
             child: restaurant.logoUrl == null
-                ? Text(restaurant.name.isNotEmpty ? restaurant.name[0] : '?',
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.primary))
+                ? Text(
+                    restaurant.name.isNotEmpty ? restaurant.name[0] : '?',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primary,
+                    ),
+                  )
                 : null,
           ),
           const SizedBox(width: AppTheme.spacingMd),
@@ -254,30 +293,60 @@ class _RestaurantTile extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(restaurant.name,
-                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.grey900)),
+                Text(
+                  restaurant.name,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.grey900,
+                  ),
+                ),
                 const SizedBox(height: 2),
                 Row(
                   children: [
                     if (restaurant.city != null) ...[
-                      Icon(PhosphorIcons.mapPin(PhosphorIconsStyle.fill),
-                          size: 14, color: AppColors.grey500),
+                      Icon(
+                        PhosphorIcons.mapPin(PhosphorIconsStyle.fill),
+                        size: 14,
+                        color: AppColors.grey500,
+                      ),
                       const SizedBox(width: 4),
-                      Text(restaurant.city!,
-                        style: const TextStyle(fontSize: 12, color: AppColors.grey500)),
+                      Text(
+                        restaurant.city!,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: AppColors.grey500,
+                        ),
+                      ),
                     ],
                     if (restaurant.rating > 0) ...[
                       const SizedBox(width: AppTheme.spacingMd),
-                      Icon(PhosphorIcons.star(PhosphorIconsStyle.fill),
-                          size: 14, color: AppColors.warning),
+                      Icon(
+                        PhosphorIcons.star(PhosphorIconsStyle.fill),
+                        size: 14,
+                        color: AppColors.warning,
+                      ),
                       const SizedBox(width: 2),
-                      Text(restaurant.rating.toStringAsFixed(1),
-                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.grey500)),
+                      Text(
+                        restaurant.rating.toStringAsFixed(1),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.grey500,
+                        ),
+                      ),
                     ],
                     if (restaurant.totalOrders > 0) ...[
                       const SizedBox(width: AppTheme.spacingMd),
-                      Text(context.l10n.adminRestaurantsOrderCount(restaurant.totalOrders),
-                        style: const TextStyle(fontSize: 12, color: AppColors.grey500)),
+                      Text(
+                        context.l10n.adminRestaurantsOrderCount(
+                          restaurant.totalOrders,
+                        ),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: AppColors.grey500,
+                        ),
+                      ),
                     ],
                   ],
                 ),
@@ -288,35 +357,66 @@ class _RestaurantTile extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
               color: color.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(AppTheme.radiusFull)),
-            child: Text(_statusLabel(context, restaurant.status),
-              style: TextStyle(fontSize: 11, color: color, fontWeight: FontWeight.w600)),
+              borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+            ),
+            child: Text(
+              _statusLabel(context, restaurant.status),
+              style: TextStyle(
+                fontSize: 11,
+                color: color,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ),
           const SizedBox(width: AppTheme.spacingSm),
           PopupMenuButton<String>(
             itemBuilder: (context) => [
-              PopupMenuItem(value: 'view', child: Text(context.l10n.adminRestaurantsViewDetail)),
+              PopupMenuItem(
+                value: 'view',
+                child: Text(context.l10n.adminRestaurantsViewDetail),
+              ),
               if (restaurant.status == 'active')
-                PopupMenuItem(value: 'suspend', child: Text(context.l10n.adminRestaurantDetailSuspend)),
+                PopupMenuItem(
+                  value: 'suspend',
+                  child: Text(context.l10n.adminRestaurantDetailSuspend),
+                ),
               if (restaurant.status == 'suspended')
-                PopupMenuItem(value: 'activate', child: Text(context.l10n.adminRestaurantsActivate)),
+                PopupMenuItem(
+                  value: 'activate',
+                  child: Text(context.l10n.adminRestaurantsActivate),
+                ),
               if (restaurant.status == 'pending')
-                PopupMenuItem(value: 'activate', child: Text(context.l10n.adminRestaurantDetailApprove)),
+                PopupMenuItem(
+                  value: 'activate',
+                  child: Text(context.l10n.adminRestaurantDetailApprove),
+                ),
             ],
             onSelected: (value) {
               if (value == 'view') {
-                context.pushNamed(RouteNames.adminRestaurantDetail,
-                  pathParameters: {'id': restaurant.id});
+                context.pushNamed(
+                  RouteNames.adminRestaurantDetail,
+                  pathParameters: {'id': restaurant.id},
+                );
               } else if (value == 'suspend') {
-                ref.read(toggleRestaurantStatusProvider(
-                  (id: restaurant.id, newStatus: 'suspended')));
+                ref.read(
+                  toggleRestaurantStatusProvider((
+                    id: restaurant.id,
+                    newStatus: 'suspended',
+                  )),
+                );
               } else if (value == 'activate') {
-                ref.read(toggleRestaurantStatusProvider(
-                  (id: restaurant.id, newStatus: 'active')));
+                ref.read(
+                  toggleRestaurantStatusProvider((
+                    id: restaurant.id,
+                    newStatus: 'active',
+                  )),
+                );
               }
             },
-            icon: Icon(PhosphorIcons.dotsThreeVertical(PhosphorIconsStyle.duotone),
-                color: AppColors.grey500),
+            icon: Icon(
+              PhosphorIcons.dotsThreeVertical(PhosphorIconsStyle.duotone),
+              color: AppColors.grey500,
+            ),
           ),
         ],
       ),

@@ -88,8 +88,9 @@ class OrdersPage extends ConsumerWidget {
                         ),
                         decoration: BoxDecoration(
                           color: AppColors.white,
-                          borderRadius:
-                              BorderRadius.circular(AppTheme.radiusLg),
+                          borderRadius: BorderRadius.circular(
+                            AppTheme.radiusLg,
+                          ),
                           boxShadow: AppShadows.card,
                         ),
                         child: Row(
@@ -112,31 +113,30 @@ class OrdersPage extends ConsumerWidget {
                             ),
                           ],
                         ),
-                      )
-                          .animate()
-                          .fadeIn(duration: 300.ms)
-                          .slideY(begin: -0.05),
+                      ).animate().fadeIn(duration: 300.ms).slideY(begin: -0.05),
                       Expanded(
                         child: TabBarView(
                           children: [
                             _OrderList(
                               orders: orders
-                                  .where((o) =>
-                                      o.status == OrderStatus.pending)
+                                  .where((o) => o.status == OrderStatus.pending)
                                   .toList(),
                               emptyIcon: PhosphorIcons.receipt(
-                                  PhosphorIconsStyle.duotone),
+                                PhosphorIconsStyle.duotone,
+                              ),
                               emptyTitle: context.l10n.ordersEmptyActive,
                               emptySubtitle:
                                   context.l10n.ordersEmptyActiveSubtitle,
                             ),
                             _OrderList(
                               orders: orders
-                                  .where((o) =>
-                                      o.status == OrderStatus.preparing)
+                                  .where(
+                                    (o) => o.status == OrderStatus.preparing,
+                                  )
                                   .toList(),
                               emptyIcon: PhosphorIcons.cookingPot(
-                                  PhosphorIconsStyle.duotone),
+                                PhosphorIconsStyle.duotone,
+                              ),
                               emptyTitle: context.l10n.ordersEmptyKitchen,
                               emptySubtitle:
                                   context.l10n.ordersEmptyKitchenSubtitle,
@@ -150,7 +150,8 @@ class OrdersPage extends ConsumerWidget {
                                   )
                                   .toList(),
                               emptyIcon: PhosphorIcons.checkCircle(
-                                  PhosphorIconsStyle.duotone),
+                                PhosphorIconsStyle.duotone,
+                              ),
                               emptyTitle: context.l10n.ordersEmptyReady,
                               emptySubtitle:
                                   context.l10n.ordersEmptyReadySubtitle,
@@ -163,11 +164,10 @@ class OrdersPage extends ConsumerWidget {
                                         o.status == OrderStatus.cancelled,
                                   )
                                   .toList(),
-                              emptyIcon:
-                                  PhosphorIcons.clockCounterClockwise(
-                                      PhosphorIconsStyle.duotone),
-                              emptyTitle:
-                                  context.l10n.ordersEmptyHistory,
+                              emptyIcon: PhosphorIcons.clockCounterClockwise(
+                                PhosphorIconsStyle.duotone,
+                              ),
+                              emptyTitle: context.l10n.ordersEmptyHistory,
                               emptySubtitle:
                                   context.l10n.ordersEmptyHistorySubtitle,
                             ),
@@ -217,9 +217,7 @@ class _OrderList extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.all(AppTheme.spacingMd),
       itemCount: orders.length,
-      itemBuilder: (ctx, i) => _OrderCard(
-        order: orders[i],
-      )
+      itemBuilder: (ctx, i) => _OrderCard(order: orders[i])
           .animate()
           .fadeIn(duration: 200.ms, delay: (50 * i).ms)
           .slideY(begin: 0.03, end: 0, delay: (50 * i).ms),
@@ -290,8 +288,9 @@ class _OrderCard extends StatelessWidget {
                           ),
                           decoration: BoxDecoration(
                             color: color.withAlpha(20),
-                            borderRadius:
-                                BorderRadius.circular(AppTheme.radiusFull),
+                            borderRadius: BorderRadius.circular(
+                              AppTheme.radiusFull,
+                            ),
                           ),
                           child: Text(
                             order.status.label,

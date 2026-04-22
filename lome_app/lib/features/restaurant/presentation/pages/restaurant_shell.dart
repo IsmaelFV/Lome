@@ -35,18 +35,18 @@ class _RestaurantShellState extends State<RestaurantShell>
       duration: const Duration(milliseconds: 300),
       vsync: this,
     )..value = 1.0;
-    _fadeAnim = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic),
-    );
-    _scaleAnim = Tween<double>(begin: 0.94, end: 1.0).animate(
-      CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic),
-    );
+    _fadeAnim = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic));
+    _scaleAnim = Tween<double>(
+      begin: 0.94,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic));
     _slideAnim = Tween<Offset>(
       begin: const Offset(0.08, 0),
       end: Offset.zero,
-    ).animate(
-      CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic),
-    );
+    ).animate(CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic));
   }
 
   @override
@@ -65,9 +65,7 @@ class _RestaurantShellState extends State<RestaurantShell>
       _slideAnim = Tween<Offset>(
         begin: Offset(_goingRight ? 0.08 : -0.08, 0),
         end: Offset.zero,
-      ).animate(
-        CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic),
-      );
+      ).animate(CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic));
       _animCtrl.forward(from: 0.0);
     }
   }
@@ -98,10 +96,7 @@ class _RestaurantShellState extends State<RestaurantShell>
         child: SafeArea(
           top: false,
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 4,
-              vertical: 6,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
             child: Row(
               children: List.generate(5, (i) {
                 final selected = currentIndex == i;
@@ -168,7 +163,9 @@ class _RestaurantShellState extends State<RestaurantShell>
                           duration: AppTheme.durationFast,
                           style: TextStyle(
                             fontSize: selected ? 10.5 : 10,
-                            fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+                            fontWeight: selected
+                                ? FontWeight.w600
+                                : FontWeight.w400,
                             color: selected
                                 ? AppColors.primaryLight
                                 : AppColors.white.withValues(alpha: 0.45),

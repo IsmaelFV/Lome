@@ -65,68 +65,73 @@ class _TableEditorPageState extends ConsumerState<TableEditorPage> {
         data: (tables) {
           if (tables.isEmpty) {
             return Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    PhosphorIcons.gridFour(PhosphorIconsStyle.duotone),
-                    size: 64,
-                    color: AppColors.grey200,
-                  ),
-                  const SizedBox(height: AppTheme.spacingMd),
-                  Text(
-                    context.l10n.tableEditorEmptyTitle,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.grey500,
-                    ),
-                  ),
-                  const SizedBox(height: AppTheme.spacingMd),
-                  TactileWrapper(
-                    onTap: () => _showCreateDialog(context),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 12,
-                      ),
-                      decoration: BoxDecoration(
-                        gradient: AppColors.heroGradient,
-                        borderRadius: BorderRadius.circular(AppTheme.radiusFull),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.primary.withValues(alpha: 0.3),
-                            blurRadius: 8,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: Row(
+              child:
+                  Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
-                            PhosphorIcons.plus(PhosphorIconsStyle.bold),
-                            size: 18,
-                            color: AppColors.white,
+                            PhosphorIcons.gridFour(PhosphorIconsStyle.duotone),
+                            size: 64,
+                            color: AppColors.grey200,
                           ),
-                          const SizedBox(width: 8),
+                          const SizedBox(height: AppTheme.spacingMd),
                           Text(
-                            context.l10n.tableEditorAddTable,
+                            context.l10n.tableEditorEmptyTitle,
                             style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.grey500,
+                            ),
+                          ),
+                          const SizedBox(height: AppTheme.spacingMd),
+                          TactileWrapper(
+                            onTap: () => _showCreateDialog(context),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 12,
+                              ),
+                              decoration: BoxDecoration(
+                                gradient: AppColors.heroGradient,
+                                borderRadius: BorderRadius.circular(
+                                  AppTheme.radiusFull,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColors.primary.withValues(
+                                      alpha: 0.3,
+                                    ),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    PhosphorIcons.plus(PhosphorIconsStyle.bold),
+                                    size: 18,
+                                    color: AppColors.white,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    context.l10n.tableEditorAddTable,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
-                      ),
-                    ),
-                  ),
-                ],
-              )
-                  .animate()
-                  .fadeIn(duration: AppTheme.durationFast)
-                  .slideY(begin: 0.1, end: 0),
+                      )
+                      .animate()
+                      .fadeIn(duration: AppTheme.durationFast)
+                      .slideY(begin: 0.1, end: 0),
             );
           }
 
@@ -223,7 +228,9 @@ class _TableEditorPageState extends ConsumerState<TableEditorPage> {
                       margin: const EdgeInsets.only(bottom: AppTheme.spacingMd),
                       decoration: BoxDecoration(
                         color: AppColors.grey300,
-                        borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+                        borderRadius: BorderRadius.circular(
+                          AppTheme.radiusFull,
+                        ),
                       ),
                     ),
                   ),
@@ -234,7 +241,9 @@ class _TableEditorPageState extends ConsumerState<TableEditorPage> {
                         padding: const EdgeInsets.all(AppTheme.spacingSm),
                         decoration: BoxDecoration(
                           color: AppColors.primary.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+                          borderRadius: BorderRadius.circular(
+                            AppTheme.radiusMd,
+                          ),
                         ),
                         child: Icon(
                           PhosphorIcons.gridFour(PhosphorIconsStyle.duotone),
@@ -280,7 +289,8 @@ class _TableEditorPageState extends ConsumerState<TableEditorPage> {
                           keyboardType: TextInputType.number,
                           validator: (v) {
                             if (v == null || v.isEmpty) return 'Requerido';
-                            if (int.tryParse(v) == null) return 'Número inválido';
+                            if (int.tryParse(v) == null)
+                              return 'Número inválido';
                             return null;
                           },
                         ),
@@ -319,11 +329,20 @@ class _TableEditorPageState extends ConsumerState<TableEditorPage> {
                       final selected = s == shape;
                       final icon = switch (s) {
                         TableShape.round => PhosphorIcons.circle(
-                            selected ? PhosphorIconsStyle.fill : PhosphorIconsStyle.light),
+                          selected
+                              ? PhosphorIconsStyle.fill
+                              : PhosphorIconsStyle.light,
+                        ),
                         TableShape.square => PhosphorIcons.square(
-                            selected ? PhosphorIconsStyle.fill : PhosphorIconsStyle.light),
+                          selected
+                              ? PhosphorIconsStyle.fill
+                              : PhosphorIconsStyle.light,
+                        ),
                         TableShape.rectangle => PhosphorIcons.rectangle(
-                            selected ? PhosphorIconsStyle.fill : PhosphorIconsStyle.light),
+                          selected
+                              ? PhosphorIconsStyle.fill
+                              : PhosphorIconsStyle.light,
+                        ),
                       };
                       return Expanded(
                         child: GestureDetector(
@@ -336,22 +355,36 @@ class _TableEditorPageState extends ConsumerState<TableEditorPage> {
                               color: selected
                                   ? AppColors.primary.withValues(alpha: 0.1)
                                   : AppColors.grey50,
-                              borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+                              borderRadius: BorderRadius.circular(
+                                AppTheme.radiusMd,
+                              ),
                               border: Border.all(
-                                color: selected ? AppColors.primary : AppColors.grey200,
+                                color: selected
+                                    ? AppColors.primary
+                                    : AppColors.grey200,
                                 width: selected ? 1.5 : 1,
                               ),
                             ),
                             child: Column(
                               children: [
-                                Icon(icon, size: 28, color: selected ? AppColors.primary : AppColors.grey400),
+                                Icon(
+                                  icon,
+                                  size: 28,
+                                  color: selected
+                                      ? AppColors.primary
+                                      : AppColors.grey400,
+                                ),
                                 const SizedBox(height: 6),
                                 Text(
                                   s.label,
                                   style: TextStyle(
                                     fontSize: 12,
-                                    fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-                                    color: selected ? AppColors.primary : AppColors.grey500,
+                                    fontWeight: selected
+                                        ? FontWeight.w600
+                                        : FontWeight.w400,
+                                    color: selected
+                                        ? AppColors.primary
+                                        : AppColors.grey500,
                                   ),
                                 ),
                               ],
@@ -381,18 +414,27 @@ class _TableEditorPageState extends ConsumerState<TableEditorPage> {
                           onPressed: () {
                             if (!formKey.currentState!.validate()) return;
                             final number = int.tryParse(numberCtrl.text);
-                            final capacity = int.tryParse(capacityCtrl.text) ?? 4;
+                            final capacity =
+                                int.tryParse(capacityCtrl.text) ?? 4;
                             if (number == null) return;
 
-                            ref.read(tablesProvider.notifier).createTable(
-                              number: number,
-                              name: nameCtrl.text.isEmpty ? null : nameCtrl.text,
-                              capacity: capacity,
-                              zone: zoneCtrl.text.isEmpty ? null : zoneCtrl.text,
-                              shape: shape,
-                              width: shape == TableShape.rectangle ? 2.0 : 1.0,
-                              height: 1.0,
-                            );
+                            ref
+                                .read(tablesProvider.notifier)
+                                .createTable(
+                                  number: number,
+                                  name: nameCtrl.text.isEmpty
+                                      ? null
+                                      : nameCtrl.text,
+                                  capacity: capacity,
+                                  zone: zoneCtrl.text.isEmpty
+                                      ? null
+                                      : zoneCtrl.text,
+                                  shape: shape,
+                                  width: shape == TableShape.rectangle
+                                      ? 2.0
+                                      : 1.0,
+                                  height: 1.0,
+                                );
                             Navigator.pop(ctx);
                           },
                           style: FilledButton.styleFrom(
@@ -535,11 +577,20 @@ class _TableEditorPageState extends ConsumerState<TableEditorPage> {
                     final selected = s == shape;
                     final icon = switch (s) {
                       TableShape.round => PhosphorIcons.circle(
-                          selected ? PhosphorIconsStyle.fill : PhosphorIconsStyle.light),
+                        selected
+                            ? PhosphorIconsStyle.fill
+                            : PhosphorIconsStyle.light,
+                      ),
                       TableShape.square => PhosphorIcons.square(
-                          selected ? PhosphorIconsStyle.fill : PhosphorIconsStyle.light),
+                        selected
+                            ? PhosphorIconsStyle.fill
+                            : PhosphorIconsStyle.light,
+                      ),
                       TableShape.rectangle => PhosphorIcons.rectangle(
-                          selected ? PhosphorIconsStyle.fill : PhosphorIconsStyle.light),
+                        selected
+                            ? PhosphorIconsStyle.fill
+                            : PhosphorIconsStyle.light,
+                      ),
                     };
                     return Expanded(
                       child: GestureDetector(
@@ -552,22 +603,36 @@ class _TableEditorPageState extends ConsumerState<TableEditorPage> {
                             color: selected
                                 ? AppColors.primary.withValues(alpha: 0.1)
                                 : AppColors.grey50,
-                            borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+                            borderRadius: BorderRadius.circular(
+                              AppTheme.radiusMd,
+                            ),
                             border: Border.all(
-                              color: selected ? AppColors.primary : AppColors.grey200,
+                              color: selected
+                                  ? AppColors.primary
+                                  : AppColors.grey200,
                               width: selected ? 1.5 : 1,
                             ),
                           ),
                           child: Column(
                             children: [
-                              Icon(icon, size: 28, color: selected ? AppColors.primary : AppColors.grey400),
+                              Icon(
+                                icon,
+                                size: 28,
+                                color: selected
+                                    ? AppColors.primary
+                                    : AppColors.grey400,
+                              ),
                               const SizedBox(height: 6),
                               Text(
                                 s.label,
                                 style: TextStyle(
                                   fontSize: 12,
-                                  fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-                                  color: selected ? AppColors.primary : AppColors.grey500,
+                                  fontWeight: selected
+                                      ? FontWeight.w600
+                                      : FontWeight.w400,
+                                  color: selected
+                                      ? AppColors.primary
+                                      : AppColors.grey500,
                                 ),
                               ),
                             ],
@@ -595,15 +660,23 @@ class _TableEditorPageState extends ConsumerState<TableEditorPage> {
                       flex: 2,
                       child: FilledButton(
                         onPressed: () {
-                          ref.read(tablesProvider.notifier).updateTable(
-                            tableId: table.id,
-                            name: nameCtrl.text.isEmpty ? null : nameCtrl.text,
-                            capacity: int.tryParse(capacityCtrl.text),
-                            zone: zoneCtrl.text.isEmpty ? null : zoneCtrl.text,
-                            shape: shape,
-                            width: shape == TableShape.rectangle ? 2.0 : 1.0,
-                            height: 1.0,
-                          );
+                          ref
+                              .read(tablesProvider.notifier)
+                              .updateTable(
+                                tableId: table.id,
+                                name: nameCtrl.text.isEmpty
+                                    ? null
+                                    : nameCtrl.text,
+                                capacity: int.tryParse(capacityCtrl.text),
+                                zone: zoneCtrl.text.isEmpty
+                                    ? null
+                                    : zoneCtrl.text,
+                                shape: shape,
+                                width: shape == TableShape.rectangle
+                                    ? 2.0
+                                    : 1.0,
+                                height: 1.0,
+                              );
                           Navigator.pop(ctx);
                           setState(() => _editingTableId = null);
                         },
@@ -679,9 +752,7 @@ class _EditorToolbar extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: AppColors.white,
-        border: const Border(
-          bottom: BorderSide(color: AppColors.grey100),
-        ),
+        border: const Border(bottom: BorderSide(color: AppColors.grey100)),
         boxShadow: AppShadows.card,
       ),
       child: Row(
@@ -704,10 +775,7 @@ class _EditorToolbar extends StatelessWidget {
           const SizedBox(width: AppTheme.spacingSm),
           Text(
             '${table.shape.label} · ${table.capacity} personas',
-            style: const TextStyle(
-              fontSize: 12,
-              color: AppColors.grey500,
-            ),
+            style: const TextStyle(fontSize: 12, color: AppColors.grey500),
           ),
           const Spacer(),
           TactileWrapper(

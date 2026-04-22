@@ -313,13 +313,17 @@ class _InvitationTemplatePageState
           }
 
           return ListView(
-            physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+            physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics(),
+            ),
             padding: const EdgeInsets.all(16),
             children:
                 [
                       // ── Plantillas predeterminadas ──
                       _SectionTitle(
-                        icon: PhosphorIcons.swatches(PhosphorIconsStyle.duotone),
+                        icon: PhosphorIcons.swatches(
+                          PhosphorIconsStyle.duotone,
+                        ),
                         title: context.l10n.invTemplPresets,
                       ),
                       const SizedBox(height: 12),
@@ -478,7 +482,10 @@ class _InvitationTemplatePageState
                         padding: const EdgeInsets.only(bottom: 12),
                         child: Text(
                           context.l10n.invTemplVariablesHint,
-                          style: const TextStyle(fontSize: 12, color: AppColors.grey500),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: AppColors.grey500,
+                          ),
                         ),
                       ),
                       _TextFieldTile(
@@ -737,7 +744,7 @@ class _EmailPreview extends StatelessWidget {
                         width: 2,
                       ),
                     ),
-                child: Icon(
+                    child: Icon(
                       PhosphorIcons.forkKnife(PhosphorIconsStyle.duotone),
                       color: Colors.white,
                       size: 24,
@@ -886,7 +893,12 @@ class _ColorRow extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12),
-          Expanded(child: Text(label, style: const TextStyle(fontSize: 14, color: AppColors.grey700))),
+          Expanded(
+            child: Text(
+              label,
+              style: const TextStyle(fontSize: 14, color: AppColors.grey700),
+            ),
+          ),
           Text(
             color,
             style: const TextStyle(

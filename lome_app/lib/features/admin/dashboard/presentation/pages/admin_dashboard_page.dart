@@ -62,10 +62,7 @@ class AdminDashboardPage extends ConsumerWidget {
               const SizedBox(height: AppTheme.spacingSm),
               Text(
                 context.l10n.adminDashboardPlatformStatus,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: AppColors.grey500,
-                ),
+                style: const TextStyle(fontSize: 14, color: AppColors.grey500),
               ),
               const SizedBox(height: AppTheme.spacingLg),
 
@@ -83,7 +80,9 @@ class AdminDashboardPage extends ConsumerWidget {
                     iconColor: AppColors.primary,
                     title: context.l10n.restaurants,
                     value: '${stats.activeTenants}',
-                    subtitle: context.l10n.adminDashboardPendingCount(stats.pendingTenants),
+                    subtitle: context.l10n.adminDashboardPendingCount(
+                      stats.pendingTenants,
+                    ),
                   ),
                   LomeStatCard(
                     icon: PhosphorIcons.users(PhosphorIconsStyle.fill),
@@ -97,14 +96,18 @@ class AdminDashboardPage extends ConsumerWidget {
                     iconColor: AppColors.warning,
                     title: context.l10n.adminDashboardTodayOrders,
                     value: _formatNumber(stats.todayOrders),
-                    subtitle: context.l10n.adminStatThisMonth(_formatNumber(stats.monthOrders)),
+                    subtitle: context.l10n.adminStatThisMonth(
+                      _formatNumber(stats.monthOrders),
+                    ),
                   ),
                   LomeStatCard(
                     icon: PhosphorIcons.currencyEur(PhosphorIconsStyle.fill),
                     iconColor: AppColors.success,
                     title: context.l10n.adminDashboardMonthVolume,
                     value: _formatCurrency(stats.monthRevenue),
-                    subtitle: context.l10n.adminStatToday(_formatCurrency(stats.todayRevenue)),
+                    subtitle: context.l10n.adminStatToday(
+                      _formatCurrency(stats.todayRevenue),
+                    ),
                   ),
                 ],
               ).animate().fadeIn(duration: 400.ms).slideY(begin: 0.1),
@@ -143,16 +146,17 @@ class AdminDashboardPage extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: AppTheme.spacingMd),
-              ...alerts.map((alert) => Padding(
-                    padding:
-                        const EdgeInsets.only(bottom: AppTheme.spacingSm),
-                    child: _AlertCard(
-                      icon: _alertIcon(alert.type),
-                      color: _alertColor(alert.type),
-                      title: alert.title,
-                      subtitle: alert.subtitle,
-                    ),
-                  )),
+              ...alerts.map(
+                (alert) => Padding(
+                  padding: const EdgeInsets.only(bottom: AppTheme.spacingSm),
+                  child: _AlertCard(
+                    icon: _alertIcon(alert.type),
+                    color: _alertColor(alert.type),
+                    title: alert.title,
+                    subtitle: alert.subtitle,
+                  ),
+                ),
+              ),
 
               const SizedBox(height: AppTheme.spacingXl),
             ],
@@ -243,7 +247,10 @@ class _RecentRestaurantTile extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  context.l10n.adminDashboardRegisteredInfo(dateStr, restaurant.totalOrders),
+                  context.l10n.adminDashboardRegisteredInfo(
+                    dateStr,
+                    restaurant.totalOrders,
+                  ),
                   style: const TextStyle(
                     fontSize: 12,
                     color: AppColors.grey500,

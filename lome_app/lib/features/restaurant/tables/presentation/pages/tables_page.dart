@@ -57,7 +57,10 @@ class TablesPage extends ConsumerWidget {
               message: context.l10n.tablesStatistics,
               child: Padding(
                 padding: const EdgeInsets.all(8),
-                child: Icon(PhosphorIcons.chartBar(PhosphorIconsStyle.duotone), color: AppColors.white),
+                child: Icon(
+                  PhosphorIcons.chartBar(PhosphorIconsStyle.duotone),
+                  color: AppColors.white,
+                ),
               ),
             ),
           ),
@@ -69,7 +72,10 @@ class TablesPage extends ConsumerWidget {
                 message: context.l10n.tableEditorTitle,
                 child: Padding(
                   padding: const EdgeInsets.all(8),
-                  child: Icon(PhosphorIcons.pencilSimple(PhosphorIconsStyle.duotone), color: AppColors.white),
+                  child: Icon(
+                    PhosphorIcons.pencilSimple(PhosphorIconsStyle.duotone),
+                    color: AppColors.white,
+                  ),
                 ),
               ),
             ),
@@ -80,7 +86,10 @@ class TablesPage extends ConsumerWidget {
               message: context.l10n.restaurantDashboardTitle,
               child: Padding(
                 padding: const EdgeInsets.all(8),
-                child: Icon(PhosphorIcons.squaresFour(PhosphorIconsStyle.duotone), color: AppColors.white),
+                child: Icon(
+                  PhosphorIcons.squaresFour(PhosphorIconsStyle.duotone),
+                  color: AppColors.white,
+                ),
               ),
             ),
           ),
@@ -88,7 +97,10 @@ class TablesPage extends ConsumerWidget {
             onTap: () => context.pushNamed(RouteNames.settings),
             child: Padding(
               padding: const EdgeInsets.all(8),
-              child: Icon(PhosphorIcons.gear(PhosphorIconsStyle.duotone), color: AppColors.white),
+              child: Icon(
+                PhosphorIcons.gear(PhosphorIconsStyle.duotone),
+                color: AppColors.white,
+              ),
             ),
           ),
         ],
@@ -199,10 +211,7 @@ class _StatusLegend extends StatelessWidget {
       child: Row(
         children: [
           for (int i = 0; i < items.length; i++)
-            _LegendDot(
-              color: items[i].$1,
-              label: items[i].$2,
-            )
+            _LegendDot(color: items[i].$1, label: items[i].$2)
                 .animate()
                 .fadeIn(delay: Duration(milliseconds: i * 60))
                 .slideX(begin: 0.05),
@@ -278,32 +287,38 @@ class _ZoneFilterBar extends ConsumerWidget {
       child: Row(
         children: [
           FilterChip(
-            label: Text(context.l10n.tablesFilterAll),
-            selected: selectedZone == null,
-            selectedColor: AppColors.primary.withValues(alpha: 0.12),
-            onSelected: (_) =>
-                ref.read(tableZoneFilterProvider.notifier).state = null,
-          )
+                label: Text(context.l10n.tablesFilterAll),
+                selected: selectedZone == null,
+                selectedColor: AppColors.primary.withValues(alpha: 0.12),
+                onSelected: (_) =>
+                    ref.read(tableZoneFilterProvider.notifier).state = null,
+              )
               .animate()
               .fadeIn(delay: const Duration(milliseconds: 0))
               .slideX(begin: -0.03),
           const SizedBox(width: 8),
           ...zones.asMap().entries.map(
-            (entry) => Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: FilterChip(
-                label: Text(entry.value),
-                selected: selectedZone == entry.value,
-                selectedColor: AppColors.primary.withValues(alpha: 0.12),
-                checkmarkColor: AppColors.primary,
-                onSelected: (_) =>
-                    ref.read(tableZoneFilterProvider.notifier).state =
-                        selectedZone == entry.value ? null : entry.value,
-              ),
-            )
-                .animate()
-                .fadeIn(delay: Duration(milliseconds: (entry.key + 1) * 50))
-                .slideX(begin: -0.03),
+            (entry) =>
+                Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: FilterChip(
+                        label: Text(entry.value),
+                        selected: selectedZone == entry.value,
+                        selectedColor: AppColors.primary.withValues(
+                          alpha: 0.12,
+                        ),
+                        checkmarkColor: AppColors.primary,
+                        onSelected: (_) =>
+                            ref
+                                .read(tableZoneFilterProvider.notifier)
+                                .state = selectedZone == entry.value
+                            ? null
+                            : entry.value,
+                      ),
+                    )
+                    .animate()
+                    .fadeIn(delay: Duration(milliseconds: (entry.key + 1) * 50))
+                    .slideX(begin: -0.03),
           ),
         ],
       ),
@@ -408,7 +423,10 @@ class _TableActionSheet extends ConsumerWidget {
                           const SizedBox(width: 4),
                           Text(
                             '${table.guestsCount ?? 0}/${table.capacity}',
-                            style: const TextStyle(fontSize: 12, color: AppColors.grey500),
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: AppColors.grey500,
+                            ),
                           ),
                         ],
                       ),
@@ -426,7 +444,10 @@ class _TableActionSheet extends ConsumerWidget {
                               Text(
                                 assignment.waiterName ??
                                     context.l10n.tablesAssignedWaiter,
-                                style: const TextStyle(fontSize: 12, color: AppColors.grey500),
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: AppColors.grey500,
+                                ),
                               ),
                             ],
                           ),
@@ -476,7 +497,10 @@ class _TableActionSheet extends ConsumerWidget {
                 Navigator.pop(context);
                 _showWaiterAssignment(parentContext);
               },
-              icon: Icon(PhosphorIcons.userPlus(PhosphorIconsStyle.duotone), size: 18),
+              icon: Icon(
+                PhosphorIcons.userPlus(PhosphorIconsStyle.duotone),
+                size: 18,
+              ),
               label: Text(context.l10n.tablesWaiter),
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 10),
@@ -490,9 +514,14 @@ class _TableActionSheet extends ConsumerWidget {
             child: OutlinedButton.icon(
               onPressed: () {
                 Navigator.pop(context);
-                parentContext.push('${RoutePaths.tableHistory}?tableId=${table.id}');
+                parentContext.push(
+                  '${RoutePaths.tableHistory}?tableId=${table.id}',
+                );
               },
-              icon: Icon(PhosphorIcons.clockCounterClockwise(PhosphorIconsStyle.duotone), size: 18),
+              icon: Icon(
+                PhosphorIcons.clockCounterClockwise(PhosphorIconsStyle.duotone),
+                size: 18,
+              ),
               label: Text(context.l10n.tablesHistory),
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 10),
@@ -583,7 +612,10 @@ class _TableActionSheet extends ConsumerWidget {
             }
             Navigator.pop(context);
           },
-          icon: Icon(PhosphorIcons.xCircle(PhosphorIconsStyle.duotone), color: AppColors.error),
+          icon: Icon(
+            PhosphorIcons.xCircle(PhosphorIconsStyle.duotone),
+            color: AppColors.error,
+          ),
           label: Text(
             context.l10n.tablesCancelReservation,
             style: TextStyle(color: AppColors.error),
@@ -659,7 +691,9 @@ class _TableActionSheet extends ConsumerWidget {
       if (parentContext.mounted) {
         ScaffoldMessenger.of(parentContext).showSnackBar(
           SnackBar(
-            content: Text(parentContext.l10n.tablesErrorOpenTable(e.toString())),
+            content: Text(
+              parentContext.l10n.tablesErrorOpenTable(e.toString()),
+            ),
           ),
         );
       }
@@ -695,7 +729,9 @@ class _TableActionSheet extends ConsumerWidget {
       if (parentContext.mounted) {
         ScaffoldMessenger.of(parentContext).showSnackBar(
           SnackBar(
-            content: Text(parentContext.l10n.tablesErrorOpenTable(e.toString())),
+            content: Text(
+              parentContext.l10n.tablesErrorOpenTable(e.toString()),
+            ),
           ),
         );
       }
@@ -746,9 +782,7 @@ class _TableActionSheet extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TactileWrapper(
-                onTap: count > 1
-                    ? () => setDialogState(() => count--)
-                    : null,
+                onTap: count > 1 ? () => setDialogState(() => count--) : null,
                 child: Padding(
                   padding: const EdgeInsets.all(AppTheme.spacingSm),
                   child: Icon(
@@ -773,7 +807,9 @@ class _TableActionSheet extends ConsumerWidget {
                   padding: const EdgeInsets.all(AppTheme.spacingSm),
                   child: Icon(
                     PhosphorIcons.plusCircle(PhosphorIconsStyle.duotone),
-                    color: count < table.capacity ? AppColors.grey700 : AppColors.grey300,
+                    color: count < table.capacity
+                        ? AppColors.grey700
+                        : AppColors.grey300,
                   ),
                 ),
               ),
@@ -841,13 +877,20 @@ class _ReservationInfoBanner extends StatelessWidget {
                 ),
                 Text(
                   '$timeStr · ${context.l10n.tablesCapacity(reservation.guests)}',
-                  style: const TextStyle(fontSize: 12, color: AppColors.grey500),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppColors.grey500,
+                  ),
                 ),
               ],
             ),
           ),
           if (reservation.phone != null)
-            Icon(PhosphorIcons.phone(PhosphorIconsStyle.duotone), size: 16, color: AppColors.grey400),
+            Icon(
+              PhosphorIcons.phone(PhosphorIconsStyle.duotone),
+              size: 16,
+              color: AppColors.grey400,
+            ),
         ],
       ),
     );
@@ -882,15 +925,19 @@ class _SummaryStatsStrip extends StatelessWidget {
 
     final free = tables.where((t) => t.status == TableStatus.available).length;
     final occupied = tables
-        .where((t) =>
-            t.status == TableStatus.occupied ||
-            t.status == TableStatus.waitingFood ||
-            t.status == TableStatus.waitingPayment)
+        .where(
+          (t) =>
+              t.status == TableStatus.occupied ||
+              t.status == TableStatus.waitingFood ||
+              t.status == TableStatus.waitingPayment,
+        )
         .length;
-    final reserved =
-        tables.where((t) => t.status == TableStatus.reserved).length;
-    final maintenance =
-        tables.where((t) => t.status == TableStatus.maintenance).length;
+    final reserved = tables
+        .where((t) => t.status == TableStatus.reserved)
+        .length;
+    final maintenance = tables
+        .where((t) => t.status == TableStatus.maintenance)
+        .length;
 
     return Container(
       margin: const EdgeInsets.symmetric(
@@ -955,10 +1002,7 @@ class _StatItem extends StatelessWidget {
         Container(
           width: 8,
           height: 8,
-          decoration: BoxDecoration(
-            color: color,
-            shape: BoxShape.circle,
-          ),
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         ),
         const SizedBox(width: 6),
         Text(
@@ -972,10 +1016,7 @@ class _StatItem extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           label,
-          style: const TextStyle(
-            fontSize: 12,
-            color: AppColors.grey500,
-          ),
+          style: const TextStyle(fontSize: 12, color: AppColors.grey500),
         ),
       ],
     );

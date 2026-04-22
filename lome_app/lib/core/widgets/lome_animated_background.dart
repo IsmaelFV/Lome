@@ -21,8 +21,7 @@ class LomeAnimatedBackground extends StatefulWidget {
   });
 
   @override
-  State<LomeAnimatedBackground> createState() =>
-      _LomeAnimatedBackgroundState();
+  State<LomeAnimatedBackground> createState() => _LomeAnimatedBackgroundState();
 }
 
 class _LomeAnimatedBackgroundState extends State<LomeAnimatedBackground>
@@ -57,19 +56,14 @@ class _LomeAnimatedBackgroundState extends State<LomeAnimatedBackground>
 
   @override
   Widget build(BuildContext context) {
-    final colors = widget.colors ??
-        [
-          AppColors.primary,
-          AppColors.primaryLight,
-          AppColors.success,
-        ];
+    final colors =
+        widget.colors ??
+        [AppColors.primary, AppColors.primaryLight, AppColors.success];
 
     return Stack(
       children: [
         // Background color
-        const Positioned.fill(
-          child: ColoredBox(color: AppColors.white),
-        ),
+        const Positioned.fill(child: ColoredBox(color: AppColors.white)),
 
         // Animated shapes
         if (widget.enableAnimation)

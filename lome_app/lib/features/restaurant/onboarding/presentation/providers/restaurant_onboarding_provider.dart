@@ -9,9 +9,9 @@ import '../../../../auth/presentation/providers/auth_provider.dart';
 /// múltiples restaurantes por usuario.
 final onboardingCompleteProvider =
     StateNotifierProvider<OnboardingNotifier, bool>((ref) {
-  final tenantId = ref.watch(activeTenantIdProvider);
-  return OnboardingNotifier(tenantId);
-});
+      final tenantId = ref.watch(activeTenantIdProvider);
+      return OnboardingNotifier(tenantId);
+    });
 
 class OnboardingNotifier extends StateNotifier<bool> {
   final String? _tenantId;

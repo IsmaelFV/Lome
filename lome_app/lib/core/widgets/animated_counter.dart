@@ -34,18 +34,9 @@ class _AnimatedCounterState extends State<AnimatedCounter>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    );
-    _animation = Tween<double>(
-      begin: widget.begin,
-      end: widget.end,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: AppTheme.curveSmooth,
-      ),
+    _controller = AnimationController(vsync: this, duration: widget.duration);
+    _animation = Tween<double>(begin: widget.begin, end: widget.end).animate(
+      CurvedAnimation(parent: _controller, curve: AppTheme.curveSmooth),
     );
     _controller.forward();
   }
@@ -54,15 +45,10 @@ class _AnimatedCounterState extends State<AnimatedCounter>
   void didUpdateWidget(covariant AnimatedCounter oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.end != widget.end) {
-      _animation = Tween<double>(
-        begin: _animation.value,
-        end: widget.end,
-      ).animate(
-        CurvedAnimation(
-          parent: _controller,
-          curve: AppTheme.curveSmooth,
-        ),
-      );
+      _animation = Tween<double>(begin: _animation.value, end: widget.end)
+          .animate(
+            CurvedAnimation(parent: _controller, curve: AppTheme.curveSmooth),
+          );
       _controller
         ..reset()
         ..forward();
@@ -79,10 +65,8 @@ class _AnimatedCounterState extends State<AnimatedCounter>
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _animation,
-      builder: (context, _) => Text(
-        widget.formatter(_animation.value),
-        style: widget.style,
-      ),
+      builder: (context, _) =>
+          Text(widget.formatter(_animation.value), style: widget.style),
     );
   }
 }

@@ -48,9 +48,8 @@ class _OrderHistoryPageState extends ConsumerState<OrderHistoryPage> {
         actions: [
           if (filter.hasFilters)
             TactileWrapper(
-              onTap: () =>
-                  ref.read(orderHistoryFilterProvider.notifier).state =
-                      const OrderHistoryFilter(),
+              onTap: () => ref.read(orderHistoryFilterProvider.notifier).state =
+                  const OrderHistoryFilter(),
               child: Tooltip(
                 message: context.l10n.orderHistoryClearFilters,
                 child: Padding(
@@ -80,7 +79,9 @@ class _OrderHistoryPageState extends ConsumerState<OrderHistoryPage> {
               data: (orders) {
                 if (orders.isEmpty) {
                   return LomeEmptyState(
-                    icon: PhosphorIcons.clockCounterClockwise(PhosphorIconsStyle.duotone),
+                    icon: PhosphorIcons.clockCounterClockwise(
+                      PhosphorIconsStyle.duotone,
+                    ),
                     title: context.l10n.orderHistoryEmptyTitle,
                     subtitle: context.l10n.orderHistoryEmptySubtitle,
                   );
@@ -89,12 +90,20 @@ class _OrderHistoryPageState extends ConsumerState<OrderHistoryPage> {
                   onRefresh: () async => ref.invalidate(orderHistoryProvider),
                   color: AppColors.primary,
                   child: ListView.builder(
-                    physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                    physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics(),
+                    ),
                     padding: const EdgeInsets.all(AppTheme.spacingMd),
                     itemCount: orders.length,
-                    itemBuilder: (ctx, i) => _HistoryOrderCard(
-                      order: orders[i],
-                    ).animate().fadeIn(duration: 200.ms, delay: (30 * i).ms).slideY(begin: 0.05, end: 0, duration: 200.ms, delay: (30 * i).ms),
+                    itemBuilder: (ctx, i) => _HistoryOrderCard(order: orders[i])
+                        .animate()
+                        .fadeIn(duration: 200.ms, delay: (30 * i).ms)
+                        .slideY(
+                          begin: 0.05,
+                          end: 0,
+                          duration: 200.ms,
+                          delay: (30 * i).ms,
+                        ),
                   ),
                 );
               },
@@ -132,7 +141,10 @@ class _FilterBar extends ConsumerWidget {
                 ),
             decoration: InputDecoration(
               hintText: context.l10n.orderHistorySearchHint,
-              prefixIcon: Icon(PhosphorIcons.magnifyingGlass(PhosphorIconsStyle.duotone), size: 20),
+              prefixIcon: Icon(
+                PhosphorIcons.magnifyingGlass(PhosphorIconsStyle.duotone),
+                size: 20,
+              ),
               suffixIcon: searchCtrl.text.isNotEmpty
                   ? TactileWrapper(
                       onTap: () {
@@ -143,7 +155,10 @@ class _FilterBar extends ConsumerWidget {
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8),
-                        child: Icon(PhosphorIcons.x(PhosphorIconsStyle.bold), size: 18),
+                        child: Icon(
+                          PhosphorIcons.x(PhosphorIconsStyle.bold),
+                          size: 18,
+                        ),
                       ),
                     )
                   : null,
@@ -342,7 +357,14 @@ class _FilterButton extends StatelessWidget {
             children: [
               Icon(icon, size: 16, color: AppColors.grey500),
               const SizedBox(width: 6),
-              Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.grey700)),
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.grey700,
+                ),
+              ),
             ],
           ),
         ),
@@ -429,10 +451,18 @@ class _FilterChip extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.primary),
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.primary,
+                ),
               ),
               const SizedBox(width: 4),
-              Icon(PhosphorIcons.x(PhosphorIconsStyle.bold), size: 12, color: AppColors.primary),
+              Icon(
+                PhosphorIcons.x(PhosphorIconsStyle.bold),
+                size: 12,
+                color: AppColors.primary,
+              ),
             ],
           ),
         ),
@@ -520,7 +550,10 @@ class _HistoryOrderCard extends StatelessWidget {
                   const SizedBox(width: 4),
                   Text(
                     fmt.format(order.createdAt),
-                    style: const TextStyle(fontSize: 12, color: AppColors.grey500),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.grey500,
+                    ),
                   ),
                   if (order.waiterName != null) ...[
                     const SizedBox(width: AppTheme.spacingMd),
@@ -532,7 +565,10 @@ class _HistoryOrderCard extends StatelessWidget {
                     const SizedBox(width: 4),
                     Text(
                       order.waiterName!,
-                      style: const TextStyle(fontSize: 12, color: AppColors.grey500),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.grey500,
+                      ),
                     ),
                   ],
                 ],
@@ -737,7 +773,10 @@ class _OrderDetailSheet extends StatelessWidget {
                     ),
                   );
                 },
-                icon: Icon(PhosphorIcons.printer(PhosphorIconsStyle.duotone), size: 18),
+                icon: Icon(
+                  PhosphorIcons.printer(PhosphorIconsStyle.duotone),
+                  size: 18,
+                ),
                 label: Text(context.l10n.orderDetailPrintTicket),
               ),
             ),

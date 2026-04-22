@@ -34,7 +34,7 @@ class TemplateGallery extends ConsumerWidget {
 
     final content = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
+      mainAxisSize: isFullScreen ? MainAxisSize.max : MainAxisSize.min,
       children: [
         // Header
         Padding(
@@ -49,17 +49,35 @@ class TemplateGallery extends ConsumerWidget {
             children: [
               Row(
                 children: [
-                  Icon(
-                    PhosphorIcons.layout(PhosphorIconsStyle.duotone),
-                    color: AppColors.primary,
-                    size: 24,
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: AppColors.primarySoft,
+                      borderRadius: BorderRadius.circular(AppTheme.radiusSm),
+                    ),
+                    child: Icon(
+                      PhosphorIcons.layout(PhosphorIconsStyle.duotone),
+                      color: AppColors.primary,
+                      size: 22,
+                    ),
                   ),
-                  const SizedBox(width: AppTheme.spacingSm),
+                  const SizedBox(width: AppTheme.spacingMd),
                   const Expanded(
-                    child: Text(
-                      'Elige una plantilla base',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Plantillas',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          'Se rellenan con tu menú automáticamente',
+                          style: TextStyle(fontSize: 12, color: Colors.grey),
+                        ),
+                      ],
                     ),
                   ),
                   if (!isFullScreen)
@@ -69,18 +87,13 @@ class TemplateGallery extends ConsumerWidget {
                     ),
                 ],
               ),
-              const SizedBox(height: 4),
-              Text(
-                'Se rellenará con los platos de tu menú',
-                style: TextStyle(fontSize: 13, color: Colors.grey[600]),
-              ),
             ],
           ),
         ),
 
         const Divider(height: 1),
 
-        // Template grid
+        // Template grid: blank card first, then templates
         Flexible(
           child: GridView.builder(
             shrinkWrap: !isFullScreen,
@@ -89,11 +102,26 @@ class TemplateGallery extends ConsumerWidget {
               crossAxisCount: 2,
               mainAxisSpacing: AppTheme.spacingMd,
               crossAxisSpacing: AppTheme.spacingMd,
-              childAspectRatio: 0.65,
+              childAspectRatio: 0.7,
             ),
-            itemCount: templates.length,
+            // +1 for blank canvas card
+            itemCount: templates.length + 1,
             itemBuilder: (_, i) {
-              final t = templates[i];
+              // First item = blank canvas
+              if (i == 0) {
+                return _BlankCanvasCard(
+                  onTap: () {
+                    ref.read(canvasProvider.notifier).clearCanvas();
+                    if (isFullScreen) {
+                      onTemplateApplied?.call();
+                    } else {
+                      Navigator.pop(context);
+                    }
+                  },
+                );
+              }
+
+              final t = templates[i - 1];
               return _TemplateCard(
                 template: t,
                 onTap: () {
@@ -119,12 +147,95 @@ class TemplateGallery extends ConsumerWidget {
       ],
     );
 
-    if (isFullScreen) {
-      return Scaffold(
-        body: SafeArea(child: content),
-      );
-    }
     return content;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Blank canvas card
+// ---------------------------------------------------------------------------
+
+class _BlankCanvasCard extends StatelessWidget {
+  final VoidCallback onTap;
+  const _BlankCanvasCard({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+          border: Border.all(
+            color: AppColors.primary.withValues(alpha: 0.4),
+            width: 1.5,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.04),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: AppColors.grey50,
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(AppTheme.radiusMd),
+                  ),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: AppColors.primarySoft,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        PhosphorIcons.pencilSimple(PhosphorIconsStyle.duotone),
+                        color: AppColors.primary,
+                        size: 22,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Lienzo en blanco',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppTheme.spacingSm,
+                vertical: AppTheme.spacingSm,
+              ),
+              child: Text(
+                'Empieza desde cero y diseña libremente',
+                style: TextStyle(fontSize: 11, color: Colors.grey[500]),
+                maxLines: 2,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -154,7 +265,7 @@ class _TemplateCard extends StatelessWidget {
           border: Border.all(color: AppColors.grey200),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
+              color: Colors.black.withValues(alpha: 0.06),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -164,54 +275,93 @@ class _TemplateCard extends StatelessWidget {
           children: [
             // Mini canvas preview
             Expanded(
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: bg,
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(AppTheme.radiusMd),
-                  ),
+              flex: 3,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(AppTheme.radiusMd),
                 ),
-                padding: const EdgeInsets.all(12),
-                child: _MiniPreview(
-                  primary: primary,
-                  secondary: secondary,
-                  accent: accent,
-                  bg: bg,
-                  templateId: template.id,
+                child: Stack(
+                  children: [
+                    // Template background
+                    Positioned.fill(child: Container(color: bg)),
+                    // Mini content
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: _MiniPreview(
+                        primary: primary,
+                        secondary: secondary,
+                        accent: accent,
+                        bg: bg,
+                        templateId: template.id,
+                      ),
+                    ),
+                    // Color accent strip at top
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: 4,
+                      child: Row(
+                        children: [
+                          Expanded(child: Container(color: primary)),
+                          Expanded(child: Container(color: accent)),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
 
             // Label
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppTheme.spacingSm,
-                vertical: AppTheme.spacingSm,
-              ),
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(AppTheme.radiusMd),
+            Expanded(
+              flex: 2,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppTheme.spacingSm,
+                  vertical: 6,
                 ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    template.name,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 10,
+                          height: 10,
+                          decoration: BoxDecoration(
+                            color: bg,
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: AppColors.grey300,
+                              width: 0.5,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: Text(
+                            template.name,
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  Text(
-                    template.description,
-                    style: TextStyle(fontSize: 11, color: Colors.grey[500]),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+                    const SizedBox(height: 3),
+                    Text(
+                      template.description,
+                      style: TextStyle(fontSize: 10, color: Colors.grey[500]),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -310,7 +460,9 @@ class _MiniPreview extends StatelessWidget {
             ),
 
             // Frame for certain templates
-            if (templateId == 'classica' || templateId == 'elegante' || templateId == 'rustica')
+            if (templateId == 'classica' ||
+                templateId == 'elegante' ||
+                templateId == 'rustica')
               Positioned.fill(
                 child: Container(
                   decoration: BoxDecoration(
@@ -319,7 +471,8 @@ class _MiniPreview extends StatelessWidget {
                       width: 1,
                     ),
                     borderRadius: BorderRadius.circular(
-                        templateId == 'rustica' ? 4 : 0),
+                      templateId == 'rustica' ? 4 : 0,
+                    ),
                   ),
                 ),
               ),

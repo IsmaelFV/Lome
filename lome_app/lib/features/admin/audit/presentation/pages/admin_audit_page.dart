@@ -68,12 +68,16 @@ class AdminAuditPage extends ConsumerWidget {
                       selected: periodHours == option.value,
                       selectedColor: AppColors.primary.withValues(alpha: 0.15),
                       labelStyle: TextStyle(
-                        color: periodHours == option.value ? AppColors.primary : AppColors.grey600,
-                        fontWeight: periodHours == option.value ? FontWeight.w600 : FontWeight.w400,
+                        color: periodHours == option.value
+                            ? AppColors.primary
+                            : AppColors.grey600,
+                        fontWeight: periodHours == option.value
+                            ? FontWeight.w600
+                            : FontWeight.w400,
                       ),
-                      onSelected: (_) => ref
-                          .read(auditPeriodHoursProvider.notifier)
-                          .state = option.value,
+                      onSelected: (_) =>
+                          ref.read(auditPeriodHoursProvider.notifier).state =
+                              option.value,
                     ),
                   ),
               ],
@@ -99,7 +103,8 @@ class AdminAuditPage extends ConsumerWidget {
                       Expanded(
                         child: LomeStatCard(
                           icon: PhosphorIcons.listBullets(
-                              PhosphorIconsStyle.fill),
+                            PhosphorIconsStyle.fill,
+                          ),
                           iconColor: AppColors.primary,
                           title: context.l10n.adminAuditTotalEvents,
                           value: '${summary.totalEvents}',
@@ -109,7 +114,8 @@ class AdminAuditPage extends ConsumerWidget {
                       Expanded(
                         child: LomeStatCard(
                           icon: PhosphorIcons.usersThree(
-                              PhosphorIconsStyle.fill),
+                            PhosphorIconsStyle.fill,
+                          ),
                           iconColor: AppColors.info,
                           title: context.l10n.adminAuditActiveUsers,
                           value: '${summary.topUsers.length}',
@@ -128,18 +134,24 @@ class AdminAuditPage extends ConsumerWidget {
                         children: [
                           Text(
                             context.l10n.adminAuditByAction,
-                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.grey900),
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.grey900,
+                            ),
                           ),
                           const SizedBox(height: AppTheme.spacingSm),
                           Wrap(
                             spacing: AppTheme.spacingSm,
                             runSpacing: AppTheme.spacingSm,
                             children: summary.actions.entries
-                                .map((e) => _ActionChip(
-                                      label: _actionLabel(context, e.key),
-                                      count: e.value,
-                                      color: _actionColor(e.key),
-                                    ))
+                                .map(
+                                  (e) => _ActionChip(
+                                    label: _actionLabel(context, e.key),
+                                    count: e.value,
+                                    color: _actionColor(e.key),
+                                  ),
+                                )
                                 .toList(),
                           ),
                         ],
@@ -157,18 +169,24 @@ class AdminAuditPage extends ConsumerWidget {
                         children: [
                           Text(
                             context.l10n.adminAuditByEntity,
-                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.grey900),
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.grey900,
+                            ),
                           ),
                           const SizedBox(height: AppTheme.spacingSm),
                           Wrap(
                             spacing: AppTheme.spacingSm,
                             runSpacing: AppTheme.spacingSm,
                             children: summary.entities.entries
-                                .map((e) => _ActionChip(
-                                      label: e.key,
-                                      count: e.value,
-                                      color: AppColors.info,
-                                    ))
+                                .map(
+                                  (e) => _ActionChip(
+                                    label: e.key,
+                                    count: e.value,
+                                    color: AppColors.info,
+                                  ),
+                                )
                                 .toList(),
                           ),
                         ],
@@ -187,7 +205,11 @@ class AdminAuditPage extends ConsumerWidget {
               children: [
                 Text(
                   context.l10n.adminAuditEventLog,
-                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.grey900),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.grey900,
+                  ),
                 ),
                 const Spacer(),
                 _FilterDropdown(
@@ -220,12 +242,22 @@ class AdminAuditPage extends ConsumerWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(PhosphorIcons.clipboardText(PhosphorIconsStyle.duotone),
-                            size: 64,
-                            color: AppColors.grey300),
+                        Icon(
+                          PhosphorIcons.clipboardText(
+                            PhosphorIconsStyle.duotone,
+                          ),
+                          size: 64,
+                          color: AppColors.grey300,
+                        ),
                         const SizedBox(height: AppTheme.spacingMd),
-                        Text(context.l10n.adminAuditNoEvents,
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.grey500)),
+                        Text(
+                          context.l10n.adminAuditNoEvents,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.grey500,
+                          ),
+                        ),
                       ],
                     ),
                   );
@@ -233,16 +265,16 @@ class AdminAuditPage extends ConsumerWidget {
 
                 return RefreshIndicator(
                   color: AppColors.primary,
-                  onRefresh: () async =>
-                      ref.invalidate(auditLogsProvider),
+                  onRefresh: () async => ref.invalidate(auditLogsProvider),
                   child: ListView.builder(
                     physics: const BouncingScrollPhysics(),
                     padding: const EdgeInsets.all(AppTheme.spacingMd),
                     itemCount: logs.length,
                     itemBuilder: (context, index) {
-                      return _AuditLogTile(entry: logs[index])
-                          .animate()
-                          .fadeIn(delay: (index * 50).ms, duration: 250.ms);
+                      return _AuditLogTile(entry: logs[index]).animate().fadeIn(
+                        delay: (index * 50).ms,
+                        duration: 250.ms,
+                      );
                     },
                   ),
                 );
@@ -309,10 +341,10 @@ class _ActionChip extends StatelessWidget {
           Text(
             label,
             style: TextStyle(
-                  fontSize: 11,
-                  color: color,
-                  fontWeight: FontWeight.w600,
-                ),
+              fontSize: 11,
+              color: color,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           const SizedBox(width: 6),
           Container(
@@ -324,10 +356,10 @@ class _ActionChip extends StatelessWidget {
             child: Text(
               '$count',
               style: TextStyle(
-                    fontSize: 10,
-                    color: color,
-                    fontWeight: FontWeight.bold,
-                  ),
+                fontSize: 10,
+                color: color,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],
@@ -355,17 +387,22 @@ class _FilterDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButton<String?>(
       value: value,
-      hint: Text(hint, style: const TextStyle(fontSize: 12, color: AppColors.grey500)),
+      hint: Text(
+        hint,
+        style: const TextStyle(fontSize: 12, color: AppColors.grey500),
+      ),
       underline: const SizedBox.shrink(),
       isDense: true,
       items: items
-          .map((item) => DropdownMenuItem<String?>(
-                value: item,
-                child: Text(
-                  item ?? context.l10n.adminAuditAllFilter,
-                  style: const TextStyle(fontSize: 12, color: AppColors.grey500),
-                ),
-              ))
+          .map(
+            (item) => DropdownMenuItem<String?>(
+              value: item,
+              child: Text(
+                item ?? context.l10n.adminAuditAllFilter,
+                style: const TextStyle(fontSize: 12, color: AppColors.grey500),
+              ),
+            ),
+          )
           .toList(),
       onChanged: onChanged,
     );
@@ -443,64 +480,68 @@ class _AuditLogTile extends StatelessWidget {
                   children: [
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 6, vertical: 2),
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
                       decoration: BoxDecoration(
                         color: _actionColor.withOpacity(0.1),
-                        borderRadius:
-                            BorderRadius.circular(AppTheme.radiusSm),
+                        borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                       ),
                       child: Text(
                         entry.action,
                         style: TextStyle(
-                              fontSize: 10,
-                              color: _actionColor,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          fontSize: 10,
+                          color: _actionColor,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 6),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 6, vertical: 2),
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.info.withOpacity(0.1),
-                        borderRadius:
-                            BorderRadius.circular(AppTheme.radiusSm),
+                        borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                       ),
                       child: Text(
                         entry.entityType,
                         style: const TextStyle(
-                              fontSize: 10,
-                              color: AppColors.info,
-                            ),
+                          fontSize: 10,
+                          color: AppColors.info,
+                        ),
                       ),
                     ),
                     const Spacer(),
                     Text(
                       ts,
                       style: const TextStyle(
-                            fontSize: 11,
-                            color: AppColors.grey400,
-                          ),
+                        fontSize: 11,
+                        color: AppColors.grey400,
+                      ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  entry.userName ?? entry.userId ?? context.l10n.adminAuditSystemLabel,
+                  entry.userName ??
+                      entry.userId ??
+                      context.l10n.adminAuditSystemLabel,
                   style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.grey500,
-                      ),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.grey500,
+                  ),
                 ),
                 if (entry.entityId != null)
                   Text(
                     'ID: ${entry.entityId}',
                     style: const TextStyle(
-                          fontSize: 11,
-                          color: AppColors.grey500,
-                        ),
+                      fontSize: 11,
+                      color: AppColors.grey500,
+                    ),
                   ),
               ],
             ),

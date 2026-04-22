@@ -158,147 +158,148 @@ class _MenuManagementPageState extends ConsumerState<MenuManagementPage>
       builder: (ctx) => Theme(
         data: AppTheme.light,
         child: Padding(
-        padding: EdgeInsets.only(
-          left: AppTheme.spacingLg,
-          right: AppTheme.spacingLg,
-          top: AppTheme.spacingMd,
-          bottom: MediaQuery.of(ctx).viewInsets.bottom + AppTheme.spacingLg,
-        ),
-        child: Form(
-          key: formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Handle bar
-              Center(
-                child: Container(
-                  width: 40,
-                  height: 4,
-                  margin: const EdgeInsets.only(bottom: AppTheme.spacingMd),
-                  decoration: BoxDecoration(
-                    color: AppColors.grey300,
-                    borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+          padding: EdgeInsets.only(
+            left: AppTheme.spacingLg,
+            right: AppTheme.spacingLg,
+            top: AppTheme.spacingMd,
+            bottom: MediaQuery.of(ctx).viewInsets.bottom + AppTheme.spacingLg,
+          ),
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Handle bar
+                Center(
+                  child: Container(
+                    width: 40,
+                    height: 4,
+                    margin: const EdgeInsets.only(bottom: AppTheme.spacingMd),
+                    decoration: BoxDecoration(
+                      color: AppColors.grey300,
+                      borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+                    ),
                   ),
                 ),
-              ),
-              // Title row
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(AppTheme.spacingSm),
-                        decoration: BoxDecoration(
-                          color: AppColors.primary.withValues(alpha: 0.1),
-                          borderRadius:
-                              BorderRadius.circular(AppTheme.radiusMd),
+                // Title row
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(AppTheme.spacingSm),
+                          decoration: BoxDecoration(
+                            color: AppColors.primary.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(
+                              AppTheme.radiusMd,
+                            ),
+                          ),
+                          child: Icon(
+                            PhosphorIcons.squaresFour(
+                              PhosphorIconsStyle.duotone,
+                            ),
+                            color: AppColors.primary,
+                            size: 20,
+                          ),
+                        ),
+                        const SizedBox(width: AppTheme.spacingSm),
+                        Text(
+                          title,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.grey900,
+                          ),
+                        ),
+                      ],
+                    ),
+                    TactileWrapper(
+                      onTap: () => Navigator.pop(ctx),
+                      child: Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: const BoxDecoration(
+                          color: AppColors.grey100,
+                          shape: BoxShape.circle,
                         ),
                         child: Icon(
-                          PhosphorIcons.squaresFour(
-                            PhosphorIconsStyle.duotone,
-                          ),
-                          color: AppColors.primary,
-                          size: 20,
+                          PhosphorIcons.x(PhosphorIconsStyle.bold),
+                          size: 16,
+                          color: AppColors.grey500,
                         ),
                       ),
-                      const SizedBox(width: AppTheme.spacingSm),
-                      Text(
-                        title,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.grey900,
-                        ),
-                      ),
-                    ],
-                  ),
-                  TactileWrapper(
-                    onTap: () => Navigator.pop(ctx),
-                    child: Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: const BoxDecoration(
-                        color: AppColors.grey100,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        PhosphorIcons.x(PhosphorIconsStyle.bold),
-                        size: 16,
-                        color: AppColors.grey500,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: AppTheme.spacingMd),
+                LomeTextField(
+                  label: context.l10n.menuCategoryName,
+                  controller: nameCtrl,
+                  validator: (v) => (v == null || v.trim().isEmpty)
+                      ? context.l10n.menuCategoryNameRequired
+                      : null,
+                ),
+                const SizedBox(height: AppTheme.spacingSm),
+                LomeTextField(
+                  label: context.l10n.menuCategoryDescription,
+                  controller: descCtrl,
+                  maxLines: 2,
+                ),
+                const SizedBox(height: AppTheme.spacingLg),
+                Row(
+                  children: [
+                    Expanded(
+                      child: LomeButton(
+                        label: context.l10n.cancel,
+                        variant: LomeButtonVariant.text,
+                        onPressed: () => Navigator.pop(ctx),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: AppTheme.spacingMd),
-              LomeTextField(
-                label: context.l10n.menuCategoryName,
-                controller: nameCtrl,
-                validator: (v) => (v == null || v.trim().isEmpty)
-                    ? context.l10n.menuCategoryNameRequired
-                    : null,
-              ),
-              const SizedBox(height: AppTheme.spacingSm),
-              LomeTextField(
-                label: context.l10n.menuCategoryDescription,
-                controller: descCtrl,
-                maxLines: 2,
-              ),
-              const SizedBox(height: AppTheme.spacingLg),
-              Row(
-                children: [
-                  Expanded(
-                    child: LomeButton(
-                      label: context.l10n.cancel,
-                      variant: LomeButtonVariant.text,
-                      onPressed: () => Navigator.pop(ctx),
-                    ),
-                  ),
-                  const SizedBox(width: AppTheme.spacingSm),
-                  Expanded(
-                    child: LomeButton(
-                      label: context.l10n.save,
-                      onPressed: () async {
-                        if (!formKey.currentState!.validate()) return;
-                        try {
-                          final crud = ref.read(
-                            menuCategoryCrudProvider.notifier,
-                          );
-                          if (category == null) {
-                            await crud.create(
-                              name: nameCtrl.text.trim(),
-                              description: descCtrl.text.trim().isEmpty
-                                  ? null
-                                  : descCtrl.text.trim(),
+                    const SizedBox(width: AppTheme.spacingSm),
+                    Expanded(
+                      child: LomeButton(
+                        label: context.l10n.save,
+                        onPressed: () async {
+                          if (!formKey.currentState!.validate()) return;
+                          try {
+                            final crud = ref.read(
+                              menuCategoryCrudProvider.notifier,
                             );
-                          } else {
-                            await crud.updateCategory(
-                              category.id,
-                              name: nameCtrl.text.trim(),
-                              description: descCtrl.text.trim(),
-                            );
+                            if (category == null) {
+                              await crud.create(
+                                name: nameCtrl.text.trim(),
+                                description: descCtrl.text.trim().isEmpty
+                                    ? null
+                                    : descCtrl.text.trim(),
+                              );
+                            } else {
+                              await crud.updateCategory(
+                                category.id,
+                                name: nameCtrl.text.trim(),
+                                description: descCtrl.text.trim(),
+                              );
+                            }
+                            if (ctx.mounted) Navigator.pop(ctx);
+                          } catch (e) {
+                            if (ctx.mounted) {
+                              ScaffoldMessenger.of(ctx).showSnackBar(
+                                SnackBar(
+                                  content: Text('Error: $e'),
+                                  backgroundColor: AppColors.error,
+                                ),
+                              );
+                            }
                           }
-                          if (ctx.mounted) Navigator.pop(ctx);
-                        } catch (e) {
-                          if (ctx.mounted) {
-                            ScaffoldMessenger.of(ctx).showSnackBar(
-                              SnackBar(
-                                content: Text('Error: $e'),
-                                backgroundColor: AppColors.error,
-                              ),
-                            );
-                          }
-                        }
-                      },
+                        },
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
-      ),
       ),
     );
   }
@@ -341,417 +342,417 @@ class _MenuManagementPageState extends ConsumerState<MenuManagementPage>
       builder: (ctx) => Theme(
         data: AppTheme.light,
         child: StatefulBuilder(
-        builder: (ctx, setDialogState) => DraggableScrollableSheet(
-          initialChildSize: 0.85,
-          minChildSize: 0.5,
-          maxChildSize: 0.95,
-          expand: false,
-          builder: (ctx, scrollCtrl) => Padding(
-            padding: EdgeInsets.only(
-              left: AppTheme.spacingLg,
-              right: AppTheme.spacingLg,
-              top: AppTheme.spacingMd,
-              bottom: MediaQuery.of(ctx).viewInsets.bottom + AppTheme.spacingLg,
-            ),
-            child: Form(
-              key: formKey,
-              child: ListView(
-                controller: scrollCtrl,
-                children: [
-                  // Handle bar
-                  Center(
-                    child: Container(
-                      width: 40,
-                      height: 4,
-                      margin:
-                          const EdgeInsets.only(bottom: AppTheme.spacingMd),
-                      decoration: BoxDecoration(
-                        color: AppColors.grey300,
-                        borderRadius:
-                            BorderRadius.circular(AppTheme.radiusFull),
+          builder: (ctx, setDialogState) => DraggableScrollableSheet(
+            initialChildSize: 0.85,
+            minChildSize: 0.5,
+            maxChildSize: 0.95,
+            expand: false,
+            builder: (ctx, scrollCtrl) => Padding(
+              padding: EdgeInsets.only(
+                left: AppTheme.spacingLg,
+                right: AppTheme.spacingLg,
+                top: AppTheme.spacingMd,
+                bottom:
+                    MediaQuery.of(ctx).viewInsets.bottom + AppTheme.spacingLg,
+              ),
+              child: Form(
+                key: formKey,
+                child: ListView(
+                  controller: scrollCtrl,
+                  children: [
+                    // Handle bar
+                    Center(
+                      child: Container(
+                        width: 40,
+                        height: 4,
+                        margin: const EdgeInsets.only(
+                          bottom: AppTheme.spacingMd,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.grey300,
+                          borderRadius: BorderRadius.circular(
+                            AppTheme.radiusFull,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                  // Title row
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            padding:
-                                const EdgeInsets.all(AppTheme.spacingSm),
-                            decoration: BoxDecoration(
-                              color: AppColors.primary.withValues(
-                                alpha: 0.1,
+                    // Title row
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(AppTheme.spacingSm),
+                              decoration: BoxDecoration(
+                                color: AppColors.primary.withValues(alpha: 0.1),
+                                borderRadius: BorderRadius.circular(
+                                  AppTheme.radiusMd,
+                                ),
                               ),
-                              borderRadius: BorderRadius.circular(
-                                AppTheme.radiusMd,
+                              child: Icon(
+                                PhosphorIcons.forkKnife(
+                                  PhosphorIconsStyle.duotone,
+                                ),
+                                color: AppColors.primary,
+                                size: 20,
                               ),
+                            ),
+                            const SizedBox(width: AppTheme.spacingSm),
+                            Text(
+                              itemTitle,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.grey900,
+                              ),
+                            ),
+                          ],
+                        ),
+                        TactileWrapper(
+                          onTap: () => Navigator.pop(ctx),
+                          child: Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: const BoxDecoration(
+                              color: AppColors.grey100,
+                              shape: BoxShape.circle,
                             ),
                             child: Icon(
-                              PhosphorIcons.forkKnife(
-                                PhosphorIconsStyle.duotone,
-                              ),
-                              color: AppColors.primary,
-                              size: 20,
+                              PhosphorIcons.x(PhosphorIconsStyle.bold),
+                              size: 16,
+                              color: AppColors.grey500,
                             ),
-                          ),
-                          const SizedBox(width: AppTheme.spacingSm),
-                          Text(
-                            itemTitle,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.grey900,
-                            ),
-                          ),
-                        ],
-                      ),
-                      TactileWrapper(
-                        onTap: () => Navigator.pop(ctx),
-                        child: Container(
-                          padding: const EdgeInsets.all(6),
-                          decoration: const BoxDecoration(
-                            color: AppColors.grey100,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            PhosphorIcons.x(PhosphorIconsStyle.bold),
-                            size: 16,
-                            color: AppColors.grey500,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  // ========================================================
-                  // Section: Imagen del plato
-                  // ========================================================
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: AppTheme.spacingMd,
-                      bottom: AppTheme.spacingSm,
+                      ],
                     ),
-                    child: Text(
-                      context.l10n.menuItemImage,
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.grey500,
-                        letterSpacing: 0.5,
+                    // ========================================================
+                    // Section: Imagen del plato
+                    // ========================================================
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: AppTheme.spacingMd,
+                        bottom: AppTheme.spacingSm,
+                      ),
+                      child: Text(
+                        context.l10n.menuItemImage,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.grey500,
+                          letterSpacing: 0.5,
+                        ),
                       ),
                     ),
-                  ),
-                  _ImagePickerSection(
-                    imageBytes: imageBytes,
-                    imageUrl: imageUrl,
-                    isUploading: isUploadingImage,
-                    onPick: () async {
-                      final picker = ImagePicker();
-                      final xFile = await picker.pickImage(
-                        source: ImageSource.gallery,
-                        maxWidth: 800,
-                        maxHeight: 800,
-                        imageQuality: 85,
-                      );
-                      if (xFile == null) return;
-
-                      final bytes = await xFile.readAsBytes();
-                      setDialogState(() {
-                        imageBytes = bytes;
-                        isUploadingImage = true;
-                      });
-
-                      try {
-                        final tenantId = ref.read(activeTenantIdProvider);
-                        final timestamp =
-                            DateTime.now().millisecondsSinceEpoch;
-                        final url = await CloudinaryService.uploadImage(
-                          bytes: bytes,
-                          folder: 'lome/restaurants/$tenantId/menu',
-                          publicId: 'dish_$timestamp',
+                    _ImagePickerSection(
+                      imageBytes: imageBytes,
+                      imageUrl: imageUrl,
+                      isUploading: isUploadingImage,
+                      onPick: () async {
+                        final picker = ImagePicker();
+                        final xFile = await picker.pickImage(
+                          source: ImageSource.gallery,
+                          maxWidth: 800,
+                          maxHeight: 800,
+                          imageQuality: 85,
                         );
-                        final optimized = CloudinaryService.optimizedUrl(
-                          url,
-                          width: 600,
-                          height: 400,
-                        );
+                        if (xFile == null) return;
+
+                        final bytes = await xFile.readAsBytes();
                         setDialogState(() {
-                          imageUrl = optimized;
-                          isUploadingImage = false;
+                          imageBytes = bytes;
+                          isUploadingImage = true;
                         });
-                      } catch (_) {
-                        setDialogState(() => isUploadingImage = false);
-                        if (ctx.mounted) {
-                          ScaffoldMessenger.of(ctx).showSnackBar(
-                            SnackBar(
-                              content: Text(context.l10n.menuItemImageError),
-                              backgroundColor: AppColors.error,
-                            ),
+
+                        try {
+                          final tenantId = ref.read(activeTenantIdProvider);
+                          final timestamp =
+                              DateTime.now().millisecondsSinceEpoch;
+                          final url = await CloudinaryService.uploadImage(
+                            bytes: bytes,
+                            folder: 'lome/restaurants/$tenantId/menu',
+                            publicId: 'dish_$timestamp',
                           );
+                          final optimized = CloudinaryService.optimizedUrl(
+                            url,
+                            width: 600,
+                            height: 400,
+                          );
+                          setDialogState(() {
+                            imageUrl = optimized;
+                            isUploadingImage = false;
+                          });
+                        } catch (_) {
+                          setDialogState(() => isUploadingImage = false);
+                          if (ctx.mounted) {
+                            ScaffoldMessenger.of(ctx).showSnackBar(
+                              SnackBar(
+                                content: Text(context.l10n.menuItemImageError),
+                                backgroundColor: AppColors.error,
+                              ),
+                            );
+                          }
                         }
-                      }
-                    },
-                    onRemove: () {
-                      setDialogState(() {
-                        imageBytes = null;
-                        imageUrl = null;
-                      });
-                    },
-                  ),
-                  // Section: Información básica
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: AppTheme.spacingMd,
-                      bottom: AppTheme.spacingSm,
+                      },
+                      onRemove: () {
+                        setDialogState(() {
+                          imageBytes = null;
+                          imageUrl = null;
+                        });
+                      },
                     ),
-                    child: Text(
-                      'Información básica',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.grey500,
-                        letterSpacing: 0.5,
+                    // Section: Información básica
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: AppTheme.spacingMd,
+                        bottom: AppTheme.spacingSm,
+                      ),
+                      child: Text(
+                        'Información básica',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.grey500,
+                          letterSpacing: 0.5,
+                        ),
                       ),
                     ),
-                  ),
-                  LomeTextField(
-                    label: context.l10n.menuItemName,
-                    controller: nameCtrl,
-                    validator: (v) => (v == null || v.trim().isEmpty)
-                        ? context.l10n.menuItemNameRequired
-                        : null,
-                  ),
-                  const SizedBox(height: AppTheme.spacingSm),
-                  LomeTextField(
-                    label: context.l10n.menuItemPrice,
-                    controller: priceCtrl,
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
+                    LomeTextField(
+                      label: context.l10n.menuItemName,
+                      controller: nameCtrl,
+                      validator: (v) => (v == null || v.trim().isEmpty)
+                          ? context.l10n.menuItemNameRequired
+                          : null,
                     ),
-                    validator: (v) {
-                      if (v == null || v.trim().isEmpty) {
-                        return context.l10n.menuItemPriceRequired;
-                      }
-                      if (double.tryParse(v.trim()) == null) {
-                        return context.l10n.menuItemPriceRequired;
-                      }
-                      return null;
-                    },
-                  ),
-                  // Section: Categoría
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: AppTheme.spacingMd,
-                      bottom: AppTheme.spacingSm,
+                    const SizedBox(height: AppTheme.spacingSm),
+                    LomeTextField(
+                      label: context.l10n.menuItemPrice,
+                      controller: priceCtrl,
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                      validator: (v) {
+                        if (v == null || v.trim().isEmpty) {
+                          return context.l10n.menuItemPriceRequired;
+                        }
+                        if (double.tryParse(v.trim()) == null) {
+                          return context.l10n.menuItemPriceRequired;
+                        }
+                        return null;
+                      },
                     ),
-                    child: Text(
-                      'Categoría',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.grey500,
-                        letterSpacing: 0.5,
+                    // Section: Categoría
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: AppTheme.spacingMd,
+                        bottom: AppTheme.spacingSm,
+                      ),
+                      child: Text(
+                        'Categoría',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.grey500,
+                          letterSpacing: 0.5,
+                        ),
                       ),
                     ),
-                  ),
-                  // Category dropdown
-                  categories.when(
-                    data: (cats) => DropdownButtonFormField<String>(
-                      value: selectedCategoryId,
-                      decoration: InputDecoration(
-                        labelText: context.l10n.menuItemCategory,
-                        filled: true,
-                        fillColor: AppColors.grey50,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                            AppTheme.radiusMd,
+                    // Category dropdown
+                    categories.when(
+                      data: (cats) => DropdownButtonFormField<String>(
+                        value: selectedCategoryId,
+                        decoration: InputDecoration(
+                          labelText: context.l10n.menuItemCategory,
+                          filled: true,
+                          fillColor: AppColors.grey50,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(
+                              AppTheme.radiusMd,
+                            ),
                           ),
                         ),
+                        items: cats
+                            .map(
+                              (c) => DropdownMenuItem(
+                                value: c.id,
+                                child: Text(c.name),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (v) =>
+                            setDialogState(() => selectedCategoryId = v),
                       ),
-                      items: cats
-                          .map(
-                            (c) => DropdownMenuItem(
-                              value: c.id,
-                              child: Text(c.name),
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (v) =>
-                          setDialogState(() => selectedCategoryId = v),
+                      loading: () => const LomeLoading(size: 24),
+                      error: (_, __) => const SizedBox.shrink(),
                     ),
-                    loading: () => const LomeLoading(size: 24),
-                    error: (_, __) => const SizedBox.shrink(),
-                  ),
-                  // Section: Detalles
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: AppTheme.spacingMd,
-                      bottom: AppTheme.spacingSm,
-                    ),
-                    child: Text(
-                      'Detalles',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.grey500,
-                        letterSpacing: 0.5,
+                    // Section: Detalles
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: AppTheme.spacingMd,
+                        bottom: AppTheme.spacingSm,
                       ),
-                    ),
-                  ),
-                  LomeTextField(
-                    label: context.l10n.menuItemDescription,
-                    controller: descCtrl,
-                    maxLines: 3,
-                  ),
-                  const SizedBox(height: AppTheme.spacingSm),
-                  LomeTextField(
-                    label: context.l10n.menuItemPrepTime,
-                    controller: prepTimeCtrl,
-                    keyboardType: TextInputType.number,
-                  ),
-                  // Section: Etiquetas
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: AppTheme.spacingMd,
-                      bottom: AppTheme.spacingSm,
-                    ),
-                    child: Text(
-                      'Etiquetas',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.grey500,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                  ),
-                  // Allergens input
-                  _ChipInputField(
-                    label: context.l10n.menuAllergens,
-                    values: selectedAllergens,
-                    onChanged: (v) =>
-                        setDialogState(() => selectedAllergens = v),
-                  ),
-                  const SizedBox(height: AppTheme.spacingSm),
-                  // Tags input
-                  _ChipInputField(
-                    label: context.l10n.menuTags,
-                    values: selectedTags,
-                    onChanged: (v) => setDialogState(() => selectedTags = v),
-                  ),
-                  // Section: Opciones
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: AppTheme.spacingMd,
-                      bottom: AppTheme.spacingSm,
-                    ),
-                    child: Text(
-                      'Opciones',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.grey500,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                  ),
-                  // Featured toggle
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppTheme.spacingSm,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.grey50,
-                      borderRadius:
-                          BorderRadius.circular(AppTheme.radiusMd),
-                    ),
-                    child: SwitchListTile(
-                      title: Text(context.l10n.menuFeatured),
-                      value: isFeatured,
-                      activeColor: AppColors.primary,
-                      onChanged: (v) =>
-                          setDialogState(() => isFeatured = v),
-                      contentPadding: EdgeInsets.zero,
-                    ),
-                  ),
-                  const SizedBox(height: AppTheme.spacingLg),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: LomeButton(
-                          label: context.l10n.cancel,
-                          variant: LomeButtonVariant.text,
-                          onPressed: () => Navigator.pop(ctx),
+                      child: Text(
+                        'Detalles',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.grey500,
+                          letterSpacing: 0.5,
                         ),
                       ),
-                      const SizedBox(width: AppTheme.spacingSm),
-                      Expanded(
-                        child: LomeButton(
-                          label: context.l10n.save,
-                          onPressed: () async {
-                            if (!formKey.currentState!.validate()) return;
-                            try {
-                              final crud = ref.read(
-                                menuItemCrudProvider.notifier,
-                              );
-                              if (item == null) {
-                                await crud.create(
-                                  name: nameCtrl.text.trim(),
-                                  price: double.parse(priceCtrl.text.trim()),
-                                  categoryId: selectedCategoryId,
-                                  description: descCtrl.text.trim().isEmpty
-                                      ? null
-                                      : descCtrl.text.trim(),
-                                  imageUrl: imageUrl,
-                                  preparationTime: int.tryParse(
-                                    prepTimeCtrl.text.trim(),
-                                  ),
-                                  allergens: selectedAllergens,
-                                  tags: selectedTags,
-                                  isFeatured: isFeatured,
-                                );
-                              } else {
-                                await crud.updateItem(item.id, {
-                                  'name': nameCtrl.text.trim(),
-                                  'price': double.parse(priceCtrl.text.trim()),
-                                  'category_id': selectedCategoryId,
-                                  'description': descCtrl.text.trim().isEmpty
-                                      ? null
-                                      : descCtrl.text.trim(),
-                                  'image_url': imageUrl,
-                                  'preparation_time_min': int.tryParse(
-                                    prepTimeCtrl.text.trim(),
-                                  ),
-                                  'allergens': selectedAllergens,
-                                  'tags': selectedTags,
-                                  'is_featured': isFeatured,
-                                });
-                              }
-                              if (ctx.mounted) Navigator.pop(ctx);
-                            } catch (e) {
-                              if (ctx.mounted) {
-                                ScaffoldMessenger.of(ctx).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Error: $e'),
-                                    backgroundColor: AppColors.error,
-                                  ),
-                                );
-                              }
-                            }
-                          },
+                    ),
+                    LomeTextField(
+                      label: context.l10n.menuItemDescription,
+                      controller: descCtrl,
+                      maxLines: 3,
+                    ),
+                    const SizedBox(height: AppTheme.spacingSm),
+                    LomeTextField(
+                      label: context.l10n.menuItemPrepTime,
+                      controller: prepTimeCtrl,
+                      keyboardType: TextInputType.number,
+                    ),
+                    // Section: Etiquetas
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: AppTheme.spacingMd,
+                        bottom: AppTheme.spacingSm,
+                      ),
+                      child: Text(
+                        'Etiquetas',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.grey500,
+                          letterSpacing: 0.5,
                         ),
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                    // Allergens input
+                    _ChipInputField(
+                      label: context.l10n.menuAllergens,
+                      values: selectedAllergens,
+                      onChanged: (v) =>
+                          setDialogState(() => selectedAllergens = v),
+                    ),
+                    const SizedBox(height: AppTheme.spacingSm),
+                    // Tags input
+                    _ChipInputField(
+                      label: context.l10n.menuTags,
+                      values: selectedTags,
+                      onChanged: (v) => setDialogState(() => selectedTags = v),
+                    ),
+                    // Section: Opciones
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: AppTheme.spacingMd,
+                        bottom: AppTheme.spacingSm,
+                      ),
+                      child: Text(
+                        'Opciones',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.grey500,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ),
+                    // Featured toggle
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppTheme.spacingSm,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.grey50,
+                        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+                      ),
+                      child: SwitchListTile(
+                        title: Text(context.l10n.menuFeatured),
+                        value: isFeatured,
+                        activeColor: AppColors.primary,
+                        onChanged: (v) => setDialogState(() => isFeatured = v),
+                        contentPadding: EdgeInsets.zero,
+                      ),
+                    ),
+                    const SizedBox(height: AppTheme.spacingLg),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: LomeButton(
+                            label: context.l10n.cancel,
+                            variant: LomeButtonVariant.text,
+                            onPressed: () => Navigator.pop(ctx),
+                          ),
+                        ),
+                        const SizedBox(width: AppTheme.spacingSm),
+                        Expanded(
+                          child: LomeButton(
+                            label: context.l10n.save,
+                            onPressed: () async {
+                              if (!formKey.currentState!.validate()) return;
+                              try {
+                                final crud = ref.read(
+                                  menuItemCrudProvider.notifier,
+                                );
+                                if (item == null) {
+                                  await crud.create(
+                                    name: nameCtrl.text.trim(),
+                                    price: double.parse(priceCtrl.text.trim()),
+                                    categoryId: selectedCategoryId,
+                                    description: descCtrl.text.trim().isEmpty
+                                        ? null
+                                        : descCtrl.text.trim(),
+                                    imageUrl: imageUrl,
+                                    preparationTime: int.tryParse(
+                                      prepTimeCtrl.text.trim(),
+                                    ),
+                                    allergens: selectedAllergens,
+                                    tags: selectedTags,
+                                    isFeatured: isFeatured,
+                                  );
+                                } else {
+                                  await crud.updateItem(item.id, {
+                                    'name': nameCtrl.text.trim(),
+                                    'price': double.parse(
+                                      priceCtrl.text.trim(),
+                                    ),
+                                    'category_id': selectedCategoryId,
+                                    'description': descCtrl.text.trim().isEmpty
+                                        ? null
+                                        : descCtrl.text.trim(),
+                                    'image_url': imageUrl,
+                                    'preparation_time_min': int.tryParse(
+                                      prepTimeCtrl.text.trim(),
+                                    ),
+                                    'allergens': selectedAllergens,
+                                    'tags': selectedTags,
+                                    'is_featured': isFeatured,
+                                  });
+                                }
+                                if (ctx.mounted) Navigator.pop(ctx);
+                              } catch (e) {
+                                if (ctx.mounted) {
+                                  ScaffoldMessenger.of(ctx).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Error: $e'),
+                                      backgroundColor: AppColors.error,
+                                    ),
+                                  );
+                                }
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ),
-      ),
       ),
     );
   }
@@ -1429,7 +1430,9 @@ class _ImagePickerSection extends StatelessWidget {
         color: AppColors.grey50,
         borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         border: Border.all(
-          color: hasImage ? AppColors.primary.withValues(alpha: 0.3) : AppColors.grey200,
+          color: hasImage
+              ? AppColors.primary.withValues(alpha: 0.3)
+              : AppColors.grey200,
           width: hasImage ? 1.5 : 1,
         ),
       ),
@@ -1479,10 +1482,7 @@ class _ImagePickerSection extends StatelessWidget {
       children: [
         // Imagen
         if (imageBytes != null)
-          Image.memory(
-            imageBytes!,
-            fit: BoxFit.cover,
-          )
+          Image.memory(imageBytes!, fit: BoxFit.cover)
         else if (imageUrl != null)
           Image.network(
             imageUrl!,

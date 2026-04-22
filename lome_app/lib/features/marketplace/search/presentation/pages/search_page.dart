@@ -208,13 +208,14 @@ class _IdleView extends ConsumerWidget {
             ),
           ),
           ...recentSearches.asMap().entries.map(
-                (entry) => _RecentSearchTile(
-                  query: entry.value,
-                  onTap: () => onRecentTap(entry.value),
-                  onRemove: () => ref
-                      .read(recentSearchesProvider.notifier)
-                      .remove(entry.value),
-                )
+            (entry) =>
+                _RecentSearchTile(
+                      query: entry.value,
+                      onTap: () => onRecentTap(entry.value),
+                      onRemove: () => ref
+                          .read(recentSearchesProvider.notifier)
+                          .remove(entry.value),
+                    )
                     .animate()
                     .fadeIn(duration: 250.ms, delay: (40 * entry.key).ms)
                     .slideX(
@@ -223,7 +224,7 @@ class _IdleView extends ConsumerWidget {
                       duration: 250.ms,
                       delay: (40 * entry.key).ms,
                     ),
-              ),
+          ),
           const SizedBox(height: AppTheme.spacingSm),
         ],
 
@@ -250,21 +251,22 @@ class _IdleView extends ConsumerWidget {
                         .asMap()
                         .entries
                         .map(
-                          (entry) => _CuisineChip(
-                            label: entry.value,
-                            onTap: () => onCuisineTap(entry.value),
-                          )
-                              .animate()
-                              .fadeIn(
-                                duration: 300.ms,
-                                delay: (50 * entry.key).ms,
-                              )
-                              .scale(
-                                begin: const Offset(0.9, 0.9),
-                                end: const Offset(1, 1),
-                                duration: 300.ms,
-                                delay: (50 * entry.key).ms,
-                              ),
+                          (entry) =>
+                              _CuisineChip(
+                                    label: entry.value,
+                                    onTap: () => onCuisineTap(entry.value),
+                                  )
+                                  .animate()
+                                  .fadeIn(
+                                    duration: 300.ms,
+                                    delay: (50 * entry.key).ms,
+                                  )
+                                  .scale(
+                                    begin: const Offset(0.9, 0.9),
+                                    end: const Offset(1, 1),
+                                    duration: 300.ms,
+                                    delay: (50 * entry.key).ms,
+                                  ),
                         )
                         .toList(),
                   ),
@@ -282,26 +284,26 @@ class _IdleView extends ConsumerWidget {
         // ── Prompt decorativo ──
         if (recentSearches.isEmpty)
           Padding(
-            padding: const EdgeInsets.only(top: AppTheme.spacingXxl),
-            child: Column(
-              children: [
-                Icon(
-                  PhosphorIcons.magnifyingGlass(PhosphorIconsStyle.duotone),
-                  size: 56,
-                  color: AppColors.grey200,
+                padding: const EdgeInsets.only(top: AppTheme.spacingXxl),
+                child: Column(
+                  children: [
+                    Icon(
+                      PhosphorIcons.magnifyingGlass(PhosphorIconsStyle.duotone),
+                      size: 56,
+                      color: AppColors.grey200,
+                    ),
+                    const SizedBox(height: AppTheme.spacingMd),
+                    Text(
+                      context.l10n.marketplaceSearchPrompt,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: AppColors.grey400,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: AppTheme.spacingMd),
-                Text(
-                  context.l10n.marketplaceSearchPrompt,
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: AppColors.grey400,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-          )
+              )
               .animate()
               .fadeIn(duration: 500.ms)
               .scale(
@@ -349,10 +351,7 @@ class _RecentSearchTile extends StatelessWidget {
             Expanded(
               child: Text(
                 query,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: AppColors.grey700,
-                ),
+                style: const TextStyle(fontSize: 14, color: AppColors.grey700),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -406,11 +405,7 @@ class _CuisineChip extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              _cuisineIcon(label),
-              size: 16,
-              color: AppColors.primary,
-            ),
+            Icon(_cuisineIcon(label), size: 16, color: AppColors.primary),
             const SizedBox(width: 6),
             Text(
               label,
@@ -510,21 +505,16 @@ class _SearchResultsView extends ConsumerWidget {
                 icon: PhosphorIcons.storefront(PhosphorIconsStyle.duotone),
               ),
               ...results.restaurants.asMap().entries.map(
-                    (entry) => _RestaurantResultCard(
-                      restaurant: entry.value,
-                    )
-                        .animate()
-                        .fadeIn(
-                          duration: 300.ms,
-                          delay: (50 * entry.key).ms,
-                        )
-                        .slideY(
-                          begin: 0.03,
-                          end: 0,
-                          duration: 300.ms,
-                          delay: (50 * entry.key).ms,
-                        ),
-                  ),
+                (entry) => _RestaurantResultCard(restaurant: entry.value)
+                    .animate()
+                    .fadeIn(duration: 300.ms, delay: (50 * entry.key).ms)
+                    .slideY(
+                      begin: 0.03,
+                      end: 0,
+                      duration: 300.ms,
+                      delay: (50 * entry.key).ms,
+                    ),
+              ),
             ],
 
             // ── Platos ──
@@ -538,21 +528,16 @@ class _SearchResultsView extends ConsumerWidget {
                 icon: PhosphorIcons.bowlFood(PhosphorIconsStyle.duotone),
               ),
               ...results.dishes.asMap().entries.map(
-                    (entry) => _DishResultCard(
-                      result: entry.value,
-                    )
-                        .animate()
-                        .fadeIn(
-                          duration: 300.ms,
-                          delay: (50 * entry.key).ms,
-                        )
-                        .slideY(
-                          begin: 0.03,
-                          end: 0,
-                          duration: 300.ms,
-                          delay: (50 * entry.key).ms,
-                        ),
-                  ),
+                (entry) => _DishResultCard(result: entry.value)
+                    .animate()
+                    .fadeIn(duration: 300.ms, delay: (50 * entry.key).ms)
+                    .slideY(
+                      begin: 0.03,
+                      end: 0,
+                      duration: 300.ms,
+                      delay: (50 * entry.key).ms,
+                    ),
+              ),
             ],
           ],
         );
@@ -597,7 +582,8 @@ class _RestaurantResultCard extends StatelessWidget {
                 child: SizedBox(
                   width: 56,
                   height: 56,
-                  child: restaurant.coverImageUrl != null ||
+                  child:
+                      restaurant.coverImageUrl != null ||
                           restaurant.logoUrl != null
                       ? CachedNetworkImage(
                           imageUrl:
@@ -637,8 +623,9 @@ class _RestaurantResultCard extends StatelessWidget {
                             ),
                             decoration: BoxDecoration(
                               color: AppColors.accent,
-                              borderRadius:
-                                  BorderRadius.circular(AppTheme.radiusFull),
+                              borderRadius: BorderRadius.circular(
+                                AppTheme.radiusFull,
+                              ),
                             ),
                             child: Icon(
                               PhosphorIcons.star(PhosphorIconsStyle.fill),
@@ -651,10 +638,7 @@ class _RestaurantResultCard extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       restaurant.cuisineLabel,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: AppColors.grey500,
-                      ),
+                      style: TextStyle(fontSize: 12, color: AppColors.grey500),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -824,8 +808,9 @@ class _DishResultCard extends StatelessWidget {
                                 AppColors.primary.withValues(alpha: 0.04),
                               ],
                             ),
-                            borderRadius:
-                                BorderRadius.circular(AppTheme.radiusFull),
+                            borderRadius: BorderRadius.circular(
+                              AppTheme.radiusFull,
+                            ),
                           ),
                           child: Text(
                             '€${dish.price.toStringAsFixed(2)}',
@@ -839,7 +824,9 @@ class _DishResultCard extends StatelessWidget {
                         // Tags
                         if (dish.tags.isNotEmpty) ...[
                           const SizedBox(width: AppTheme.spacingSm),
-                          ...dish.tags.take(2).map(
+                          ...dish.tags
+                              .take(2)
+                              .map(
                                 (tag) => Padding(
                                   padding: const EdgeInsets.only(right: 4),
                                   child: Container(

@@ -64,28 +64,36 @@ class AdminAnalyticsPage extends ConsumerWidget {
                     iconColor: AppColors.success,
                     title: context.l10n.adminAnalyticsMonthRevenue,
                     value: _formatCurrency(stats.monthRevenue),
-                    subtitle: context.l10n.adminStatToday(_formatCurrency(stats.todayRevenue)),
+                    subtitle: context.l10n.adminStatToday(
+                      _formatCurrency(stats.todayRevenue),
+                    ),
                   ),
                   LomeStatCard(
                     icon: PhosphorIcons.receipt(PhosphorIconsStyle.fill),
                     iconColor: AppColors.primary,
                     title: context.l10n.adminAnalyticsMonthOrders,
                     value: _formatNumber(stats.monthOrders),
-                    subtitle: context.l10n.adminStatToday(_formatNumber(stats.todayOrders)),
+                    subtitle: context.l10n.adminStatToday(
+                      _formatNumber(stats.todayOrders),
+                    ),
                   ),
                   LomeStatCard(
                     icon: PhosphorIcons.storefront(PhosphorIconsStyle.fill),
                     iconColor: AppColors.info,
                     title: context.l10n.restaurants,
                     value: '${stats.activeTenants}',
-                    subtitle: context.l10n.adminStatTotal('${stats.totalTenants}'),
+                    subtitle: context.l10n.adminStatTotal(
+                      '${stats.totalTenants}',
+                    ),
                   ),
                   LomeStatCard(
                     icon: PhosphorIcons.usersThree(PhosphorIconsStyle.fill),
                     iconColor: AppColors.warning,
                     title: context.l10n.adminAnalyticsActiveUsers,
                     value: _formatNumber(stats.totalUsers),
-                    subtitle: context.l10n.adminAnalyticsAvgRating(stats.avgPlatformRating.toStringAsFixed(1)),
+                    subtitle: context.l10n.adminAnalyticsAvgRating(
+                      stats.avgPlatformRating.toStringAsFixed(1),
+                    ),
                   ),
                 ],
               ).animate().fadeIn(duration: 400.ms).slideY(begin: 0.05),
@@ -95,7 +103,11 @@ class AdminAnalyticsPage extends ConsumerWidget {
               // Métricas de rendimiento
               Text(
                 context.l10n.adminAnalyticsPlatformMetrics,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.grey900),
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.grey900,
+                ),
               ),
               const SizedBox(height: AppTheme.spacingMd),
               LomeCard(
@@ -147,7 +159,11 @@ class AdminAnalyticsPage extends ConsumerWidget {
               // Top restaurantes
               Text(
                 context.l10n.adminAnalyticsTopRestaurants,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.grey900),
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.grey900,
+                ),
               ),
               const SizedBox(height: AppTheme.spacingMd),
               topAsync.when(
@@ -158,8 +174,13 @@ class AdminAnalyticsPage extends ConsumerWidget {
                     return LomeCard(
                       padding: const EdgeInsets.all(AppTheme.spacingLg),
                       child: Center(
-                        child: Text(context.l10n.adminAnalyticsNoRestaurantData,
-                            style: const TextStyle(fontSize: 14, color: AppColors.grey500)),
+                        child: Text(
+                          context.l10n.adminAnalyticsNoRestaurantData,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: AppColors.grey500,
+                          ),
+                        ),
                       ),
                     );
                   }
@@ -167,10 +188,12 @@ class AdminAnalyticsPage extends ConsumerWidget {
                     children: restaurants
                         .asMap()
                         .entries
-                        .map((entry) => _TopRestaurantTile(
-                              rank: entry.key + 1,
-                              restaurant: entry.value,
-                            ))
+                        .map(
+                          (entry) => _TopRestaurantTile(
+                            rank: entry.key + 1,
+                            restaurant: entry.value,
+                          ),
+                        )
                         .toList(),
                   );
                 },
@@ -228,7 +251,11 @@ class _MetricRow extends StatelessWidget {
           ),
           Text(
             value,
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: color),
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
           ),
         ],
       ),
@@ -237,10 +264,7 @@ class _MetricRow extends StatelessWidget {
 }
 
 class _TopRestaurantTile extends StatelessWidget {
-  const _TopRestaurantTile({
-    required this.rank,
-    required this.restaurant,
-  });
+  const _TopRestaurantTile({required this.rank, required this.restaurant});
 
   final int rank;
   final TopRestaurant restaurant;
@@ -265,12 +289,10 @@ class _TopRestaurantTile extends StatelessWidget {
             child: Text(
               '#$rank',
               style: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.bold,
-                    color: rank <= 3
-                        ? AppColors.primary
-                        : AppColors.grey600,
-                  ),
+                fontSize: 11,
+                fontWeight: FontWeight.bold,
+                color: rank <= 3 ? AppColors.primary : AppColors.grey600,
+              ),
             ),
           ),
           const SizedBox(width: AppTheme.spacingMd),
@@ -280,12 +302,19 @@ class _TopRestaurantTile extends StatelessWidget {
               children: [
                 Text(
                   restaurant.name,
-                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.grey900),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.grey900,
+                  ),
                 ),
                 if (restaurant.city != null)
                   Text(
                     restaurant.city!,
-                    style: const TextStyle(fontSize: 12, color: AppColors.grey500),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.grey500,
+                    ),
                   ),
               ],
             ),
@@ -295,19 +324,38 @@ class _TopRestaurantTile extends StatelessWidget {
             children: [
               Text(
                 '€${restaurant.totalRevenue.toStringAsFixed(0)}',
-                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.primary),
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.primary,
+                ),
               ),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(PhosphorIcons.star(PhosphorIconsStyle.fill),
-                      size: 12, color: AppColors.warning),
+                  Icon(
+                    PhosphorIcons.star(PhosphorIconsStyle.fill),
+                    size: 12,
+                    color: AppColors.warning,
+                  ),
                   const SizedBox(width: 2),
-                  Text(restaurant.rating.toStringAsFixed(1),
-                      style: const TextStyle(fontSize: 12, color: AppColors.grey700)),
+                  Text(
+                    restaurant.rating.toStringAsFixed(1),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.grey700,
+                    ),
+                  ),
                   const SizedBox(width: 8),
-                  Text(context.l10n.adminRestaurantsOrderCount(restaurant.totalOrders),
-                      style: const TextStyle(fontSize: 12, color: AppColors.grey500)),
+                  Text(
+                    context.l10n.adminRestaurantsOrderCount(
+                      restaurant.totalOrders,
+                    ),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.grey500,
+                    ),
+                  ),
                 ],
               ),
             ],

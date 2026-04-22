@@ -104,14 +104,30 @@ final _marketplaceCartNavigatorKey = GlobalKey<NavigatorState>(
 final _marketplaceProfileNavigatorKey = GlobalKey<NavigatorState>(
   debugLabel: 'marketplace-profile',
 );
-final _adminNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'admin-dashboard');
-final _adminRestaurantsNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'admin-restaurants');
-final _adminAnalyticsNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'admin-analytics');
-final _adminIncidentsNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'admin-incidents');
-final _adminModerationNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'admin-moderation');
-final _adminSubscriptionsNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'admin-subscriptions');
-final _adminAuditNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'admin-audit');
-final _adminMonitoringNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'admin-monitoring');
+final _adminNavigatorKey = GlobalKey<NavigatorState>(
+  debugLabel: 'admin-dashboard',
+);
+final _adminRestaurantsNavigatorKey = GlobalKey<NavigatorState>(
+  debugLabel: 'admin-restaurants',
+);
+final _adminAnalyticsNavigatorKey = GlobalKey<NavigatorState>(
+  debugLabel: 'admin-analytics',
+);
+final _adminIncidentsNavigatorKey = GlobalKey<NavigatorState>(
+  debugLabel: 'admin-incidents',
+);
+final _adminModerationNavigatorKey = GlobalKey<NavigatorState>(
+  debugLabel: 'admin-moderation',
+);
+final _adminSubscriptionsNavigatorKey = GlobalKey<NavigatorState>(
+  debugLabel: 'admin-subscriptions',
+);
+final _adminAuditNavigatorKey = GlobalKey<NavigatorState>(
+  debugLabel: 'admin-audit',
+);
+final _adminMonitoringNavigatorKey = GlobalKey<NavigatorState>(
+  debugLabel: 'admin-monitoring',
+);
 
 /// Provider del rootNavigatorKey para que otros servicios accedan al contexto.
 final rootNavigatorKeyProvider = Provider<GlobalKey<NavigatorState>>((ref) {
@@ -153,10 +169,7 @@ CustomTransitionPage<T> _buildPageTransition<T>({
         opacity: fadeIn,
         child: SlideTransition(
           position: slideIn,
-          child: ScaleTransition(
-            scale: fadeOut,
-            child: child,
-          ),
+          child: ScaleTransition(scale: fadeOut, child: child),
         ),
       );
     },
@@ -803,7 +816,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         pageBuilder: (context, state) => _buildPageTransition(
           context: context,
           state: state,
-          child: AdminIncidentDetailPage(incidentId: state.pathParameters['id']!),
+          child: AdminIncidentDetailPage(
+            incidentId: state.pathParameters['id']!,
+          ),
         ),
       ),
     ],

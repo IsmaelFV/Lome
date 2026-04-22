@@ -114,7 +114,9 @@ class _LomeAppState extends ConsumerState<LomeApp> with WidgetsBindingObserver {
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(
             // ignore: deprecated_member_use
-            textScaleFactor: MediaQuery.of(context).textScaleFactor.clamp(0.8, 1.3),
+            textScaleFactor: MediaQuery.of(
+              context,
+            ).textScaleFactor.clamp(0.8, 1.3),
           ),
           child: child ?? const SizedBox.shrink(),
         );

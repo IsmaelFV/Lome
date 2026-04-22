@@ -101,8 +101,7 @@ class AnalyticsPage extends ConsumerWidget {
                         _AnalyticsStatCard(
                           title: context.l10n.restaurantAnalyticsOrders,
                           value: '${m.totalOrders}',
-                          subtitle:
-                              context.l10n.restaurantAnalyticsCancelled(
+                          subtitle: context.l10n.restaurantAnalyticsCancelled(
                             m.cancelledOrders,
                           ),
                           icon: PhosphorIcons.receipt(
@@ -124,9 +123,7 @@ class AnalyticsPage extends ConsumerWidget {
                           title: context.l10n.restaurantAnalyticsPrepTime,
                           value:
                               '${m.avgPrepTimeMinutes.toStringAsFixed(0)} min',
-                          icon: PhosphorIcons.timer(
-                            PhosphorIconsStyle.duotone,
-                          ),
+                          icon: PhosphorIcons.timer(PhosphorIconsStyle.duotone),
                           iconColor: AppColors.primary,
                           delay: 240,
                         ),
@@ -153,8 +150,7 @@ class AnalyticsPage extends ConsumerWidget {
                   padding: const EdgeInsets.all(AppTheme.spacingMd),
                   decoration: BoxDecoration(
                     color: AppColors.white,
-                    borderRadius:
-                        BorderRadius.circular(AppTheme.radiusLg),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusLg),
                     boxShadow: AppShadows.card,
                   ),
                   child: Center(
@@ -175,9 +171,9 @@ class AnalyticsPage extends ConsumerWidget {
                         title: context.l10n.restaurantAnalyticsNoData,
                       )
                     : _HourlyChart(data: hours)
-                        .animate(delay: 260.ms)
-                        .fadeIn(duration: AppTheme.durationFast)
-                        .slideY(begin: 0.04, end: 0),
+                          .animate(delay: 260.ms)
+                          .fadeIn(duration: AppTheme.durationFast)
+                          .slideY(begin: 0.04, end: 0),
               ),
 
               const SizedBox(height: AppTheme.spacingXl),
@@ -197,8 +193,7 @@ class AnalyticsPage extends ConsumerWidget {
                   padding: const EdgeInsets.all(AppTheme.spacingMd),
                   decoration: BoxDecoration(
                     color: AppColors.white,
-                    borderRadius:
-                        BorderRadius.circular(AppTheme.radiusLg),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusLg),
                     boxShadow: AppShadows.card,
                   ),
                   child: Center(
@@ -219,9 +214,9 @@ class AnalyticsPage extends ConsumerWidget {
                         title: context.l10n.restaurantAnalyticsNoData,
                       )
                     : _TopDishesCard(dishes: dishes)
-                        .animate(delay: 380.ms)
-                        .fadeIn(duration: AppTheme.durationFast)
-                        .slideY(begin: 0.04, end: 0),
+                          .animate(delay: 380.ms)
+                          .fadeIn(duration: AppTheme.durationFast)
+                          .slideY(begin: 0.04, end: 0),
               ),
             ],
           ),
@@ -248,99 +243,100 @@ class _HeroRevenueCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final completionRate =
-        totalOrders > 0 ? (completedOrders / totalOrders * 100) : 0.0;
+    final completionRate = totalOrders > 0
+        ? (completedOrders / totalOrders * 100)
+        : 0.0;
 
     return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(AppTheme.spacingLg),
-      decoration: BoxDecoration(
-        gradient: AppColors.heroGradient,
-        borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.3),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(
-                PhosphorIcons.currencyEur(PhosphorIconsStyle.duotone),
-                color: AppColors.white.withValues(alpha: 0.85),
-                size: 20,
-              ),
-              const SizedBox(width: 6),
-              Text(
-                context.l10n.restaurantAnalyticsRevenue,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.white.withValues(alpha: 0.85),
-                ),
+          width: double.infinity,
+          padding: const EdgeInsets.all(AppTheme.spacingLg),
+          decoration: BoxDecoration(
+            gradient: AppColors.heroGradient,
+            borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.primary.withValues(alpha: 0.3),
+                blurRadius: 20,
+                offset: const Offset(0, 8),
               ),
             ],
           ),
-          const SizedBox(height: AppTheme.spacingSm),
-          Text(
-            '€${revenue.toStringAsFixed(2)}',
-            style: const TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.w800,
-              color: AppColors.white,
-              letterSpacing: -0.5,
-            ),
-          ),
-          const SizedBox(height: AppTheme.spacingSm),
-          Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 3,
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.white.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(AppTheme.radiusFull),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      PhosphorIcons.trendUp(PhosphorIconsStyle.duotone),
-                      size: 14,
-                      color: AppColors.white,
+              Row(
+                children: [
+                  Icon(
+                    PhosphorIcons.currencyEur(PhosphorIconsStyle.duotone),
+                    color: AppColors.white.withValues(alpha: 0.85),
+                    size: 20,
+                  ),
+                  const SizedBox(width: 6),
+                  Text(
+                    context.l10n.restaurantAnalyticsRevenue,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.white.withValues(alpha: 0.85),
                     ),
-                    const SizedBox(width: 4),
-                    Text(
-                      '${completionRate.toStringAsFixed(0)}%',
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.white,
-                      ),
-                    ),
-                  ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: AppTheme.spacingSm),
+              Text(
+                '€${revenue.toStringAsFixed(2)}',
+                style: const TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.white,
+                  letterSpacing: -0.5,
                 ),
               ),
-              const SizedBox(width: 8),
-              Text(
-                context.l10n.restaurantAnalyticsCompleted(completedOrders),
-                style: TextStyle(
-                  fontSize: 12,
-                  color: AppColors.white.withValues(alpha: 0.75),
-                ),
+              const SizedBox(height: AppTheme.spacingSm),
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 3,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.white.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          PhosphorIcons.trendUp(PhosphorIconsStyle.duotone),
+                          size: 14,
+                          color: AppColors.white,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          '${completionRate.toStringAsFixed(0)}%',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    context.l10n.restaurantAnalyticsCompleted(completedOrders),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: AppColors.white.withValues(alpha: 0.75),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
-      ),
-    )
+        )
         .animate()
         .fadeIn(duration: AppTheme.durationFast)
         .slideY(begin: 0.08, end: 0);
@@ -459,61 +455,61 @@ class _AnalyticsStatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(AppTheme.spacingMd),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-        boxShadow: AppShadows.card,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            width: 36,
-            height: 36,
-            decoration: BoxDecoration(
-              color: iconColor.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(AppTheme.radiusSm),
-            ),
-            child: Icon(icon, color: iconColor, size: 20),
+          padding: const EdgeInsets.all(AppTheme.spacingMd),
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+            boxShadow: AppShadows.card,
           ),
-          const Spacer(),
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w800,
-              color: AppColors.grey900,
-            ),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: AppColors.grey500,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          if (subtitle != null)
-            Padding(
-              padding: const EdgeInsets.only(top: 2),
-              child: Text(
-                subtitle!,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: iconColor.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusSm),
+                ),
+                child: Icon(icon, color: iconColor, size: 20),
+              ),
+              const Spacer(),
+              Text(
+                value,
                 style: const TextStyle(
-                  fontSize: 10,
-                  color: AppColors.grey400,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.grey900,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.grey500,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-            ),
-        ],
-      ),
-    )
+              if (subtitle != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 2),
+                  child: Text(
+                    subtitle!,
+                    style: const TextStyle(
+                      fontSize: 10,
+                      color: AppColors.grey400,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+            ],
+          ),
+        )
         .animate(delay: Duration(milliseconds: delay))
         .fadeIn(duration: AppTheme.durationFast)
         .slideY(begin: 0.1, end: 0);
@@ -570,19 +566,20 @@ class _HourlyChart extends StatelessWidget {
                           ),
                         const SizedBox(height: 2),
                         AnimatedContainer(
-                          duration: 400.ms,
-                          height: (ratio * 120).clamp(2.0, 120.0),
-                          decoration: BoxDecoration(
-                            color: AppColors.primary.withValues(
-                              alpha: 0.15 + ratio * 0.7,
-                            ),
-                            borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(3),
-                            ),
-                          ),
-                        )
+                              duration: 400.ms,
+                              height: (ratio * 120).clamp(2.0, 120.0),
+                              decoration: BoxDecoration(
+                                color: AppColors.primary.withValues(
+                                  alpha: 0.15 + ratio * 0.7,
+                                ),
+                                borderRadius: const BorderRadius.vertical(
+                                  top: Radius.circular(3),
+                                ),
+                              ),
+                            )
                             .animate(
-                                delay: Duration(milliseconds: 100 + i * 30))
+                              delay: Duration(milliseconds: 100 + i * 30),
+                            )
                             .scaleY(
                               begin: 0,
                               end: 1,
@@ -641,73 +638,73 @@ class _TopDishesCard extends StatelessWidget {
           final ratio = maxQty > 0 ? dish.totalQuantity / maxQty : 0.0;
 
           return Padding(
-            padding: EdgeInsets.only(top: i > 0 ? AppTheme.spacingSm : 0),
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 24,
-                  child: Text(
-                    '${i + 1}',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w800,
-                      color: i < 3 ? AppColors.primary : AppColors.grey400,
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        dish.name,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 13,
-                          color: AppColors.grey900,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 2),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(2),
-                        child: LinearProgressIndicator(
-                          value: ratio,
-                          backgroundColor: AppColors.grey100,
-                          color: AppColors.primary.withValues(alpha: 0.6),
-                          minHeight: 4,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: AppTheme.spacingSm),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                padding: EdgeInsets.only(top: i > 0 ? AppTheme.spacingSm : 0),
+                child: Row(
                   children: [
-                    Text(
-                      context.l10n.restaurantAnalyticsUnitsSold(
-                        dish.totalQuantity,
-                      ),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 13,
-                        color: AppColors.grey900,
+                    SizedBox(
+                      width: 24,
+                      child: Text(
+                        '${i + 1}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          color: i < 3 ? AppColors.primary : AppColors.grey400,
+                          fontSize: 14,
+                        ),
                       ),
                     ),
-                    Text(
-                      fmt.format(dish.totalRevenue),
-                      style: const TextStyle(
-                        color: AppColors.grey500,
-                        fontSize: 11,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            dish.name,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13,
+                              color: AppColors.grey900,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 2),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(2),
+                            child: LinearProgressIndicator(
+                              value: ratio,
+                              backgroundColor: AppColors.grey100,
+                              color: AppColors.primary.withValues(alpha: 0.6),
+                              minHeight: 4,
+                            ),
+                          ),
+                        ],
                       ),
+                    ),
+                    const SizedBox(width: AppTheme.spacingSm),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          context.l10n.restaurantAnalyticsUnitsSold(
+                            dish.totalQuantity,
+                          ),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 13,
+                            color: AppColors.grey900,
+                          ),
+                        ),
+                        Text(
+                          fmt.format(dish.totalRevenue),
+                          style: const TextStyle(
+                            color: AppColors.grey500,
+                            fontSize: 11,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
-          )
+              )
               .animate(delay: Duration(milliseconds: 200 + i * 60))
               .fadeIn(duration: AppTheme.durationFast)
               .slideY(begin: 0.04, end: 0);

@@ -4,8 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../shared/providers/supabase_provider.dart';
 import '../../domain/repositories/restaurant_config_repository.dart';
 
-class SupabaseRestaurantConfigRepository
-    implements RestaurantConfigRepository {
+class SupabaseRestaurantConfigRepository implements RestaurantConfigRepository {
   final SupabaseClient _client;
 
   SupabaseRestaurantConfigRepository(this._client);
@@ -30,7 +29,9 @@ class SupabaseRestaurantConfigRepository
 
   @override
   Future<void> updateRestaurantData(
-      String tenantId, Map<String, dynamic> data) async {
+    String tenantId,
+    Map<String, dynamic> data,
+  ) async {
     await _client
         .from('tenants')
         .update(data)
@@ -65,7 +66,8 @@ class SupabaseRestaurantConfigRepository
   Future<void> setOperationalStatus(String tenantId, String status) async {
     await _client
         .from('tenants')
-        .update({'operational_status': status}).eq('id', tenantId);
+        .update({'operational_status': status})
+        .eq('id', tenantId);
   }
 
   // ---------------------------------------------------------------------------
@@ -112,8 +114,11 @@ class SupabaseRestaurantConfigRepository
 
   @override
   Future<Map<String, dynamic>> createRole(Map<String, dynamic> data) async {
-    final rows =
-        await _client.from('custom_roles').insert(data).select().single();
+    final rows = await _client
+        .from('custom_roles')
+        .insert(data)
+        .select()
+        .single();
     return rows;
   }
 
@@ -128,7 +133,8 @@ class SupabaseRestaurantConfigRepository
   }
 }
 
-final restaurantConfigRepositoryProvider =
-    Provider<RestaurantConfigRepository>((ref) {
-  return SupabaseRestaurantConfigRepository(ref.read(supabaseClientProvider));
-});
+final restaurantConfigRepositoryProvider = Provider<RestaurantConfigRepository>(
+  (ref) {
+    return SupabaseRestaurantConfigRepository(ref.read(supabaseClientProvider));
+  },
+);

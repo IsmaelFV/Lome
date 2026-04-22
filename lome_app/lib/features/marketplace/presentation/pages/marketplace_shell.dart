@@ -32,18 +32,18 @@ class _MarketplaceShellState extends State<MarketplaceShell>
       duration: const Duration(milliseconds: 300),
       vsync: this,
     )..value = 1.0;
-    _fadeAnim = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic),
-    );
-    _scaleAnim = Tween<double>(begin: 0.94, end: 1.0).animate(
-      CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic),
-    );
+    _fadeAnim = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic));
+    _scaleAnim = Tween<double>(
+      begin: 0.94,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic));
     _slideAnim = Tween<Offset>(
       begin: const Offset(0.08, 0),
       end: Offset.zero,
-    ).animate(
-      CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic),
-    );
+    ).animate(CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic));
   }
 
   @override
@@ -62,9 +62,7 @@ class _MarketplaceShellState extends State<MarketplaceShell>
       _slideAnim = Tween<Offset>(
         begin: Offset(_goingRight ? 0.08 : -0.08, 0),
         end: Offset.zero,
-      ).animate(
-        CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic),
-      );
+      ).animate(CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic));
       _animCtrl.forward(from: 0.0);
     }
   }
@@ -110,7 +108,11 @@ class _MarketplaceShellState extends State<MarketplaceShell>
             labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
             destinations: [
               NavigationDestination(
-                icon: Icon(PhosphorIcons.house(), size: 22, color: AppColors.grey400),
+                icon: Icon(
+                  PhosphorIcons.house(),
+                  size: 22,
+                  color: AppColors.grey400,
+                ),
                 selectedIcon: Icon(
                   PhosphorIcons.house(PhosphorIconsStyle.fill),
                   size: 22,
@@ -119,7 +121,11 @@ class _MarketplaceShellState extends State<MarketplaceShell>
                 label: context.l10n.home,
               ),
               NavigationDestination(
-                icon: Icon(PhosphorIcons.magnifyingGlass(), size: 22, color: AppColors.grey400),
+                icon: Icon(
+                  PhosphorIcons.magnifyingGlass(),
+                  size: 22,
+                  color: AppColors.grey400,
+                ),
                 selectedIcon: Icon(
                   PhosphorIcons.magnifyingGlass(PhosphorIconsStyle.fill),
                   size: 22,
@@ -128,7 +134,11 @@ class _MarketplaceShellState extends State<MarketplaceShell>
                 label: context.l10n.search,
               ),
               NavigationDestination(
-                icon: Icon(PhosphorIcons.shoppingBag(), size: 22, color: AppColors.grey400),
+                icon: Icon(
+                  PhosphorIcons.shoppingBag(),
+                  size: 22,
+                  color: AppColors.grey400,
+                ),
                 selectedIcon: Icon(
                   PhosphorIcons.shoppingBag(PhosphorIconsStyle.fill),
                   size: 22,
@@ -137,7 +147,11 @@ class _MarketplaceShellState extends State<MarketplaceShell>
                 label: context.l10n.cart,
               ),
               NavigationDestination(
-                icon: Icon(PhosphorIcons.userCircle(), size: 22, color: AppColors.grey400),
+                icon: Icon(
+                  PhosphorIcons.userCircle(),
+                  size: 22,
+                  color: AppColors.grey400,
+                ),
                 selectedIcon: Icon(
                   PhosphorIcons.userCircle(PhosphorIconsStyle.fill),
                   size: 22,

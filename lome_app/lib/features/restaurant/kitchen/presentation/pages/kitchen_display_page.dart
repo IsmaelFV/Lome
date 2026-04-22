@@ -61,8 +61,10 @@ class _KitchenDisplayPageState extends ConsumerState<KitchenDisplayPage> {
           // ── Summary stats bar ──
           Container(
             margin: const EdgeInsets.fromLTRB(
-              AppTheme.spacingMd, AppTheme.spacingSm,
-              AppTheme.spacingMd, AppTheme.spacingXs,
+              AppTheme.spacingMd,
+              AppTheme.spacingSm,
+              AppTheme.spacingMd,
+              AppTheme.spacingXs,
             ),
             padding: const EdgeInsets.symmetric(
               horizontal: AppTheme.spacingMd,
@@ -295,12 +297,20 @@ class _KitchenOrderCard extends ConsumerWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(PhosphorIcons.play(PhosphorIconsStyle.fill), size: 16, color: AppColors.white),
+                Icon(
+                  PhosphorIcons.play(PhosphorIconsStyle.fill),
+                  size: 16,
+                  color: AppColors.white,
+                ),
                 const SizedBox(width: 6),
                 Flexible(
                   child: Text(
                     context.l10n.kitchenStartPreparing,
-                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.white),
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.white,
+                    ),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
@@ -322,12 +332,20 @@ class _KitchenOrderCard extends ConsumerWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(PhosphorIcons.checkCircle(PhosphorIconsStyle.fill), size: 16, color: AppColors.white),
+                Icon(
+                  PhosphorIcons.checkCircle(PhosphorIconsStyle.fill),
+                  size: 16,
+                  color: AppColors.white,
+                ),
                 const SizedBox(width: 6),
                 Flexible(
                   child: Text(
                     context.l10n.kitchenAllReady,
-                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.white),
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.white,
+                    ),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
@@ -403,7 +421,11 @@ class _KitchenItemRow extends ConsumerWidget {
                   ),
                 ),
                 child: isDone
-                    ? Icon(PhosphorIcons.check(PhosphorIconsStyle.bold), size: 14, color: statusColor)
+                    ? Icon(
+                        PhosphorIcons.check(PhosphorIconsStyle.bold),
+                        size: 14,
+                        color: statusColor,
+                      )
                     : Center(
                         child: Text(
                           '${item.quantity}',
@@ -509,7 +531,11 @@ class _TimerBadge extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(PhosphorIcons.clock(PhosphorIconsStyle.duotone), size: 12, color: color),
+          Icon(
+            PhosphorIcons.clock(PhosphorIconsStyle.duotone),
+            size: 12,
+            color: color,
+          ),
           const SizedBox(width: 4),
           Text(
             '${minutes}m',
@@ -552,10 +578,7 @@ class _KitchenStat extends StatelessWidget {
             color: color,
             shape: BoxShape.circle,
             boxShadow: [
-              BoxShadow(
-                color: color.withValues(alpha: 0.4),
-                blurRadius: 6,
-              ),
+              BoxShadow(color: color.withValues(alpha: 0.4), blurRadius: 6),
             ],
           ),
         ),

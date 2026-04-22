@@ -57,16 +57,12 @@ class _AdminModerationPageState extends ConsumerState<AdminModerationPage>
         ],
         bottom: TabBar(
           controller: _tabController,
-          tabs: [
-            Tab(text: context.l10n.adminModerationFlaggedReviewsTab),
-          ],
+          tabs: [Tab(text: context.l10n.adminModerationFlaggedReviewsTab)],
         ),
       ),
       body: TabBarView(
         controller: _tabController,
-        children: [
-          _ReviewsModerationTab(),
-        ],
+        children: [_ReviewsModerationTab()],
       ),
     );
   }
@@ -88,21 +84,28 @@ class _ReviewsModerationTab extends ConsumerWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(PhosphorIcons.checkCircle(PhosphorIconsStyle.duotone),
-                    size: 64, color: AppColors.grey300),
+                Icon(
+                  PhosphorIcons.checkCircle(PhosphorIconsStyle.duotone),
+                  size: 64,
+                  color: AppColors.grey300,
+                ),
                 const SizedBox(height: AppTheme.spacingMd),
-                Text(context.l10n.adminModerationNoReviews,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.grey500,
-                    )),
+                Text(
+                  context.l10n.adminModerationNoReviews,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.grey500,
+                  ),
+                ),
                 const SizedBox(height: AppTheme.spacingSm),
-                Text(context.l10n.adminModerationAllReviewed,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: AppColors.grey400,
-                    )),
+                Text(
+                  context.l10n.adminModerationAllReviewed,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppColors.grey400,
+                  ),
+                ),
               ],
             ),
           );
@@ -116,9 +119,9 @@ class _ReviewsModerationTab extends ConsumerWidget {
             padding: const EdgeInsets.all(AppTheme.spacingMd),
             itemCount: reviews.length,
             itemBuilder: (context, index) {
-              return _ReviewModerationCard(review: reviews[index])
-                  .animate()
-                  .fadeIn(delay: (index * 100).ms, duration: 300.ms);
+              return _ReviewModerationCard(
+                review: reviews[index],
+              ).animate().fadeIn(delay: (index * 100).ms, duration: 300.ms);
             },
           ),
         );
@@ -153,8 +156,11 @@ class _ReviewModerationCard extends ConsumerWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(PhosphorIcons.flag(PhosphorIconsStyle.fill),
-                      size: 12, color: AppColors.warning),
+                  Icon(
+                    PhosphorIcons.flag(PhosphorIconsStyle.fill),
+                    size: 12,
+                    color: AppColors.warning,
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     review.flagReason!,
@@ -227,8 +233,10 @@ class _ReviewModerationCard extends ConsumerWidget {
 
           // Comentario
           if (review.comment != null)
-            Text(review.comment!,
-                style: const TextStyle(fontSize: 14, color: AppColors.grey700)),
+            Text(
+              review.comment!,
+              style: const TextStyle(fontSize: 14, color: AppColors.grey700),
+            ),
 
           const Divider(height: AppTheme.spacingLg),
 
@@ -242,7 +250,11 @@ class _ReviewModerationCard extends ConsumerWidget {
                   onPressed: () {
                     ref.read(approveReviewProvider(review.id));
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(context.l10n.adminModerationReviewApproved)),
+                      SnackBar(
+                        content: Text(
+                          context.l10n.adminModerationReviewApproved,
+                        ),
+                      ),
                     );
                   },
                   icon: PhosphorIcons.check(),
@@ -257,7 +269,11 @@ class _ReviewModerationCard extends ConsumerWidget {
                   onPressed: () {
                     ref.read(rejectReviewProvider(review.id));
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(context.l10n.adminModerationReviewRejected)),
+                      SnackBar(
+                        content: Text(
+                          context.l10n.adminModerationReviewRejected,
+                        ),
+                      ),
                     );
                   },
                   icon: PhosphorIcons.x(),

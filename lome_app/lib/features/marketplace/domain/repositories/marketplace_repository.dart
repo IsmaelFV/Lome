@@ -31,10 +31,16 @@ abstract class MarketplaceRepository {
   });
 
   /// Busca platos globalmente por nombre (ilike).
-  Future<List<Map<String, dynamic>>> searchDishes(String query, {int limit = 20});
+  Future<List<Map<String, dynamic>>> searchDishes(
+    String query, {
+    int limit = 20,
+  });
 
   /// Busca restaurantes por nombre (ilike).
-  Future<List<Map<String, dynamic>>> searchRestaurants(String query, {int limit = 15});
+  Future<List<Map<String, dynamic>>> searchRestaurants(
+    String query, {
+    int limit = 15,
+  });
 
   // ---------------------------------------------------------------------------
   // Reseñas
@@ -43,7 +49,9 @@ abstract class MarketplaceRepository {
   Future<List<Map<String, dynamic>>> getRestaurantReviews(String tenantId);
 
   Future<Map<String, dynamic>?> getUserReviewForOrder(
-      String userId, String orderId);
+    String userId,
+    String orderId,
+  );
 
   Future<void> submitReview(Map<String, dynamic> data);
 
@@ -60,7 +68,8 @@ abstract class MarketplaceRepository {
   Future<void> removeFavorite(String userId, String tenantId);
 
   Future<List<Map<String, dynamic>>> getFavoriteRestaurants(
-      List<String> tenantIds);
+    List<String> tenantIds,
+  );
 
   // ---------------------------------------------------------------------------
   // Promociones y recomendaciones

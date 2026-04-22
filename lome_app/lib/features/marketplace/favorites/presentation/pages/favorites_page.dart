@@ -106,94 +106,96 @@ class _FavoriteCard extends ConsumerWidget {
             const SizedBox(width: AppTheme.spacingMd),
 
             // Info
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      restaurant.name,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 15,
-                      ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    restaurant.name,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 15,
                     ),
-                    const SizedBox(height: 2),
-                    Text(
-                      restaurant.cuisineLabel,
-                      style: TextStyle(fontSize: 12, color: AppColors.grey500),
-                    ),
-                    const SizedBox(height: 6),
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 6,
-                            vertical: 2,
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    restaurant.cuisineLabel,
+                    style: TextStyle(fontSize: 12, color: AppColors.grey500),
+                  ),
+                  const SizedBox(height: 6),
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.accentSoft,
+                          borderRadius: BorderRadius.circular(
+                            AppTheme.radiusSm,
                           ),
-                          decoration: BoxDecoration(
-                            color: AppColors.accentSoft,
-                            borderRadius: BorderRadius.circular(AppTheme.radiusSm),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                PhosphorIcons.star(PhosphorIconsStyle.fill),
-                                size: 12,
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              PhosphorIcons.star(PhosphorIconsStyle.fill),
+                              size: 12,
+                              color: AppColors.accentDark,
+                            ),
+                            const SizedBox(width: 2),
+                            Text(
+                              restaurant.rating.toStringAsFixed(1),
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
                                 color: AppColors.accentDark,
                               ),
-                              const SizedBox(width: 2),
-                              Text(
-                                restaurant.rating.toStringAsFixed(1),
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.accentDark,
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: 8),
-                        Icon(
-                          PhosphorIcons.clock(PhosphorIconsStyle.duotone),
-                          size: 13,
-                          color: AppColors.grey400,
+                      ),
+                      const SizedBox(width: 8),
+                      Icon(
+                        PhosphorIcons.clock(PhosphorIconsStyle.duotone),
+                        size: 13,
+                        color: AppColors.grey400,
+                      ),
+                      const SizedBox(width: 3),
+                      Text(
+                        restaurant.deliveryTimeLabel,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: AppColors.grey500,
                         ),
-                        const SizedBox(width: 3),
-                        Text(
-                          restaurant.deliveryTimeLabel,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: AppColors.grey500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
+            ),
 
-              // Remove favorite
-              TactileWrapper(
-                onTap: () => ref.read(toggleFavoriteProvider(restaurant.id)),
-                child: Container(
-                  width: 38,
-                  height: 38,
-                  decoration: BoxDecoration(
-                    color: AppColors.error.withValues(alpha: 0.1),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    PhosphorIcons.heart(PhosphorIconsStyle.fill),
-                    color: AppColors.error,
-                    size: 18,
-                  ),
+            // Remove favorite
+            TactileWrapper(
+              onTap: () => ref.read(toggleFavoriteProvider(restaurant.id)),
+              child: Container(
+                width: 38,
+                height: 38,
+                decoration: BoxDecoration(
+                  color: AppColors.error.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  PhosphorIcons.heart(PhosphorIconsStyle.fill),
+                  color: AppColors.error,
+                  size: 18,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
     );
   }
 }

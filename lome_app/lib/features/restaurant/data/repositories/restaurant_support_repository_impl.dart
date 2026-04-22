@@ -292,8 +292,11 @@ class SupabaseRestaurantSupportRepository
   Future<Map<String, dynamic>> createInventoryItem(
     Map<String, dynamic> data,
   ) async {
-    final res =
-        await _client.from('inventory_items').insert(data).select().single();
+    final res = await _client
+        .from('inventory_items')
+        .insert(data)
+        .select()
+        .single();
     return Map<String, dynamic>.from(res);
   }
 

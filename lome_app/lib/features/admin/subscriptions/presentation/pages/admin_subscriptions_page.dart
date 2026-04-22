@@ -22,8 +22,7 @@ class AdminSubscriptionsPage extends ConsumerStatefulWidget {
       _AdminSubscriptionsPageState();
 }
 
-class _AdminSubscriptionsPageState
-    extends ConsumerState<AdminSubscriptionsPage>
+class _AdminSubscriptionsPageState extends ConsumerState<AdminSubscriptionsPage>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
 
@@ -71,10 +70,7 @@ class _AdminSubscriptionsPageState
       ),
       body: TabBarView(
         controller: _tabController,
-        children: const [
-          _SubscriptionsTab(),
-          _InvoicesTab(),
-        ],
+        children: const [_SubscriptionsTab(), _InvoicesTab()],
       ),
     );
   }
@@ -134,11 +130,14 @@ class _StatsHeader extends ConsumerWidget {
                       child: Container(
                         margin: const EdgeInsets.symmetric(horizontal: 2),
                         padding: const EdgeInsets.symmetric(
-                            vertical: 6, horizontal: 4),
+                          vertical: 6,
+                          horizontal: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: _planColor(e.key).withOpacity(0.1),
-                          borderRadius:
-                              BorderRadius.circular(AppTheme.radiusSm),
+                          borderRadius: BorderRadius.circular(
+                            AppTheme.radiusSm,
+                          ),
                         ),
                         child: Column(
                           children: [
@@ -207,10 +206,7 @@ class _MiniStat extends StatelessWidget {
             const SizedBox(height: 2),
             Text(
               label,
-              style: TextStyle(
-                fontSize: 11,
-                color: color.withOpacity(0.7),
-              ),
+              style: TextStyle(fontSize: 11, color: color.withOpacity(0.7)),
             ),
           ],
         ),
@@ -243,30 +239,30 @@ class _SubscriptionsTab extends ConsumerWidget {
               _FilterChip(
                 label: context.l10n.adminSubscriptionsAllFilter,
                 selected: filter == 'all',
-                onTap: () => ref
-                    .read(adminSubscriptionFilterProvider.notifier)
-                    .state = 'all',
+                onTap: () =>
+                    ref.read(adminSubscriptionFilterProvider.notifier).state =
+                        'all',
               ),
               _FilterChip(
                 label: context.l10n.adminSubscriptionsActiveLabel,
                 selected: filter == 'active',
-                onTap: () => ref
-                    .read(adminSubscriptionFilterProvider.notifier)
-                    .state = 'active',
+                onTap: () =>
+                    ref.read(adminSubscriptionFilterProvider.notifier).state =
+                        'active',
               ),
               _FilterChip(
                 label: context.l10n.adminSubscriptionsPastDue,
                 selected: filter == 'past_due',
-                onTap: () => ref
-                    .read(adminSubscriptionFilterProvider.notifier)
-                    .state = 'past_due',
+                onTap: () =>
+                    ref.read(adminSubscriptionFilterProvider.notifier).state =
+                        'past_due',
               ),
               _FilterChip(
                 label: context.l10n.adminSubscriptionsCancelledLabel,
                 selected: filter == 'cancelled',
-                onTap: () => ref
-                    .read(adminSubscriptionFilterProvider.notifier)
-                    .state = 'cancelled',
+                onTap: () =>
+                    ref.read(adminSubscriptionFilterProvider.notifier).state =
+                        'cancelled',
               ),
             ],
           ),
@@ -284,15 +280,20 @@ class _SubscriptionsTab extends ConsumerWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(PhosphorIcons.creditCard(PhosphorIconsStyle.duotone),
-                          size: 64,
-                          color: AppColors.grey300),
+                      Icon(
+                        PhosphorIcons.creditCard(PhosphorIconsStyle.duotone),
+                        size: 64,
+                        color: AppColors.grey300,
+                      ),
                       const SizedBox(height: AppTheme.spacingMd),
-                      Text(context.l10n.adminSubscriptionsNoSubscriptions,
-                          style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.grey500)),
+                      Text(
+                        context.l10n.adminSubscriptionsNoSubscriptions,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.grey500,
+                        ),
+                      ),
                     ],
                   ),
                 );
@@ -342,11 +343,9 @@ class _SubscriptionTile extends ConsumerWidget {
             children: [
               // Plan Badge
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color:
-                      _planColor(subscription.plan).withOpacity(0.1),
+                  color: _planColor(subscription.plan).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(AppTheme.radiusSm),
                 ),
                 child: Text(
@@ -361,8 +360,7 @@ class _SubscriptionTile extends ConsumerWidget {
               const SizedBox(width: AppTheme.spacingSm),
               // Status Badge
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
                   color: _statusColor(subscription.status).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(AppTheme.radiusSm),
@@ -403,15 +401,18 @@ class _SubscriptionTile extends ConsumerWidget {
           // Period info
           Row(
             children: [
-              Icon(PhosphorIcons.calendarBlank(PhosphorIconsStyle.duotone),
-                  size: 14, color: AppColors.grey400),
+              Icon(
+                PhosphorIcons.calendarBlank(PhosphorIconsStyle.duotone),
+                size: 14,
+                color: AppColors.grey400,
+              ),
               const SizedBox(width: 4),
               Text(
-                context.l10n.adminSubscriptionsPeriodDates(dateFmt.format(subscription.currentPeriodStart), dateFmt.format(subscription.currentPeriodEnd)),
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: AppColors.grey500,
+                context.l10n.adminSubscriptionsPeriodDates(
+                  dateFmt.format(subscription.currentPeriodStart),
+                  dateFmt.format(subscription.currentPeriodEnd),
                 ),
+                style: const TextStyle(fontSize: 12, color: AppColors.grey500),
               ),
             ],
           ),
@@ -420,11 +421,16 @@ class _SubscriptionTile extends ConsumerWidget {
             const SizedBox(height: 2),
             Row(
               children: [
-                Icon(PhosphorIcons.arrowClockwise(PhosphorIconsStyle.duotone),
-                    size: 14, color: AppColors.grey400),
+                Icon(
+                  PhosphorIcons.arrowClockwise(PhosphorIconsStyle.duotone),
+                  size: 14,
+                  color: AppColors.grey400,
+                ),
                 const SizedBox(width: 4),
                 Text(
-                  context.l10n.adminSubscriptionsRenewalDate(dateFmt.format(subscription.renewalDate!)),
+                  context.l10n.adminSubscriptionsRenewalDate(
+                    dateFmt.format(subscription.renewalDate!),
+                  ),
                   style: const TextStyle(
                     fontSize: 12,
                     color: AppColors.grey500,
@@ -444,11 +450,16 @@ class _SubscriptionTile extends ConsumerWidget {
                     label: context.l10n.adminSubscriptionsReactivate,
                     variant: LomeButtonVariant.primary,
                     onPressed: () {
-                      ref.read(updateSubscriptionProvider(
-                        (id: subscription.id, data: {'status': 'active'}),
-                      ));
+                      ref.read(
+                        updateSubscriptionProvider((
+                          id: subscription.id,
+                          data: {'status': 'active'},
+                        )),
+                      );
                     },
-                    icon: PhosphorIcons.arrowClockwise(PhosphorIconsStyle.duotone),
+                    icon: PhosphorIcons.arrowClockwise(
+                      PhosphorIconsStyle.duotone,
+                    ),
                     isExpanded: true,
                   ),
                 ),
@@ -458,15 +469,15 @@ class _SubscriptionTile extends ConsumerWidget {
                     label: context.l10n.cancel,
                     variant: LomeButtonVariant.danger,
                     onPressed: () {
-                      ref.read(updateSubscriptionProvider(
-                        (
+                      ref.read(
+                        updateSubscriptionProvider((
                           id: subscription.id,
                           data: {
                             'status': 'cancelled',
                             'cancelled_at': DateTime.now().toIso8601String(),
-                          }
-                        ),
-                      ));
+                          },
+                        )),
+                      );
                     },
                     icon: PhosphorIcons.x(PhosphorIconsStyle.duotone),
                     isExpanded: true,
@@ -506,30 +517,29 @@ class _InvoicesTab extends ConsumerWidget {
               _FilterChip(
                 label: context.l10n.adminSubscriptionsAllFilter,
                 selected: filter == 'all',
-                onTap: () => ref
-                    .read(adminInvoiceFilterProvider.notifier)
-                    .state = 'all',
+                onTap: () =>
+                    ref.read(adminInvoiceFilterProvider.notifier).state = 'all',
               ),
               _FilterChip(
                 label: context.l10n.adminSubscriptionsPendingLabel,
                 selected: filter == 'pending',
-                onTap: () => ref
-                    .read(adminInvoiceFilterProvider.notifier)
-                    .state = 'pending',
+                onTap: () =>
+                    ref.read(adminInvoiceFilterProvider.notifier).state =
+                        'pending',
               ),
               _FilterChip(
                 label: context.l10n.adminSubscriptionsPaidFilter,
                 selected: filter == 'paid',
-                onTap: () => ref
-                    .read(adminInvoiceFilterProvider.notifier)
-                    .state = 'paid',
+                onTap: () =>
+                    ref.read(adminInvoiceFilterProvider.notifier).state =
+                        'paid',
               ),
               _FilterChip(
                 label: context.l10n.adminSubscriptionsOverdueLabel,
                 selected: filter == 'overdue',
-                onTap: () => ref
-                    .read(adminInvoiceFilterProvider.notifier)
-                    .state = 'overdue',
+                onTap: () =>
+                    ref.read(adminInvoiceFilterProvider.notifier).state =
+                        'overdue',
               ),
             ],
           ),
@@ -547,15 +557,20 @@ class _InvoicesTab extends ConsumerWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(PhosphorIcons.receipt(PhosphorIconsStyle.duotone),
-                          size: 64,
-                          color: AppColors.grey300),
+                      Icon(
+                        PhosphorIcons.receipt(PhosphorIconsStyle.duotone),
+                        size: 64,
+                        color: AppColors.grey300,
+                      ),
                       const SizedBox(height: AppTheme.spacingMd),
-                      Text(context.l10n.adminSubscriptionsNoInvoices,
-                          style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.grey500)),
+                      Text(
+                        context.l10n.adminSubscriptionsNoInvoices,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.grey500,
+                        ),
+                      ),
                     ],
                   ),
                 );
@@ -563,8 +578,7 @@ class _InvoicesTab extends ConsumerWidget {
 
               return RefreshIndicator(
                 color: AppColors.primary,
-                onRefresh: () async =>
-                    ref.invalidate(adminInvoicesProvider),
+                onRefresh: () async => ref.invalidate(adminInvoicesProvider),
                 child: ListView.builder(
                   physics: const BouncingScrollPhysics(),
                   padding: const EdgeInsets.all(AppTheme.spacingMd),
@@ -645,8 +659,11 @@ class _InvoiceTile extends ConsumerWidget {
         children: [
           Row(
             children: [
-              Icon(PhosphorIcons.receipt(PhosphorIconsStyle.duotone),
-                  size: 20, color: AppColors.grey500),
+              Icon(
+                PhosphorIcons.receipt(PhosphorIconsStyle.duotone),
+                size: 20,
+                color: AppColors.grey500,
+              ),
               const SizedBox(width: AppTheme.spacingSm),
               Expanded(
                 child: Text(
@@ -659,8 +676,7 @@ class _InvoiceTile extends ConsumerWidget {
                 ),
               ),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
                   color: _invoiceStatusColor(invoice.status).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(AppTheme.radiusSm),
@@ -688,17 +704,19 @@ class _InvoiceTile extends ConsumerWidget {
           // Amount breakdown
           Row(
             children: [
-              Text(context.l10n.adminSubscriptionsSubtotalAmount(currFmt.format(invoice.amount)),
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: AppColors.grey500,
-                  )),
+              Text(
+                context.l10n.adminSubscriptionsSubtotalAmount(
+                  currFmt.format(invoice.amount),
+                ),
+                style: const TextStyle(fontSize: 12, color: AppColors.grey500),
+              ),
               const SizedBox(width: AppTheme.spacingMd),
-              Text(context.l10n.adminSubscriptionsTaxAmount(currFmt.format(invoice.tax)),
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: AppColors.grey500,
-                  )),
+              Text(
+                context.l10n.adminSubscriptionsTaxAmount(
+                  currFmt.format(invoice.tax),
+                ),
+                style: const TextStyle(fontSize: 12, color: AppColors.grey500),
+              ),
               const Spacer(),
               Text(
                 currFmt.format(invoice.total),
@@ -716,15 +734,17 @@ class _InvoiceTile extends ConsumerWidget {
           Row(
             children: [
               Text(
-                context.l10n.adminSubscriptionsPeriodDates(dateFmt.format(invoice.periodStart), dateFmt.format(invoice.periodEnd)),
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: AppColors.grey400,
+                context.l10n.adminSubscriptionsPeriodDates(
+                  dateFmt.format(invoice.periodStart),
+                  dateFmt.format(invoice.periodEnd),
                 ),
+                style: const TextStyle(fontSize: 12, color: AppColors.grey400),
               ),
               const Spacer(),
               Text(
-                context.l10n.adminSubscriptionsDueDate(dateFmt.format(invoice.dueDate)),
+                context.l10n.adminSubscriptionsDueDate(
+                  dateFmt.format(invoice.dueDate),
+                ),
                 style: TextStyle(
                   fontSize: 12,
                   color: invoice.status == 'overdue'
@@ -749,7 +769,9 @@ class _InvoiceTile extends ConsumerWidget {
                 onPressed: () {
                   ref.read(markInvoicePaidProvider(invoice.id));
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(context.l10n.adminSubscriptionsInvoicePaid)),
+                    SnackBar(
+                      content: Text(context.l10n.adminSubscriptionsInvoicePaid),
+                    ),
                   );
                 },
                 icon: PhosphorIcons.check(PhosphorIconsStyle.duotone),
@@ -762,11 +784,16 @@ class _InvoiceTile extends ConsumerWidget {
             const SizedBox(height: AppTheme.spacingXs),
             Row(
               children: [
-                Icon(PhosphorIcons.checkCircle(PhosphorIconsStyle.fill),
-                    size: 14, color: AppColors.success),
+                Icon(
+                  PhosphorIcons.checkCircle(PhosphorIconsStyle.fill),
+                  size: 14,
+                  color: AppColors.success,
+                ),
                 const SizedBox(width: 4),
                 Text(
-                  context.l10n.adminSubscriptionsPaidDate(dateFmt.format(invoice.paidAt!)),
+                  context.l10n.adminSubscriptionsPaidDate(
+                    dateFmt.format(invoice.paidAt!),
+                  ),
                   style: const TextStyle(
                     fontSize: 12,
                     color: AppColors.success,

@@ -41,39 +41,37 @@ class SupabaseTableRepository implements TableRepository {
   Future<void> updateTableStatus(String tableId, String status) async {
     await _client
         .from('restaurant_tables')
-        .update({'status': status}).eq('id', tableId);
-  }
-
-  @override
-  Future<void> updateTablePosition(
-      String tableId, double x, double y) async {
-    await _client
-        .from('restaurant_tables')
-        .update({'position_x': x, 'position_y': y}).eq('id', tableId);
-  }
-
-  @override
-  Future<void> createTable(
-      String tenantId, Map<String, dynamic> data) async {
-    await _client
-        .from('restaurant_tables')
-        .insert({'tenant_id': tenantId, ...data});
-  }
-
-  @override
-  Future<void> updateTable(
-      String tableId, Map<String, dynamic> data) async {
-    await _client
-        .from('restaurant_tables')
-        .update(data)
+        .update({'status': status})
         .eq('id', tableId);
+  }
+
+  @override
+  Future<void> updateTablePosition(String tableId, double x, double y) async {
+    await _client
+        .from('restaurant_tables')
+        .update({'position_x': x, 'position_y': y})
+        .eq('id', tableId);
+  }
+
+  @override
+  Future<void> createTable(String tenantId, Map<String, dynamic> data) async {
+    await _client.from('restaurant_tables').insert({
+      'tenant_id': tenantId,
+      ...data,
+    });
+  }
+
+  @override
+  Future<void> updateTable(String tableId, Map<String, dynamic> data) async {
+    await _client.from('restaurant_tables').update(data).eq('id', tableId);
   }
 
   @override
   Future<void> deactivateTable(String tableId) async {
     await _client
         .from('restaurant_tables')
-        .update({'is_active': false}).eq('id', tableId);
+        .update({'is_active': false})
+        .eq('id', tableId);
   }
 
   // ---------------------------------------------------------------------------
@@ -114,7 +112,8 @@ class SupabaseTableRepository implements TableRepository {
 
   @override
   Future<List<Map<String, dynamic>>> getAvailableWaiters(
-      String tenantId) async {
+    String tenantId,
+  ) async {
     return await _client
         .from('tenant_memberships')
         .select('user_id, profiles(full_name)')
@@ -133,12 +132,10 @@ class SupabaseTableRepository implements TableRepository {
     String startDate,
     String endDate,
   ) async {
-    final response =
-        await _client.rpc('get_table_occupancy_stats', params: {
-      'p_tenant_id': tenantId,
-      'p_from': startDate,
-      'p_to': endDate,
-    });
+    final response = await _client.rpc(
+      'get_table_occupancy_stats',
+      params: {'p_tenant_id': tenantId, 'p_from': startDate, 'p_to': endDate},
+    );
     return List<Map<String, dynamic>>.from(response as List);
   }
 
@@ -149,12 +146,15 @@ class SupabaseTableRepository implements TableRepository {
     int limit = 50,
     int offset = 0,
   }) async {
-    final response = await _client.rpc('get_table_history', params: {
-      'p_tenant_id': tenantId,
-      'p_table_id': tableId,
-      'p_limit': limit,
-      'p_offset': offset,
-    });
+    final response = await _client.rpc(
+      'get_table_history',
+      params: {
+        'p_tenant_id': tenantId,
+        'p_table_id': tableId,
+        'p_limit': limit,
+        'p_offset': offset,
+      },
+    );
     return List<Map<String, dynamic>>.from(response as List);
   }
 }

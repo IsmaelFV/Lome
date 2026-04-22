@@ -298,7 +298,9 @@ class _AddressStepState extends ConsumerState<_AddressStep> {
                     const SizedBox(height: AppTheme.spacingMd),
                     OutlinedButton.icon(
                       onPressed: () => setState(() => _showNewForm = true),
-                      icon: Icon(PhosphorIcons.plus(PhosphorIconsStyle.duotone)),
+                      icon: Icon(
+                        PhosphorIcons.plus(PhosphorIconsStyle.duotone),
+                      ),
                       label: Text(context.l10n.marketplaceCheckoutAddAddress),
                     ),
                   ],
@@ -321,7 +323,10 @@ class _AddressStepState extends ConsumerState<_AddressStep> {
                   if (!_showNewForm)
                     TextButton.icon(
                       onPressed: () => setState(() => _showNewForm = true),
-                      icon: Icon(PhosphorIcons.plus(PhosphorIconsStyle.duotone), size: 18),
+                      icon: Icon(
+                        PhosphorIcons.plus(PhosphorIconsStyle.duotone),
+                        size: 18,
+                      ),
                       label: Text(context.l10n.marketplaceCheckoutNewAddress),
                     ),
                 ],
@@ -494,55 +499,55 @@ class _AddressTile extends StatelessWidget {
                 color: isSelected ? AppColors.primary : AppColors.grey500,
               ),
             ),
-              const SizedBox(width: AppTheme.spacingMd),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          address.label,
-                          style: const TextStyle(fontWeight: FontWeight.w700),
-                        ),
-                        if (address.isDefault) ...[
-                          const SizedBox(width: 6),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 6,
-                              vertical: 2,
-                            ),
-                            decoration: BoxDecoration(
-                              color: AppColors.primary.withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: const Text(
-                              'Default',
-                              style: TextStyle(
-                                fontSize: 10,
-                                color: AppColors.primary,
-                              ),
+            const SizedBox(width: AppTheme.spacingMd),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        address.label,
+                        style: const TextStyle(fontWeight: FontWeight.w700),
+                      ),
+                      if (address.isDefault) ...[
+                        const SizedBox(width: 6),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.primary.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: const Text(
+                            'Default',
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: AppColors.primary,
                             ),
                           ),
-                        ],
+                        ),
                       ],
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      address.fullAddress,
-                      style: TextStyle(fontSize: 13, color: AppColors.grey600),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    address.fullAddress,
+                    style: TextStyle(fontSize: 13, color: AppColors.grey600),
+                  ),
+                ],
               ),
-              if (isSelected)
-                Icon(
-                  PhosphorIcons.checkCircle(PhosphorIconsStyle.duotone),
-                  color: AppColors.primary,
-                ),
-            ],
-          ),
+            ),
+            if (isSelected)
+              Icon(
+                PhosphorIcons.checkCircle(PhosphorIconsStyle.duotone),
+                color: AppColors.primary,
+              ),
+          ],
         ),
+      ),
     );
   }
 }
@@ -593,7 +598,11 @@ class _PaymentStep extends ConsumerWidget {
             ),
             child: Row(
               children: [
-                Icon(PhosphorIcons.info(PhosphorIconsStyle.duotone), size: 18, color: AppColors.info),
+                Icon(
+                  PhosphorIcons.info(PhosphorIconsStyle.duotone),
+                  size: 18,
+                  color: AppColors.info,
+                ),
                 const SizedBox(width: AppTheme.spacingSm),
                 Expanded(
                   child: Text(
@@ -665,48 +674,46 @@ class _PaymentMethodCard extends StatelessWidget {
           boxShadow: AppShadows.card,
         ),
         child: Row(
-            children: [
-              Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  color: isSelected
-                      ? AppColors.primarySoft
-                      : AppColors.grey50,
-                  borderRadius: BorderRadius.circular(AppTheme.radiusMd),
-                ),
-                child: Icon(
-                  _icon,
-                  color: isSelected ? AppColors.primary : AppColors.grey500,
-                ),
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: isSelected ? AppColors.primarySoft : AppColors.grey50,
+                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
               ),
-              const SizedBox(width: AppTheme.spacingMd),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      method.label,
-                      style: const TextStyle(fontWeight: FontWeight.w700),
-                    ),
-                    Text(
-                      _subtitle(context),
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: AppColors.grey500,
-                      ),
-                    ),
-                  ],
-                ),
+              child: Icon(
+                _icon,
+                color: isSelected ? AppColors.primary : AppColors.grey500,
               ),
-              if (isSelected)
-                Icon(
-                  PhosphorIcons.checkCircle(PhosphorIconsStyle.duotone),
-                  color: AppColors.primary,
-                ),
-            ],
-          ),
+            ),
+            const SizedBox(width: AppTheme.spacingMd),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    method.label,
+                    style: const TextStyle(fontWeight: FontWeight.w700),
+                  ),
+                  Text(
+                    _subtitle(context),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.grey500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (isSelected)
+              Icon(
+                PhosphorIcons.checkCircle(PhosphorIconsStyle.duotone),
+                color: AppColors.primary,
+              ),
+          ],
         ),
+      ),
     );
   }
 }
@@ -794,7 +801,9 @@ class _ConfirmationStep extends ConsumerWidget {
                   ),
                 ...cart.items.map(
                   (item) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: AppTheme.spacingXs),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: AppTheme.spacingXs,
+                    ),
                     child: Row(
                       children: [
                         SizedBox(
@@ -825,7 +834,10 @@ class _ConfirmationStep extends ConsumerWidget {
                   children: [
                     const Text(
                       'Total',
-                      style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 18,
+                      ),
                     ),
                     Text(
                       '€${(cart.subtotal * 1.10).toStringAsFixed(2)}',

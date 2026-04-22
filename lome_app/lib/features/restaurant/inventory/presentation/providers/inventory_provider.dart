@@ -11,53 +11,54 @@ import '../../domain/entities/inventory_item_entity.dart';
 
 final inventoryItemsProvider =
     FutureProvider.autoDispose<List<InventoryItemEntity>>((ref) async {
-  final repo = ref.read(restaurantSupportRepositoryProvider);
-  final tenantId = ref.read(activeTenantIdProvider);
-  if (tenantId == null) return [];
+      final repo = ref.read(restaurantSupportRepositoryProvider);
+      final tenantId = ref.read(activeTenantIdProvider);
+      if (tenantId == null) return [];
 
-  final rows = await repo.getInventoryItems(tenantId);
+      final rows = await repo.getInventoryItems(tenantId);
 
-  return rows.map<InventoryItemEntity>((r) {
-    return InventoryItemEntity(
-      id: r['id'] as String,
-      tenantId: r['tenant_id'] as String,
-      name: r['name'] as String,
-      description: r['description'] as String?,
-      sku: r['sku'] as String?,
-      unit: r['unit'] as String? ?? 'unidad',
-      currentStock: (r['current_stock'] as num?)?.toDouble() ?? 0,
-      minimumStock: (r['minimum_stock'] as num?)?.toDouble() ?? 0,
-      costPerUnit: (r['cost_per_unit'] as num?)?.toDouble(),
-      supplier: r['supplier'] as String?,
-      category: r['category'] as String?,
-      isActive: r['is_active'] as bool? ?? true,
-    );
-  }).toList();
-});
+      return rows.map<InventoryItemEntity>((r) {
+        return InventoryItemEntity(
+          id: r['id'] as String,
+          tenantId: r['tenant_id'] as String,
+          name: r['name'] as String,
+          description: r['description'] as String?,
+          sku: r['sku'] as String?,
+          unit: r['unit'] as String? ?? 'unidad',
+          currentStock: (r['current_stock'] as num?)?.toDouble() ?? 0,
+          minimumStock: (r['minimum_stock'] as num?)?.toDouble() ?? 0,
+          costPerUnit: (r['cost_per_unit'] as num?)?.toDouble(),
+          supplier: r['supplier'] as String?,
+          category: r['category'] as String?,
+          isActive: r['is_active'] as bool? ?? true,
+        );
+      }).toList();
+    });
 
 // =============================================================================
 // Provider: búsqueda de inventario
 // =============================================================================
 
-final inventorySearchQueryProvider =
-    StateProvider.autoDispose<String>((ref) => '');
+final inventorySearchQueryProvider = StateProvider.autoDispose<String>(
+  (ref) => '',
+);
 
 final filteredInventoryProvider =
     Provider.autoDispose<AsyncValue<List<InventoryItemEntity>>>((ref) {
-  final query = ref.watch(inventorySearchQueryProvider).toLowerCase();
-  final items = ref.watch(inventoryItemsProvider);
-  if (query.isEmpty) return items;
-  return items.whenData(
-    (list) => list
-        .where(
-          (i) =>
-              i.name.toLowerCase().contains(query) ||
-              (i.sku?.toLowerCase().contains(query) ?? false) ||
-              (i.category?.toLowerCase().contains(query) ?? false),
-        )
-        .toList(),
-  );
-});
+      final query = ref.watch(inventorySearchQueryProvider).toLowerCase();
+      final items = ref.watch(inventoryItemsProvider);
+      if (query.isEmpty) return items;
+      return items.whenData(
+        (list) => list
+            .where(
+              (i) =>
+                  i.name.toLowerCase().contains(query) ||
+                  (i.sku?.toLowerCase().contains(query) ?? false) ||
+                  (i.category?.toLowerCase().contains(query) ?? false),
+            )
+            .toList(),
+      );
+    });
 
 // =============================================================================
 // CRUD Notifier para inventario

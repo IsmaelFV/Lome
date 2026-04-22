@@ -1,5 +1,11 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../../domain/entities/canvas_element.dart';
 import '../../domain/entities/menu_item_entity.dart';
@@ -25,13 +31,14 @@ class CanvasElementWidget extends StatelessWidget {
     Widget child = switch (element.type) {
       'text' => _TextElement(element: element),
       'menuBlock' => _MenuBlockElement(
-          element: element,
-          categories: categories,
-          dishes: dishes,
-        ),
+        element: element,
+        categories: categories,
+        dishes: dishes,
+      ),
       'shape' => _ShapeElement(element: element),
       'divider' => _DividerElement(element: element),
       'image' => _ImageElement(element: element),
+      'carousel' => _CarouselElement(element: element, dishes: dishes),
       _ => const SizedBox.shrink(),
     };
 
@@ -55,15 +62,21 @@ class _TextElement extends StatelessWidget {
       child: Text(
         element.text,
         textAlign: _parseAlign(element.textAlign),
-        maxLines: (element.height / (element.fontSize * 1.4)).floor().clamp(1, 100),
+        maxLines: (element.height / (element.fontSize * 1.4)).floor().clamp(
+          1,
+          100,
+        ),
         overflow: TextOverflow.clip,
-        style: TextStyle(
-          fontFamily: element.fontFamily,
+        style: _fontStyle(
+          element.fontFamily,
+          TextStyle(
           fontSize: element.fontSize,
           color: _hexToColor(element.color),
-          fontWeight:
-              element.fontWeight == 'bold' ? FontWeight.bold : FontWeight.normal,
+          fontWeight: element.fontWeight == 'bold'
+              ? FontWeight.bold
+              : FontWeight.normal,
           height: 1.3,
+          ),
         ),
       ),
     );
@@ -95,27 +108,40 @@ class _MenuBlockElement extends StatelessWidget {
         ? dishes.where((d) => d.categoryId == catId && d.isAvailable).toList()
         : <MenuItemEntity>[];
 
-    final titleStyle = TextStyle(
-      fontFamily: element.fontFamily,
-      fontSize: element.titleFontSize,
-      fontWeight: FontWeight.bold,
-      color: _hexToColor(element.titleColor),
-      height: 1.3,
+    final titleStyle = _fontStyle(
+  TextStyle _fontStyle(String family, TextStyle base) {
+    try {
+      return GoogleFonts.getFont(family, textStyle: base);
+    } catch (_) {
+      return base.copyWith(fontFamily: family);
+    }
+  }
+      element.fontFamily,
+      TextStyle(
+        fontSize: element.titleFontSize,
+        fontWeight: FontWeight.bold,
+        color: _hexToColor(element.titleColor),
+        height: 1.3,
+      ),
     );
 
-    final itemStyle = TextStyle(
-      fontFamily: element.fontFamily,
-      fontSize: element.itemFontSize,
-      color: _hexToColor(element.itemColor),
-      height: 1.5,
+    final itemStyle = _fontStyle(
+      element.fontFamily,
+      TextStyle(
+        fontSize: element.itemFontSize,
+        color: _hexToColor(element.itemColor),
+        height: 1.5,
+      ),
     );
 
-    final priceStyle = TextStyle(
-      fontFamily: element.fontFamily,
-      fontSize: element.itemFontSize,
-      fontWeight: FontWeight.w600,
-      color: _hexToColor(element.priceColor),
-      height: 1.5,
+    final priceStyle = _fontStyle(
+      element.fontFamily,
+      TextStyle(
+        fontSize: element.itemFontSize,
+        fontWeight: FontWeight.w600,
+        color: _hexToColor(element.priceColor),
+        height: 1.5,
+      ),
     );
 
     if (category == null) {
@@ -186,8 +212,9 @@ class _MenuBlockElement extends StatelessWidget {
                                 dish.description!,
                                 style: itemStyle.copyWith(
                                   fontSize: element.itemFontSize - 2,
-                                  color: _hexToColor(element.itemColor)
-                                      .withValues(alpha: 0.7),
+                                  color: _hexToColor(
+                                    element.itemColor,
+                                  ).withValues(alpha: 0.7),
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -291,28 +318,65 @@ class _DividerElement extends StatelessWidget {
 }
 
 // ---------------------------------------------------------------------------
-// Image element (placeholder until image upload is wired)
+// Image element
 // ---------------------------------------------------------------------------
 
 class _ImageElement extends StatelessWidget {
   final CanvasElement element;
   const _ImageElement({required this.element});
 
+  bool get _isLocalPath {
+    final url = element.imageUrl;
+    if (url == null || url.isEmpty) return false;
+    return !url.startsWith('http');
+  }
+
   @override
   Widget build(BuildContext context) {
     final url = element.imageUrl;
+
     if (url != null && url.isNotEmpty) {
-      return ClipRRect(
-        borderRadius: BorderRadius.circular(element.borderRadius),
-        child: Image.network(
-          url,
+      Widget imageWidget;
+
+      if (_isLocalPath && !kIsWeb) {
+        imageWidget = Image.file(
+          File(url),
           width: element.width,
           height: element.height,
           fit: BoxFit.cover,
           errorBuilder: (_, e, s) => _placeholder(),
+        );
+      } else if (url.startsWith('http')) {
+        imageWidget = Image.network(
+          url,
+          width: element.width,
+          height: element.height,
+          fit: BoxFit.cover,
+          loadingBuilder: (_, child, progress) => progress == null
+              ? child
+              : Container(
+                  width: element.width,
+                  height: element.height,
+                  color: Colors.grey[100],
+                  child: const Center(
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+                ),
+          errorBuilder: (_, e, s) => _placeholder(),
+        );
+      } else {
+        return _placeholder();
+      }
+
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(element.borderRadius),
+        child: Opacity(
+          opacity: element.opacity.clamp(0.0, 1.0),
+          child: imageWidget,
         ),
       );
     }
+
     return _placeholder();
   }
 
@@ -321,11 +385,229 @@ class _ImageElement extends StatelessWidget {
       width: element.width,
       height: element.height,
       decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(4),
+        color: Colors.grey[100],
+        borderRadius: BorderRadius.circular(element.borderRadius.clamp(0, 50)),
         border: Border.all(color: Colors.grey[300]!),
       ),
-      child: Icon(Icons.image_outlined, color: Colors.grey[400], size: 28),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            PhosphorIcons.image(PhosphorIconsStyle.duotone),
+            color: Colors.grey[400],
+            size: 32,
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'Toca para cambiar',
+            style: TextStyle(color: Colors.grey[400], fontSize: 10),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Carousel element – cycles through featured dishes
+// ---------------------------------------------------------------------------
+
+class _CarouselElement extends StatefulWidget {
+  final CanvasElement element;
+  final List<MenuItemEntity> dishes;
+
+  const _CarouselElement({required this.element, required this.dishes});
+
+  @override
+  State<_CarouselElement> createState() => _CarouselElementState();
+}
+
+class _CarouselElementState extends State<_CarouselElement> {
+  late Timer _timer;
+  int _currentIndex = 0;
+
+  List<MenuItemEntity> get _filteredDishes {
+    final catId = widget.element.categoryId;
+    if (catId != null && catId.isNotEmpty) {
+      return widget.dishes
+          .where((d) => d.categoryId == catId && d.isAvailable)
+          .toList();
+    }
+    return widget.dishes.where((d) => d.isAvailable).toList();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  void _startTimer() {
+    final ms = widget.element.displayDuration;
+    _timer = Timer.periodic(Duration(milliseconds: ms), (_) {
+      final items = _filteredDishes;
+      if (items.isNotEmpty) {
+        setState(() => _currentIndex = (_currentIndex + 1) % items.length);
+      }
+    });
+  }
+
+  @override
+  void didUpdateWidget(covariant _CarouselElement oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.element.displayDuration != widget.element.displayDuration) {
+      _timer.cancel();
+      _startTimer();
+    }
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final items = _filteredDishes;
+    if (items.isEmpty) {
+      return Container(
+        width: widget.element.width,
+        height: widget.element.height,
+        decoration: BoxDecoration(
+          color: Colors.grey[100],
+          borderRadius: BorderRadius.circular(widget.element.borderRadius),
+          border: Border.all(color: Colors.grey[300]!),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              PhosphorIcons.slideshow(PhosphorIconsStyle.duotone),
+              color: Colors.grey[400],
+              size: 28,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              'Sin platos disponibles',
+              style: TextStyle(color: Colors.grey[400], fontSize: 12),
+            ),
+          ],
+        ),
+      );
+    }
+
+    final item = items[_currentIndex % items.length];
+    final bgColor = _hexToColor(
+      widget.element.props['backgroundColor'] as String? ?? '#FFFFFF',
+    );
+    final txtColor = _hexToColor(widget.element.textColor);
+    final prColor = _hexToColor(widget.element.priceColor);
+    final fSize = widget.element.fontSize;
+
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 400),
+      transitionBuilder: (child, anim) => SlideTransition(
+        position: Tween(
+          begin: const Offset(1, 0),
+          end: Offset.zero,
+        ).animate(CurvedAnimation(parent: anim, curve: Curves.easeInOut)),
+        child: FadeTransition(opacity: anim, child: child),
+      ),
+      child: Container(
+        key: ValueKey(item.id),
+        width: widget.element.width,
+        height: widget.element.height,
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.circular(widget.element.borderRadius),
+          border: Border.all(color: txtColor.withValues(alpha: 0.1)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Star badge
+            Row(
+              children: [
+                Icon(
+                  PhosphorIcons.star(PhosphorIconsStyle.fill),
+                  size: 14,
+                  color: const Color(0xFFF39C12),
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  'DESTACADO',
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w700,
+                    color: txtColor.withValues(alpha: 0.5),
+                    letterSpacing: 1,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 6),
+            Text(
+              item.name,
+              style: TextStyle(
+                fontSize: fSize,
+                fontWeight: FontWeight.bold,
+                color: txtColor,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            if (widget.element.showDescriptions &&
+                item.description != null &&
+                item.description!.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text(
+                  item.description!,
+                  style: TextStyle(
+                    fontSize: fSize - 3,
+                    color: txtColor.withValues(alpha: 0.7),
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            if (widget.element.showPrices)
+              Padding(
+                padding: const EdgeInsets.only(top: 6),
+                child: Text(
+                  '${item.price.toStringAsFixed(2)} €',
+                  style: TextStyle(
+                    fontSize: fSize + 2,
+                    fontWeight: FontWeight.w700,
+                    color: prColor,
+                  ),
+                ),
+              ),
+            const Spacer(),
+            // Page indicator dots
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                items.length.clamp(0, 10),
+                (i) => Container(
+                  width: 6,
+                  height: 6,
+                  margin: const EdgeInsets.symmetric(horizontal: 2),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: i == _currentIndex % items.length
+                        ? txtColor
+                        : txtColor.withValues(alpha: 0.2),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -343,8 +625,10 @@ Widget _applyAnimation(Widget child, CanvasElement element) {
   final loop = element.animationLoop;
 
   // Key on animation config so it re-triggers when changed
-  final animKey = ValueKey('${element.id}_${anim}_${element.animationDuration}_'
-      '${element.animationDelay}_$loop');
+  final animKey = ValueKey(
+    '${element.id}_${anim}_${element.animationDuration}_'
+    '${element.animationDelay}_$loop',
+  );
 
   Animate animated;
 
@@ -386,7 +670,11 @@ Widget _applyAnimation(Widget child, CanvasElement element) {
           .fadeIn(duration: duration, delay: delay);
     case 'pulse':
       animated = child
-          .animate(key: animKey, autoPlay: true, onPlay: (c) => c.repeat(reverse: true))
+          .animate(
+            key: animKey,
+            autoPlay: true,
+            onPlay: (c) => c.repeat(reverse: true),
+          )
           .scale(
             begin: const Offset(1, 1),
             end: const Offset(1.05, 1.05),
@@ -424,8 +712,13 @@ Widget _applyAnimation(Widget child, CanvasElement element) {
 
   // For pulse & shake, loop is implicit. For others, optionally loop.
   if (loop && anim != 'pulse' && anim != 'shake') {
-    animated = animated.then().fadeOut(duration: 200.ms).then().callback(
-        callback: (_) {}); // flutter_animate handles repeat via onPlay
+    animated = animated
+        .then()
+        .fadeOut(duration: 200.ms)
+        .then()
+        .callback(
+          callback: (_) {},
+        ); // flutter_animate handles repeat via onPlay
   }
 
   return animated;

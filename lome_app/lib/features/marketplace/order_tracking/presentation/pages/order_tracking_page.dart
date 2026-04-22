@@ -269,11 +269,11 @@ class _ProgressTimeline extends StatelessWidget {
         final isLast = i == steps.length - 1;
 
         return _TimelineStep(
-          step: step,
-          isCompleted: isCompleted,
-          isActive: isActive,
-          showLine: !isLast,
-        )
+              step: step,
+              isCompleted: isCompleted,
+              isActive: isActive,
+              showLine: !isLast,
+            )
             .animate()
             .fadeIn(
               delay: Duration(milliseconds: i * 80),
@@ -329,9 +329,7 @@ class _TimelineStep extends StatelessWidget {
         border: Border.all(color: color, width: 2),
       ),
       child: Icon(
-        isCompleted
-            ? PhosphorIcons.check(PhosphorIconsStyle.bold)
-            : step.icon,
+        isCompleted ? PhosphorIcons.check(PhosphorIconsStyle.bold) : step.icon,
         size: 18,
         color: color,
       ),
@@ -495,119 +493,113 @@ class _OrderDetails extends StatelessWidget {
         boxShadow: AppShadows.card,
       ),
       child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ...order.items.map(
-              (item) => Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: AppTheme.spacingXs,
-                ),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 26,
-                      child: Text(
-                        '${item.quantity}x',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.primary,
-                        ),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ...order.items.map(
+            (item) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: AppTheme.spacingXs),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 26,
+                    child: Text(
+                      '${item.quantity}x',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.primary,
                       ),
                     ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(item.name),
-                          if (item.notes != null && item.notes!.isNotEmpty)
-                            Text(
-                              item.notes!,
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: AppColors.grey500,
-                                fontStyle: FontStyle.italic,
-                              ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(item.name),
+                        if (item.notes != null && item.notes!.isNotEmpty)
+                          Text(
+                            item.notes!,
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: AppColors.grey500,
+                              fontStyle: FontStyle.italic,
                             ),
-                        ],
-                      ),
+                          ),
+                      ],
                     ),
-                    Text(
-                      '€${item.totalPrice.toStringAsFixed(2)}',
-                      style: const TextStyle(fontWeight: FontWeight.w600),
-                    ),
-                  ],
-                ),
+                  ),
+                  Text(
+                    '€${item.totalPrice.toStringAsFixed(2)}',
+                    style: const TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: AppTheme.spacingSm),
-              child: Divider(height: 1, color: AppColors.grey100),
-            ),
-            _DetailRow('Subtotal', '€${order.subtotal.toStringAsFixed(2)}'),
-            _DetailRow('IVA', '€${order.taxAmount.toStringAsFixed(2)}'),
-            if (order.deliveryFee > 0)
-              _DetailRow('Envío', '€${order.deliveryFee.toStringAsFixed(2)}'),
-            const SizedBox(height: 4),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  'Total',
-                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: AppTheme.spacingSm),
+            child: Divider(height: 1, color: AppColors.grey100),
+          ),
+          _DetailRow('Subtotal', '€${order.subtotal.toStringAsFixed(2)}'),
+          _DetailRow('IVA', '€${order.taxAmount.toStringAsFixed(2)}'),
+          if (order.deliveryFee > 0)
+            _DetailRow('Envío', '€${order.deliveryFee.toStringAsFixed(2)}'),
+          const SizedBox(height: 4),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Total',
+                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
+              ),
+              Text(
+                '€${order.total.toStringAsFixed(2)}',
+                style: const TextStyle(
+                  fontWeight: FontWeight.w800,
+                  fontSize: 16,
+                  color: AppColors.primary,
                 ),
-                Text(
-                  '€${order.total.toStringAsFixed(2)}',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 16,
-                    color: AppColors.primary,
-                  ),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppTheme.spacingSm),
+          Row(
+            children: [
+              Icon(
+                PhosphorIcons.creditCard(PhosphorIconsStyle.duotone),
+                size: 14,
+                color: AppColors.grey500,
+              ),
+              const SizedBox(width: 6),
+              Text(
+                order.paymentMethod ?? 'Sin definir',
+                style: TextStyle(fontSize: 12, color: AppColors.grey500),
+              ),
+              const Spacer(),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                decoration: BoxDecoration(
+                  color: order.paymentStatus == 'paid'
+                      ? AppColors.success.withValues(alpha: 0.1)
+                      : AppColors.warning.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusFull),
                 ),
-              ],
-            ),
-            const SizedBox(height: AppTheme.spacingSm),
-            Row(
-              children: [
-                Icon(
-                  PhosphorIcons.creditCard(PhosphorIconsStyle.duotone),
-                  size: 14,
-                  color: AppColors.grey500,
-                ),
-                const SizedBox(width: 6),
-                Text(
-                  order.paymentMethod ?? 'Sin definir',
-                  style: TextStyle(fontSize: 12, color: AppColors.grey500),
-                ),
-                const Spacer(),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 2,
-                  ),
-                  decoration: BoxDecoration(
+                child: Text(
+                  order.paymentStatus == 'paid'
+                      ? 'Pagado'
+                      : 'Pendiente de pago',
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
                     color: order.paymentStatus == 'paid'
-                        ? AppColors.success.withValues(alpha: 0.1)
-                        : AppColors.warning.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(AppTheme.radiusFull),
-                  ),
-                  child: Text(
-                    order.paymentStatus == 'paid'
-                        ? 'Pagado'
-                        : 'Pendiente de pago',
-                    style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                      color: order.paymentStatus == 'paid'
-                          ? AppColors.success
-                          : AppColors.warning,
-                    ),
+                        ? AppColors.success
+                        : AppColors.warning,
                   ),
                 ),
-              ],
-            ),
-          ],
-        ),
-
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
@@ -743,7 +735,10 @@ class _ReviewSectionState extends ConsumerState<_ReviewSection> {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(AppTheme.radiusMd),
-                        borderSide: BorderSide(color: AppColors.primary, width: 1.5),
+                        borderSide: BorderSide(
+                          color: AppColors.primary,
+                          width: 1.5,
+                        ),
                       ),
                       contentPadding: const EdgeInsets.all(14),
                     ),
@@ -779,7 +774,9 @@ class _ReviewSectionState extends ConsumerState<_ReviewSection> {
                                 ),
                               )
                             : Text(
-                                context.l10n.marketplaceOrderTrackingReviewSubmit,
+                                context
+                                    .l10n
+                                    .marketplaceOrderTrackingReviewSubmit,
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
@@ -914,16 +911,18 @@ class _CancelOrderButtonState extends ConsumerState<_CancelOrderButton> {
 
     setState(() => _loading = true);
     try {
-      await ref.read(customerOrderActionsProvider).cancelOrder(
+      await ref
+          .read(customerOrderActionsProvider)
+          .cancelOrder(
             widget.orderId,
             reason: reasonCtrl.text.trim().isEmpty
                 ? null
                 : reasonCtrl.text.trim(),
           );
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(context.l10n.cancelOrderButton)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(context.l10n.cancelOrderButton)));
       }
     } catch (_) {
       if (mounted) {

@@ -41,9 +41,9 @@ class LomeStatusChip extends StatelessWidget {
           ],
           Text(
             label,
-            style: AppTypography.badge(color: color).copyWith(
-              fontSize: compact ? 9 : 11,
-            ),
+            style: AppTypography.badge(
+              color: color,
+            ).copyWith(fontSize: compact ? 9 : 11),
           ),
         ],
       ),
@@ -54,33 +54,21 @@ class LomeStatusChip extends StatelessWidget {
   // Factory helpers para estados comunes
   // ---------------------------------------------------------------------------
 
-  factory LomeStatusChip.pending(String label) => LomeStatusChip(
-        label: label,
-        color: AppColors.statusPending,
-      );
+  factory LomeStatusChip.pending(String label) =>
+      LomeStatusChip(label: label, color: AppColors.statusPending);
 
-  factory LomeStatusChip.confirmed(String label) => LomeStatusChip(
-        label: label,
-        color: AppColors.statusConfirmed,
-      );
+  factory LomeStatusChip.confirmed(String label) =>
+      LomeStatusChip(label: label, color: AppColors.statusConfirmed);
 
-  factory LomeStatusChip.preparing(String label) => LomeStatusChip(
-        label: label,
-        color: AppColors.statusPreparing,
-      );
+  factory LomeStatusChip.preparing(String label) =>
+      LomeStatusChip(label: label, color: AppColors.statusPreparing);
 
-  factory LomeStatusChip.ready(String label) => LomeStatusChip(
-        label: label,
-        color: AppColors.statusReady,
-      );
+  factory LomeStatusChip.ready(String label) =>
+      LomeStatusChip(label: label, color: AppColors.statusReady);
 
-  factory LomeStatusChip.completed(String label) => LomeStatusChip(
-        label: label,
-        color: AppColors.statusCompleted,
-      );
+  factory LomeStatusChip.completed(String label) =>
+      LomeStatusChip(label: label, color: AppColors.statusCompleted);
 
-  factory LomeStatusChip.cancelled(String label) => LomeStatusChip(
-        label: label,
-        color: AppColors.statusCancelled,
-      );
+  factory LomeStatusChip.cancelled(String label) =>
+      LomeStatusChip(label: label, color: AppColors.statusCancelled);
 }

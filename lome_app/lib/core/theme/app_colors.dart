@@ -134,13 +134,10 @@ class AppColors {
 
   /// Gradiente de glass/frosted overlay
   static LinearGradient get glassGradient => LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          white.withValues(alpha: 0.25),
-          white.withValues(alpha: 0.10),
-        ],
-      );
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [white.withValues(alpha: 0.25), white.withValues(alpha: 0.10)],
+  );
 
   // ---------------------------------------------------------------------------
   // Mapa de neutrales (acceso por clave para compatibilidad)

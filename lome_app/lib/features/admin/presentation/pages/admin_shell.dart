@@ -33,18 +33,18 @@ class _AdminShellState extends State<AdminShell>
       duration: const Duration(milliseconds: 300),
       vsync: this,
     )..value = 1.0;
-    _fadeAnim = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic),
-    );
-    _scaleAnim = Tween<double>(begin: 0.94, end: 1.0).animate(
-      CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic),
-    );
+    _fadeAnim = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic));
+    _scaleAnim = Tween<double>(
+      begin: 0.94,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic));
     _slideAnim = Tween<Offset>(
       begin: const Offset(0.08, 0),
       end: Offset.zero,
-    ).animate(
-      CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic),
-    );
+    ).animate(CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic));
   }
 
   @override
@@ -63,9 +63,7 @@ class _AdminShellState extends State<AdminShell>
       _slideAnim = Tween<Offset>(
         begin: Offset(_goingRight ? 0.08 : -0.08, 0),
         end: Offset.zero,
-      ).animate(
-        CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic),
-      );
+      ).animate(CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutCubic));
       _animCtrl.forward(from: 0.0);
     }
   }
@@ -111,7 +109,11 @@ class _AdminShellState extends State<AdminShell>
             labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
             destinations: [
               NavigationDestination(
-                icon: Icon(PhosphorIcons.chartBar(), size: 22, color: AppColors.grey400),
+                icon: Icon(
+                  PhosphorIcons.chartBar(),
+                  size: 22,
+                  color: AppColors.grey400,
+                ),
                 selectedIcon: Icon(
                   PhosphorIcons.chartBar(PhosphorIconsStyle.fill),
                   size: 22,
@@ -120,7 +122,11 @@ class _AdminShellState extends State<AdminShell>
                 label: context.l10n.dashboard,
               ),
               NavigationDestination(
-                icon: Icon(PhosphorIcons.storefront(), size: 22, color: AppColors.grey400),
+                icon: Icon(
+                  PhosphorIcons.storefront(),
+                  size: 22,
+                  color: AppColors.grey400,
+                ),
                 selectedIcon: Icon(
                   PhosphorIcons.storefront(PhosphorIconsStyle.fill),
                   size: 22,
@@ -129,7 +135,11 @@ class _AdminShellState extends State<AdminShell>
                 label: context.l10n.restaurants,
               ),
               NavigationDestination(
-                icon: Icon(PhosphorIcons.chartLine(), size: 22, color: AppColors.grey400),
+                icon: Icon(
+                  PhosphorIcons.chartLine(),
+                  size: 22,
+                  color: AppColors.grey400,
+                ),
                 selectedIcon: Icon(
                   PhosphorIcons.chartLine(PhosphorIconsStyle.fill),
                   size: 22,
@@ -138,7 +148,11 @@ class _AdminShellState extends State<AdminShell>
                 label: context.l10n.analytics,
               ),
               NavigationDestination(
-                icon: Icon(PhosphorIcons.warning(), size: 22, color: AppColors.grey400),
+                icon: Icon(
+                  PhosphorIcons.warning(),
+                  size: 22,
+                  color: AppColors.grey400,
+                ),
                 selectedIcon: Icon(
                   PhosphorIcons.warning(PhosphorIconsStyle.fill),
                   size: 22,
@@ -147,7 +161,11 @@ class _AdminShellState extends State<AdminShell>
                 label: context.l10n.incidents,
               ),
               NavigationDestination(
-                icon: Icon(PhosphorIcons.shield(), size: 22, color: AppColors.grey400),
+                icon: Icon(
+                  PhosphorIcons.shield(),
+                  size: 22,
+                  color: AppColors.grey400,
+                ),
                 selectedIcon: Icon(
                   PhosphorIcons.shield(PhosphorIconsStyle.fill),
                   size: 22,
@@ -156,7 +174,11 @@ class _AdminShellState extends State<AdminShell>
                 label: context.l10n.moderation,
               ),
               NavigationDestination(
-                icon: Icon(PhosphorIcons.creditCard(), size: 22, color: AppColors.grey400),
+                icon: Icon(
+                  PhosphorIcons.creditCard(),
+                  size: 22,
+                  color: AppColors.grey400,
+                ),
                 selectedIcon: Icon(
                   PhosphorIcons.creditCard(PhosphorIconsStyle.fill),
                   size: 22,
@@ -165,7 +187,11 @@ class _AdminShellState extends State<AdminShell>
                 label: context.l10n.subscriptions,
               ),
               NavigationDestination(
-                icon: Icon(PhosphorIcons.clipboardText(), size: 22, color: AppColors.grey400),
+                icon: Icon(
+                  PhosphorIcons.clipboardText(),
+                  size: 22,
+                  color: AppColors.grey400,
+                ),
                 selectedIcon: Icon(
                   PhosphorIcons.clipboardText(PhosphorIconsStyle.fill),
                   size: 22,
@@ -174,7 +200,11 @@ class _AdminShellState extends State<AdminShell>
                 label: context.l10n.audit,
               ),
               NavigationDestination(
-                icon: Icon(PhosphorIcons.pulse(), size: 22, color: AppColors.grey400),
+                icon: Icon(
+                  PhosphorIcons.pulse(),
+                  size: 22,
+                  color: AppColors.grey400,
+                ),
                 selectedIcon: Icon(
                   PhosphorIcons.pulse(PhosphorIconsStyle.fill),
                   size: 22,

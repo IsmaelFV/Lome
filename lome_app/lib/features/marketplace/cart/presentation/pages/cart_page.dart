@@ -32,7 +32,10 @@ class CartPage extends ConsumerWidget {
               onTap: () => _confirmClear(context, ref),
               child: Padding(
                 padding: const EdgeInsets.all(AppTheme.spacingSm),
-                child: Icon(PhosphorIcons.trash(PhosphorIconsStyle.duotone), color: AppColors.grey700),
+                child: Icon(
+                  PhosphorIcons.trash(PhosphorIconsStyle.duotone),
+                  color: AppColors.grey700,
+                ),
               ),
             ),
         ],
@@ -70,10 +73,14 @@ class CartPage extends ConsumerWidget {
                           height: 32,
                           decoration: BoxDecoration(
                             color: AppColors.primary.withValues(alpha: 0.15),
-                            borderRadius: BorderRadius.circular(AppTheme.radiusSm),
+                            borderRadius: BorderRadius.circular(
+                              AppTheme.radiusSm,
+                            ),
                           ),
                           child: Icon(
-                            PhosphorIcons.storefront(PhosphorIconsStyle.duotone),
+                            PhosphorIcons.storefront(
+                              PhosphorIconsStyle.duotone,
+                            ),
                             size: 16,
                             color: AppColors.primary,
                           ),
@@ -100,27 +107,37 @@ class CartPage extends ConsumerWidget {
                     itemBuilder: (ctx, i) {
                       final item = cart.items[i];
                       return Dismissible(
-                        key: ValueKey(item.id),
-                        direction: DismissDirection.endToStart,
-                        background: Container(
-                          alignment: Alignment.centerRight,
-                          padding: const EdgeInsets.only(right: AppTheme.spacingMd),
-                          margin: const EdgeInsets.only(bottom: AppTheme.spacingSm),
-                          decoration: BoxDecoration(
-                            color: AppColors.error.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-                          ),
-                          child: Icon(
-                            PhosphorIcons.trash(PhosphorIconsStyle.duotone),
-                            color: AppColors.error,
-                          ),
-                        ),
-                        confirmDismiss: (_) async {
-                          ref.read(cartProvider.notifier).removeItem(item.id);
-                          return false;
-                        },
-                        child: _CartItemCard(item: item),
-                      ).animate().fadeIn(duration: 200.ms, delay: (50 * i).ms)
+                            key: ValueKey(item.id),
+                            direction: DismissDirection.endToStart,
+                            background: Container(
+                              alignment: Alignment.centerRight,
+                              padding: const EdgeInsets.only(
+                                right: AppTheme.spacingMd,
+                              ),
+                              margin: const EdgeInsets.only(
+                                bottom: AppTheme.spacingSm,
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppColors.error.withValues(alpha: 0.1),
+                                borderRadius: BorderRadius.circular(
+                                  AppTheme.radiusLg,
+                                ),
+                              ),
+                              child: Icon(
+                                PhosphorIcons.trash(PhosphorIconsStyle.duotone),
+                                color: AppColors.error,
+                              ),
+                            ),
+                            confirmDismiss: (_) async {
+                              ref
+                                  .read(cartProvider.notifier)
+                                  .removeItem(item.id);
+                              return false;
+                            },
+                            child: _CartItemCard(item: item),
+                          )
+                          .animate()
+                          .fadeIn(duration: 200.ms, delay: (50 * i).ms)
                           .slideX(begin: 0.05, end: 0);
                     },
                   ),

@@ -36,7 +36,9 @@ class SupabaseOrderRepository implements OrderRepository {
 
   @override
   Future<OrderEntity?> getActiveOrderForTable(
-      String tenantId, String tableId) async {
+    String tenantId,
+    String tableId,
+  ) async {
     final sessions = await _client
         .from('table_sessions')
         .select('id')
@@ -61,7 +63,8 @@ class SupabaseOrderRepository implements OrderRepository {
 
   @override
   Future<List<Map<String, dynamic>>> getMenuItemsForPicker(
-      String tenantId) async {
+    String tenantId,
+  ) async {
     return await _client
         .from('menu_items')
         .select('id, name, price, category_id, image_url')
@@ -120,7 +123,8 @@ class SupabaseOrderRepository implements OrderRepository {
   Future<void> fulfillReservation(String reservationId) async {
     await _client
         .from('reservations')
-        .update({'status': 'fulfilled'}).eq('id', reservationId);
+        .update({'status': 'fulfilled'})
+        .eq('id', reservationId);
   }
 
   // ---------------------------------------------------------------------------
@@ -129,9 +133,7 @@ class SupabaseOrderRepository implements OrderRepository {
 
   @override
   Future<void> updateOrderStatus(String orderId, String status) async {
-    await _client
-        .from('orders')
-        .update({'status': status}).eq('id', orderId);
+    await _client.from('orders').update({'status': status}).eq('id', orderId);
   }
 
   @override
@@ -219,11 +221,11 @@ class SupabaseOrderRepository implements OrderRepository {
   }
 
   @override
-  Future<void> updateOrderItemStatus(
-      String orderItemId, String status) async {
+  Future<void> updateOrderItemStatus(String orderItemId, String status) async {
     await _client
         .from('order_items')
-        .update({'status': status}).eq('id', orderItemId);
+        .update({'status': status})
+        .eq('id', orderItemId);
   }
 
   @override
@@ -278,10 +280,10 @@ class SupabaseOrderRepository implements OrderRepository {
     required double subtotal,
     required double total,
   }) async {
-    await _client.from('orders').update({
-      'subtotal': subtotal,
-      'total': total,
-    }).eq('id', orderId);
+    await _client
+        .from('orders')
+        .update({'subtotal': subtotal, 'total': total})
+        .eq('id', orderId);
   }
 
   // ---------------------------------------------------------------------------
@@ -335,11 +337,14 @@ class SupabaseOrderRepository implements OrderRepository {
     String startDate,
     String endDate,
   ) async {
-    final response = await _client.rpc('get_order_metrics', params: {
-      'p_tenant_id': tenantId,
-      'p_start_date': startDate,
-      'p_end_date': endDate,
-    });
+    final response = await _client.rpc(
+      'get_order_metrics',
+      params: {
+        'p_tenant_id': tenantId,
+        'p_start_date': startDate,
+        'p_end_date': endDate,
+      },
+    );
     return response as Map<String, dynamic>;
   }
 
@@ -349,11 +354,14 @@ class SupabaseOrderRepository implements OrderRepository {
     String startDate,
     String endDate,
   ) async {
-    final response = await _client.rpc('get_top_dishes', params: {
-      'p_tenant_id': tenantId,
-      'p_start_date': startDate,
-      'p_end_date': endDate,
-    });
+    final response = await _client.rpc(
+      'get_top_dishes',
+      params: {
+        'p_tenant_id': tenantId,
+        'p_start_date': startDate,
+        'p_end_date': endDate,
+      },
+    );
     return List<Map<String, dynamic>>.from(response as List);
   }
 
@@ -363,11 +371,14 @@ class SupabaseOrderRepository implements OrderRepository {
     String startDate,
     String endDate,
   ) async {
-    final response = await _client.rpc('get_orders_by_hour', params: {
-      'p_tenant_id': tenantId,
-      'p_start_date': startDate,
-      'p_end_date': endDate,
-    });
+    final response = await _client.rpc(
+      'get_orders_by_hour',
+      params: {
+        'p_tenant_id': tenantId,
+        'p_start_date': startDate,
+        'p_end_date': endDate,
+      },
+    );
     return List<Map<String, dynamic>>.from(response as List);
   }
 }

@@ -234,7 +234,10 @@ class _OrderContent extends ConsumerWidget {
               if (order.status == OrderStatus.pending)
                 FilledButton.tonalIcon(
                   onPressed: () => _showMenuPicker(context, ref),
-                  icon: Icon(PhosphorIcons.plus(PhosphorIconsStyle.bold), size: 18),
+                  icon: Icon(
+                    PhosphorIcons.plus(PhosphorIconsStyle.bold),
+                    size: 18,
+                  ),
                   label: Text(context.l10n.tableOrderAddButton),
                   style: FilledButton.styleFrom(
                     backgroundColor: AppColors.primary.withValues(alpha: 0.12),
@@ -271,7 +274,9 @@ class _OrderContent extends ConsumerWidget {
                   const SizedBox(height: AppTheme.spacingMd),
                   OutlinedButton.icon(
                     onPressed: () => _showMenuPicker(context, ref),
-                    icon: Icon(PhosphorIcons.forkKnife(PhosphorIconsStyle.duotone)),
+                    icon: Icon(
+                      PhosphorIcons.forkKnife(PhosphorIconsStyle.duotone),
+                    ),
                     label: Text(context.l10n.tableOrderViewMenu),
                   ),
                 ],
@@ -560,7 +565,9 @@ class _OrderItemTile extends ConsumerWidget {
                             ),
                             if (canEdit)
                               Icon(
-                                PhosphorIcons.pencilSimple(PhosphorIconsStyle.duotone),
+                                PhosphorIcons.pencilSimple(
+                                  PhosphorIconsStyle.duotone,
+                                ),
                                 size: 12,
                                 color: AppColors.grey400,
                               ),
@@ -806,7 +813,9 @@ class _QuantityStepper extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           _StepperBtn(
-            icon: quantity == 1 ? PhosphorIcons.trash(PhosphorIconsStyle.duotone) : PhosphorIcons.minus(PhosphorIconsStyle.bold),
+            icon: quantity == 1
+                ? PhosphorIcons.trash(PhosphorIconsStyle.duotone)
+                : PhosphorIcons.minus(PhosphorIconsStyle.bold),
             color: quantity == 1 ? AppColors.error : AppColors.grey600,
             onTap: () => onChanged(quantity - 1),
           ),
@@ -889,10 +898,7 @@ class _TotalRow extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                     color: AppColors.grey900,
                   )
-                : const TextStyle(
-                    fontSize: 14,
-                    color: AppColors.grey500,
-                  ),
+                : const TextStyle(fontSize: 14, color: AppColors.grey500),
           ),
           Text(
             '${isDiscount ? '-' : ''}€${amount.abs().toStringAsFixed(2)}',
@@ -948,7 +954,10 @@ class _ActionBar extends ConsumerWidget {
                 message: context.l10n.tableOrderCancelTitle,
                 child: Padding(
                   padding: const EdgeInsets.all(8),
-                  child: Icon(PhosphorIcons.xCircle(PhosphorIconsStyle.duotone), color: AppColors.error),
+                  child: Icon(
+                    PhosphorIcons.xCircle(PhosphorIconsStyle.duotone),
+                    color: AppColors.error,
+                  ),
                 ),
               ),
             ),
@@ -960,7 +969,12 @@ class _ActionBar extends ConsumerWidget {
                 message: context.l10n.refundTitle,
                 child: Padding(
                   padding: const EdgeInsets.all(8),
-                  child: Icon(PhosphorIcons.arrowCounterClockwise(PhosphorIconsStyle.duotone), color: AppColors.warning),
+                  child: Icon(
+                    PhosphorIcons.arrowCounterClockwise(
+                      PhosphorIconsStyle.duotone,
+                    ),
+                    color: AppColors.warning,
+                  ),
                 ),
               ),
             ),
@@ -1079,22 +1093,32 @@ class _ActionBar extends ConsumerWidget {
                 children: [
                   ChoiceChip(
                     label: Text(context.l10n.paymentCash),
-                    avatar: Icon(PhosphorIcons.money(PhosphorIconsStyle.duotone), size: 16),
+                    avatar: Icon(
+                      PhosphorIcons.money(PhosphorIconsStyle.duotone),
+                      size: 16,
+                    ),
                     selected: selectedMethod == 'cash',
                     selectedColor: AppColors.primary.withValues(alpha: 0.15),
                     labelStyle: TextStyle(
-                      color: selectedMethod == 'cash' ? AppColors.primary : AppColors.grey600,
+                      color: selectedMethod == 'cash'
+                          ? AppColors.primary
+                          : AppColors.grey600,
                     ),
                     onSelected: (_) =>
                         setDialogState(() => selectedMethod = 'cash'),
                   ),
                   ChoiceChip(
                     label: Text(context.l10n.paymentCard),
-                    avatar: Icon(PhosphorIcons.creditCard(PhosphorIconsStyle.duotone), size: 16),
+                    avatar: Icon(
+                      PhosphorIcons.creditCard(PhosphorIconsStyle.duotone),
+                      size: 16,
+                    ),
                     selected: selectedMethod == 'card',
                     selectedColor: AppColors.primary.withValues(alpha: 0.15),
                     labelStyle: TextStyle(
-                      color: selectedMethod == 'card' ? AppColors.primary : AppColors.grey600,
+                      color: selectedMethod == 'card'
+                          ? AppColors.primary
+                          : AppColors.grey600,
                     ),
                     onSelected: (_) =>
                         setDialogState(() => selectedMethod = 'card'),
@@ -1418,7 +1442,10 @@ class _MenuPickerSheetState extends ConsumerState<_MenuPickerSheet> {
             padding: const EdgeInsets.symmetric(horizontal: AppTheme.spacingMd),
             child: Row(
               children: [
-                Icon(PhosphorIcons.forkKnife(PhosphorIconsStyle.duotone), size: 22),
+                Icon(
+                  PhosphorIcons.forkKnife(PhosphorIconsStyle.duotone),
+                  size: 22,
+                ),
                 const SizedBox(width: AppTheme.spacingSm),
                 Text(
                   context.l10n.tableOrderPickerTitle,
@@ -1442,7 +1469,10 @@ class _MenuPickerSheetState extends ConsumerState<_MenuPickerSheet> {
                   ref.read(dishSearchQueryProvider.notifier).state = v,
               decoration: InputDecoration(
                 hintText: context.l10n.tableOrderPickerSearchHint,
-                prefixIcon: Icon(PhosphorIcons.magnifyingGlass(PhosphorIconsStyle.duotone), size: 20),
+                prefixIcon: Icon(
+                  PhosphorIcons.magnifyingGlass(PhosphorIconsStyle.duotone),
+                  size: 20,
+                ),
                 suffixIcon: _searchCtrl.text.isNotEmpty
                     ? TactileWrapper(
                         onTap: () {
@@ -1721,7 +1751,9 @@ class _DishCard extends StatelessWidget {
                         padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
                           color: AppColors.primary,
-                          borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+                          borderRadius: BorderRadius.circular(
+                            AppTheme.radiusFull,
+                          ),
                         ),
                         child: Icon(
                           PhosphorIcons.plus(PhosphorIconsStyle.bold),
@@ -1930,7 +1962,10 @@ class _DishDetailSheetState extends State<_DishDetailSheet> {
                       label: '${dish.preparationTime} min',
                     ),
                   ...dish.allergens.map(
-                    (a) => _InfoTag(icon: PhosphorIcons.warning(PhosphorIconsStyle.duotone), label: a),
+                    (a) => _InfoTag(
+                      icon: PhosphorIcons.warning(PhosphorIconsStyle.duotone),
+                      label: a,
+                    ),
                   ),
                 ],
               ),
@@ -2013,7 +2048,9 @@ class _DishDetailSheetState extends State<_DishDetailSheet> {
                   context,
                   _DishAddResult(notes: _notesCtrl.text.trim()),
                 ),
-                icon: Icon(PhosphorIcons.shoppingCart(PhosphorIconsStyle.duotone)),
+                icon: Icon(
+                  PhosphorIcons.shoppingCart(PhosphorIconsStyle.duotone),
+                ),
                 label: Text(
                   context.l10n.tableOrderAddWithPrice(
                     dish.price.toStringAsFixed(2),

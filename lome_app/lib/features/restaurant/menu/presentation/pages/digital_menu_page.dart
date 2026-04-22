@@ -401,59 +401,59 @@ class _DigitalMenuScaffoldState extends State<_DigitalMenuScaffold> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(AppTheme.radiusLg),
-                  ),
-                  child: dish.imageUrl != null
-                      ? Image.network(
-                          dish.imageUrl!,
-                          height: 110,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                        )
-                      : Container(
-                          height: 110,
-                          color: primary.withValues(alpha: 0.1),
-                          child: Icon(
-                            PhosphorIcons.forkKnife(PhosphorIconsStyle.duotone),
-                            size: 40,
-                            color: primary.withValues(alpha: 0.4),
-                          ),
-                        ),
+              ClipRRect(
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(AppTheme.radiusLg),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(AppTheme.spacingSm),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        dish.name,
-                        style: TextStyle(
-                          fontFamily: _design.fontFamily,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 13,
-                          color: textColor,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        '€${dish.price.toStringAsFixed(2)}',
-                        style: TextStyle(
-                          fontFamily: _design.fontFamily,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 15,
-                          color: primary,
+                child: dish.imageUrl != null
+                    ? Image.network(
+                        dish.imageUrl!,
+                        height: 110,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      )
+                    : Container(
+                        height: 110,
+                        color: primary.withValues(alpha: 0.1),
+                        child: Icon(
+                          PhosphorIcons.forkKnife(PhosphorIconsStyle.duotone),
+                          size: 40,
+                          color: primary.withValues(alpha: 0.4),
                         ),
                       ),
-                    ],
-                  ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(AppTheme.spacingSm),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      dish.name,
+                      style: TextStyle(
+                        fontFamily: _design.fontFamily,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 13,
+                        color: textColor,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      '€${dish.price.toStringAsFixed(2)}',
+                      style: TextStyle(
+                        fontFamily: _design.fontFamily,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 15,
+                        color: primary,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          )
+              ),
+            ],
+          ),
+        )
         .animate()
         .fadeIn(
           delay: Duration(milliseconds: 150 + index * 100),

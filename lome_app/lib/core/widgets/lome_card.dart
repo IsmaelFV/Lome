@@ -126,7 +126,8 @@ class _LomeCardState extends State<LomeCard>
             button: widget.onTap != null,
             label: widget.semanticLabel,
             child: Padding(
-              padding: widget.padding ?? const EdgeInsets.all(AppTheme.spacingMd),
+              padding:
+                  widget.padding ?? const EdgeInsets.all(AppTheme.spacingMd),
               child: widget.child,
             ),
           ),

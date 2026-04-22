@@ -52,7 +52,9 @@ class SettingsPage extends ConsumerWidget {
                 onTap: () => context.push(RoutePaths.customRoles),
               ),
               _SettingsItem(
-                icon: PhosphorIcons.clockCounterClockwise(PhosphorIconsStyle.duotone),
+                icon: PhosphorIcons.clockCounterClockwise(
+                  PhosphorIconsStyle.duotone,
+                ),
                 iconColor: AppColors.warning,
                 title: context.l10n.settingsActivityLogs,
                 subtitle: context.l10n.settingsActivityLogsSubtitle,
@@ -191,33 +193,33 @@ class _SettingsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(
-            left: AppTheme.spacingXs,
-            bottom: AppTheme.spacingSm,
-          ),
-          child: Text(
-            title.toUpperCase(),
-            style: const TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              color: AppColors.grey400,
-              letterSpacing: 0.8,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                left: AppTheme.spacingXs,
+                bottom: AppTheme.spacingSm,
+              ),
+              child: Text(
+                title.toUpperCase(),
+                style: const TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.grey400,
+                  letterSpacing: 0.8,
+                ),
+              ),
             ),
-          ),
-        ),
-        Container(
-          decoration: BoxDecoration(
-            color: AppColors.white,
-            borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-            boxShadow: AppShadows.card,
-          ),
-          child: Column(children: items),
-        ),
-      ],
-    )
+            Container(
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+                boxShadow: AppShadows.card,
+              ),
+              child: Column(children: items),
+            ),
+          ],
+        )
         .animate()
         .fadeIn(
           delay: Duration(milliseconds: delay),
@@ -312,9 +314,7 @@ class _SettingsItem extends StatelessWidget {
         ),
         if (showDivider)
           Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppTheme.spacingMd,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: AppTheme.spacingMd),
             child: Divider(height: 1, color: AppColors.grey100),
           ),
       ],
